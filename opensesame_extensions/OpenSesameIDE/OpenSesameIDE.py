@@ -38,6 +38,7 @@ class OpenSesameIDE(BaseExtension):
 
         if u'--ide' not in sys.argv:
             return
+        os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
         self._scetw = SplittableCodeEditTabWidget(self.main_window)
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
@@ -139,7 +140,7 @@ class OpenSesameIDE(BaseExtension):
 
         path = QFileDialog.getExistingDirectory(self.main_window)
         if isinstance(path, tuple):
-            path = path[0]
+            path = path[0]			
         if path:
             self._open_folder(path)
             cfg.opensesame_ide_last_folder = path

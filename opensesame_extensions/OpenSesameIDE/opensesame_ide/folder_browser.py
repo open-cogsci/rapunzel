@@ -58,8 +58,8 @@ class FolderBrowser(FileSystemTreeView):
         super(FolderBrowser, self).__init__(parent)
         self.main_window = parent
         self._path = path
-        self._ide = ide
-        self.set_root_path(path)
+        self._ide = ide		
+        self.set_root_path(os.path.normpath(path))
         self.set_context_menu(FileSystemContextMenu())
 
     def mouseDoubleClickEvent(self, event):
