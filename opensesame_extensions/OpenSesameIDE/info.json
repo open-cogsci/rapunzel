@@ -1,0 +1,9 @@
+{
+    "label": "Turn OpenSesame into an IDE",
+    "icon": "go-next",
+    "priority": -10000,
+    "tooltip": "Turn OpenSesame into an IDE",
+    "settings": {
+        "opensesame_ide_last_folder": ""
+    }
+}
