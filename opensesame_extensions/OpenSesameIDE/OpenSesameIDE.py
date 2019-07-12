@@ -52,10 +52,7 @@ class OpenSesameIDE(BaseExtension):
         )
         self._patch_behavior()
         self._set_ignore_patterns()
-        if not os.path.isdir(cfg.opensesame_ide_last_folder):
-            self._open_folder(os.getcwd())
-        else:
-            self._open_folder(cfg.opensesame_ide_last_folder)
+        self._restore_open_folders()
 
     def open_document(self, path):
 
@@ -93,7 +90,7 @@ class OpenSesameIDE(BaseExtension):
             path = path[0]
         if path:
             self._open_folder(path)
-            cfg.opensesame_ide_last_folder = path
+            self._remember_open_folders()
 
     def new_file(self):
 
@@ -198,7 +195,7 @@ class OpenSesameIDE(BaseExtension):
             path = os.path.join(dirname, basename)
             if any(
                 (
-                    path.startswith(ignore_pattern) or
+                    ignore_pattern in path or
                     fnmatch.fnmatch(basename, ignore_pattern)
                 )
                 for ignore_pattern in ignore_patterns
@@ -292,3 +289,20 @@ class OpenSesameIDE(BaseExtension):
             p.strip()
             for p in cfg.opensesame_ide_ignore_patterns.split(u',')
         ]
+
+    def _remember_open_folders(self):
+
+        folders = [d.path for d in self._dock_widgets.values()]
+        cfg.opensesame_ide_last_folder = u';'.join(folders)
+
+    def _restore_open_folders(self):
+
+        folders = [
+            folder
+            for folder in cfg.opensesame_ide_last_folder.split(u';')
+            if os.path.isdir(folder)
+        ]
+        if not folders:
+            folders = [os.getcwd()]
+        for folder in folders:
+            self._open_folder(folder)
