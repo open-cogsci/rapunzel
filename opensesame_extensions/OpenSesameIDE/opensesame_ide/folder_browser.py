@@ -55,10 +55,6 @@ class FolderBrowserDockWidget(QDockWidget):
         self.setWidget(self._container_widget)
         self.setWindowTitle(os.path.basename(path))
 
-    def list_files(self):
-
-        return self._folder_browser.list_files()
-
     def _on_close(self, e):
 
         self._ide.remove_folder_browser_dock_widget(self)
@@ -73,6 +69,8 @@ class FolderBrowser(FileSystemTreeView):
         self.main_window = parent
         self._path = path
         self._ide = ide
+        self.clear_ignore_patterns()
+        self.add_ignore_patterns(ide.ignore_patterns)
         self.set_root_path(os.path.normpath(path))
         self.set_context_menu(FileSystemContextMenu())
 
@@ -86,7 +84,3 @@ class FolderBrowser(FileSystemTreeView):
         if not os.path.exists(path) or os.path.isdir(path):
             return
         self._ide.open_document(path)
-
-    def list_files(self):
-
-        return self.helper._get_files(self._path)

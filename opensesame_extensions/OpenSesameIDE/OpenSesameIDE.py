@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import sys
+import fnmatch
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -49,6 +50,7 @@ class OpenSesameIDE(BaseExtension):
             'IDE'
         )
         self._patch_behavior()
+        self._set_ignore_patterns()
         if not os.path.isdir(cfg.opensesame_ide_last_folder):
             self._open_folder(os.getcwd())
         else:
@@ -139,7 +141,7 @@ class OpenSesameIDE(BaseExtension):
 
         haystack = []
         for dock_widget in self._dock_widgets.values():
-            for path in dock_widget.list_files():
+            for path in self._list_files(dock_widget.path):
                 label = u'{}\n{}'.format(
                     os.path.basename(path),
                     path[len(dock_widget.path) + 1:]
@@ -147,6 +149,22 @@ class OpenSesameIDE(BaseExtension):
                 data = path
                 haystack.append((label, data, self.open_document))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
+
+    def _list_files(self, dirname):
+
+        files = []
+        for basename in os.listdir(dirname):
+            if any(
+                fnmatch.fnmatch(basename, ignore_pattern)
+                for ignore_pattern in self.ignore_patterns
+            ):
+                continue
+            path = os.path.join(dirname, basename)
+            if os.path.isdir(path):
+                files += self._list_files(path)
+            else:
+                files.append(path)
+        return files
 
     def _split(self, direction):
 
@@ -212,3 +230,10 @@ class OpenSesameIDE(BaseExtension):
                 pass
 
         return inner
+
+    def _set_ignore_patterns(self):
+
+        self.ignore_patterns = [
+            p.strip()
+            for p in cfg.opensesame_ide_ignore_patterns.split(u',')
+        ]
