@@ -112,6 +112,12 @@ class MenuBar(QMenuBar):
             u'Ctrl+P',
             ide.quick_select_files,
         )
+        self._action_quick_select_symbols = self._action(
+            _(u'Symbol selector'),
+            u'text-x-script',
+            u'Ctrl+R',
+            ide.quick_select_symbols,
+        )
         self._menu_view = QMenu(_('View'))
         self._menu_view.addAction(self._action_close_tab)
         self._menu_view.addSeparator()
@@ -122,6 +128,7 @@ class MenuBar(QMenuBar):
         self._menu_view.addAction(self._action_toggle_console)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_files)
+        self._menu_view.addAction(self._action_quick_select_symbols)
         self.addMenu(self._menu_view)
 
     def _action(self, title, icon, shortcut, target, checkable=False):

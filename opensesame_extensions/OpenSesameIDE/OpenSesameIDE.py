@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import sys
+import ast
 import fnmatch
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -136,6 +137,39 @@ class OpenSesameIDE(BaseExtension):
             return
         self.main_window.ui.console.focus()
         self.main_window.ui.dock_stdout.setVisible(True)
+
+    def quick_select_symbols(self):
+
+        editor = self._scetw.current_widget()
+        if not editor:
+            return
+        symbols = self._list_symbols(ast.parse(editor.toPlainText()).body)
+        haystack = []
+        for name, lineno in symbols:
+            haystack.append((name, lineno, self._jump_to_line))
+        self.extension_manager.fire(u'quick_select', haystack=haystack)
+
+    def _jump_to_line(self, lineno):
+
+        editor = self._scetw.current_widget()
+        if not editor:
+            return
+        lines = editor.toPlainText().split(u'\n')
+        position = sum([len(line) for line in lines[:lineno - 1]]) + lineno - 1
+        cursor = editor.textCursor()
+        cursor.setPosition(position)
+        editor.setTextCursor(cursor)
+
+    def _list_symbols(self, body):
+
+        symbols = []
+        for node in body:
+            if node.__class__.__name__ not in ('ClassDef', 'FunctionDef'):
+                continue
+            symbols.append((node.name, node.lineno))
+            symbols += self._list_symbols(node.body)
+        return symbols
+
 
     def quick_select_files(self):
 
