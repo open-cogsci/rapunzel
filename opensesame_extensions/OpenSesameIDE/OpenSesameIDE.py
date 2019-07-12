@@ -125,11 +125,7 @@ class OpenSesameIDE(BaseExtension):
         )
         oslogger.info('setting folder-browser visibility to {}'.format(hidden))
         for dockwidget in self._dock_widgets.values():
-            dockwidget.visibilityChanged.disconnect()
             dockwidget.setVisible(hidden)
-            dockwidget.visibilityChanged.connect(
-                dockwidget.on_visibility_changed
-            )
 
     def toggle_console(self):
 

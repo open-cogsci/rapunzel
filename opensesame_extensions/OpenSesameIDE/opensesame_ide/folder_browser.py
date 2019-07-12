@@ -23,8 +23,12 @@ from pyqode.core.widgets import (
     FileSystemTreeView,
     FileSystemContextMenu
 )
-from qtpy.QtWidgets import QDockWidget
-from libopensesame.oslogging import oslogger
+from qtpy.QtWidgets import (
+    QDockWidget,
+    QPushButton,
+    QWidget,
+    QVBoxLayout
+)
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -38,22 +42,27 @@ class FolderBrowserDockWidget(QDockWidget):
         self._ide = ide
         self.path = path
         self._folder_browser = FolderBrowser(parent, ide, path)
-        self.setWidget(self._folder_browser)
-        self.setFeatures(
-            QDockWidget.DockWidgetClosable | QDockWidget.DockWidgetMovable
+        self._close_button = QPushButton(
+            parent.theme.qicon(u'window-close'),
+            _(u'Close project')
         )
-        self.visibilityChanged.connect(self.on_visibility_changed)
+        self._close_button.clicked.connect(self._on_close)
+        self._container_layout = QVBoxLayout(self)
+        self._container_layout.addWidget(self._folder_browser)
+        self._container_layout.addWidget(self._close_button)
+        self._container_widget = QWidget(self)
+        self._container_widget.setLayout(self._container_layout)
+        self.setWidget(self._container_widget)
+        self.setWindowTitle(os.path.basename(path))
 
     def list_files(self):
 
         return self._folder_browser.list_files()
 
-    def on_visibility_changed(self, visible):
+    def _on_close(self, e):
 
-        pass
-        # if not visible:
-        #     self.visibilityChanged.disconnect()
-        #     self._ide.remove_folder_browser_dock_widget(self)
+        self._ide.remove_folder_browser_dock_widget(self)
+        self.close()
 
 
 class FolderBrowser(FileSystemTreeView):
