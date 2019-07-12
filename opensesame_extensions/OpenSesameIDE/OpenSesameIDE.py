@@ -170,7 +170,6 @@ class OpenSesameIDE(BaseExtension):
             symbols += self._list_symbols(node.body)
         return symbols
 
-
     def quick_select_files(self):
 
         haystack = []
@@ -187,13 +186,24 @@ class OpenSesameIDE(BaseExtension):
     def _list_files(self, dirname):
 
         files = []
+        ignore_patterns = self.ignore_patterns
+        gitignore = os.path.join(dirname, u'.gitignore')
+        if os.path.exists(gitignore):
+            oslogger.debug('excluding patterns from {}'.format(gitignore))
+            with open(gitignore) as fd:
+                ignore_patterns += [p.strip() for p in fd.read().split(u'\n')]
+        ignore_patterns = [p for p in ignore_patterns if p]
+        oslogger.debug(u'ignoring {}'.format(ignore_patterns))
         for basename in os.listdir(dirname):
+            path = os.path.join(dirname, basename)
             if any(
-                fnmatch.fnmatch(basename, ignore_pattern)
-                for ignore_pattern in self.ignore_patterns
+                (
+                    path.startswith(ignore_pattern) or
+                    fnmatch.fnmatch(basename, ignore_pattern)
+                )
+                for ignore_pattern in ignore_patterns
             ):
                 continue
-            path = os.path.join(dirname, basename)
             if os.path.isdir(path):
                 files += self._list_files(path)
             else:
@@ -247,6 +257,17 @@ class OpenSesameIDE(BaseExtension):
             self.extension_manager['get_started'].activate = lambda: None
         except Exception:
             pass
+        self.tabwidget.add = self._patch_tabwidget_add(self.tabwidget.add)
+
+    def _patch_tabwidget_add(self, fnc):
+
+        def inner(widget, *args, **kwargs):
+
+            if self.main_window.ui.action_onetabmode.isChecked():
+                self.main_window.ui.action_onetabmode.trigger()
+            return fnc(widget, *args, **kwargs)
+
+        return inner
 
     def _patch_restore_window_state(self, fnc):
 
