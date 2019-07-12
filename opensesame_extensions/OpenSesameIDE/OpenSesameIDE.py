@@ -67,6 +67,110 @@ class OpenSesameIDE(BaseExtension):
         oslogger.info(u'removing folder browser: {}'.format(dock_widget.path))
         del self._dock_widgets[dock_widget.path]
 
+    def close_tab(self):
+
+        editor = self._scetw.current_widget()
+        if editor is None:
+            return
+        tab_widget = editor.parent().parent()
+        tab_widget.close()
+
+    def split_horizontal(self):
+
+        self._split(Qt.Horizontal)
+
+    def split_vertical(self):
+
+        self._split(Qt.Vertical)
+
+    def select_and_open_folder(self):
+
+        path = QFileDialog.getExistingDirectory(self.main_window)
+        if isinstance(path, tuple):
+            path = path[0]
+        if path:
+            self._open_folder(path)
+            cfg.opensesame_ide_last_folder = path
+
+    def new_file(self):
+
+        self._scetw.create_new_document()
+
+    def save_file(self):
+
+        self._scetw.save_current()
+
+    def save_file_as(self):
+
+        self._scetw.save_current_as()
+
+    def open_file(self):
+
+        path = QFileDialog.getOpenFileName(
+            self.main_window,
+            _(u"Open file"),
+            directory=cfg.file_dialog_path
+        )
+        if isinstance(path, tuple):
+            path = path[0]
+        if not path:
+            return
+        self.open_document(path)
+
+    def toggle_folder_browsers(self):
+
+        hidden = any(
+            not dockwidget.isVisible()
+            for dockwidget in self._dock_widgets.values()
+        )
+        oslogger.info('setting folder-browser visibility to {}'.format(hidden))
+        for dockwidget in self._dock_widgets.values():
+            dockwidget.visibilityChanged.disconnect()
+            dockwidget.setVisible(hidden)
+            dockwidget.visibilityChanged.connect(
+                dockwidget.on_visibility_changed
+            )
+
+    def toggle_console(self):
+
+        if not self._menubar._action_toggle_console.isChecked():
+            self.main_window.ui.dock_stdout.setVisible(False)
+            return
+        self.main_window.ui.console.focus()
+        self.main_window.ui.dock_stdout.setVisible(True)
+
+    def quick_select_files(self):
+
+        haystack = []
+        for dock_widget in self._dock_widgets.values():
+            for path in dock_widget.list_files():
+                label = u'{}\n{}'.format(
+                    os.path.basename(path),
+                    path[len(dock_widget.path) + 1:]
+                )
+                data = path
+                haystack.append((label, data, self.open_document))
+        self.extension_manager.fire(u'quick_select', haystack=haystack)
+
+    def _split(self, direction):
+
+        editor = self._scetw.current_widget()
+        if editor is None:
+            return
+        self._scetw.split(editor, direction)
+
+    def _open_folder(self, path):
+
+        if path in self._dock_widgets:
+            return
+        oslogger.info(u'adding folder browser: {}'.format(path))
+        dock_widget = FolderBrowserDockWidget(self.main_window, self, path)
+        self.main_window.addDockWidget(
+            Qt.LeftDockWidgetArea,
+            dock_widget
+        )
+        self._dock_widgets[path] = dock_widget
+
     def _patch_close_event(self, fnc):
 
         def inner(e):
@@ -112,94 +216,3 @@ class OpenSesameIDE(BaseExtension):
                 pass
 
         return inner
-
-    def _close_tab(self):
-
-        editor = self._scetw.current_widget()
-        if editor is None:
-            return
-        tab_widget = editor.parent().parent()
-        tab_widget.close()
-
-    def _split(self, direction):
-
-        editor = self._scetw.current_widget()
-        if editor is None:
-            return
-        self._scetw.split(editor, direction)
-
-    def _split_horizontal(self):
-
-        self._split(Qt.Horizontal)
-
-    def _split_vertical(self):
-
-        self._split(Qt.Vertical)
-
-    def _select_and_open_folder(self):
-
-        path = QFileDialog.getExistingDirectory(self.main_window)
-        if isinstance(path, tuple):
-            path = path[0]			
-        if path:
-            self._open_folder(path)
-            cfg.opensesame_ide_last_folder = path
-
-    def _open_folder(self, path):
-
-        if path in self._dock_widgets:
-            return
-        oslogger.info(u'adding folder browser: {}'.format(path))
-        dock_widget = FolderBrowserDockWidget(self.main_window, self, path)
-        self.main_window.addDockWidget(
-            Qt.LeftDockWidgetArea,
-            dock_widget
-        )
-        self._dock_widgets[path] = dock_widget
-
-    def _new_file(self):
-
-        self._scetw.create_new_document()
-
-    def _save_file(self):
-
-        self._scetw.save_current()
-
-    def _save_file_as(self):
-
-        self._scetw.save_current_as()
-
-    def _open_file(self):
-
-        path = QFileDialog.getOpenFileName(
-            self.main_window,
-            _(u"Open file"),
-            directory=cfg.file_dialog_path
-        )
-        if isinstance(path, tuple):
-            path = path[0]
-        if not path:
-            return
-        self.open_document(path)
-
-    def _toggle_folder_browsers(self):
-
-        hidden = any(
-            not dockwidget.isVisible()
-            for dockwidget in self._dock_widgets.values()
-        )
-        oslogger.info('setting folder-browser visibility to {}'.format(hidden))
-        for dockwidget in self._dock_widgets.values():
-            dockwidget.visibilityChanged.disconnect()
-            dockwidget.setVisible(hidden)
-            dockwidget.visibilityChanged.connect(
-                dockwidget.on_visibility_changed
-            )
-
-    def _toggle_console(self):
-
-        if not self._menubar._action_toggle_console.isChecked():
-            self.main_window.ui.dock_stdout.setVisible(False)
-            return
-        self.main_window.ui.console.focus()
-        self.main_window.ui.dock_stdout.setVisible(True)

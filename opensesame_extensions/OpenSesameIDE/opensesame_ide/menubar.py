@@ -33,31 +33,31 @@ class MenuBar(QMenuBar):
             _(u'New'),
             u'document-new',
             u'Ctrl+N',
-            ide._new_file
+            ide.new_file
         )
         self._action_open_file = self._action(
             _(u'Open…'),
             u'document-open',
             u'Ctrl+O',
-            ide._open_file
+            ide.open_file
         )
         self._action_open_folder = self._action(
             _(u'Open folder…'),
             u'folder',
             u'Ctrl+Shift+O',
-            ide._select_and_open_folder
+            ide.select_and_open_folder
         )
         self._action_save_file = self._action(
             _(u'Save'),
             u'document-save',
             u'Ctrl+S',
-            ide._save_file
+            ide.save_file
         )
         self._action_save_file_as = self._action(
             _(u'Save…'),
             u'document-save-as',
             u'Ctrl+Shift+S',
-            ide._save_file_as
+            ide.save_file_as
         )
         self._action_quit = self._action(
             _(u'Quit'),
@@ -78,33 +78,39 @@ class MenuBar(QMenuBar):
             _(u'Close tab'),
             u'list-remove',
             u'Ctrl+Shift+T',
-            ide._close_tab
+            ide.close_tab
         )
         self._action_split_vertical = self._action(
             _(u'Split vertical'),
             u'go-down',
             u'Ctrl+Shift+V',
-            ide._split_vertical
+            ide.split_vertical
         )
         self._action_split_horizontal = self._action(
             _(u'Split horizontal'),
             u'go-next',
             u'Ctrl+Shift+H',
-            ide._split_horizontal
+            ide.split_horizontal
         )
 
         self._action_toggle_folder_browsers = self._action(
             _(u'Toggle folder browsers'),
             u'folder',
             u'Ctrl+\\',
-            ide._toggle_folder_browsers
+            ide.toggle_folder_browsers
         )
         self._action_toggle_console = self._action(
             _(u'Toggle console'),
             u'os-debug',
             u'Ctrl+D',
-            ide._toggle_console,
+            ide.toggle_console,
             True
+        )
+        self._action_quick_select_files = self._action(
+            _(u'File selector'),
+            u'document-open',
+            u'Ctrl+P',
+            ide.quick_select_files,
         )
         self._menu_view = QMenu(_('View'))
         self._menu_view.addAction(self._action_close_tab)
@@ -114,6 +120,8 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_toggle_console)
+        self._menu_view.addSeparator()
+        self._menu_view.addAction(self._action_quick_select_files)
         self.addMenu(self._menu_view)
 
     def _action(self, title, icon, shortcut, target, checkable=False):

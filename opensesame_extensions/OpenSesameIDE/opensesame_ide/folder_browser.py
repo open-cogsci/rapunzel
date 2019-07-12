@@ -44,11 +44,16 @@ class FolderBrowserDockWidget(QDockWidget):
         )
         self.visibilityChanged.connect(self.on_visibility_changed)
 
+    def list_files(self):
+
+        return self._folder_browser.list_files()
+
     def on_visibility_changed(self, visible):
 
-        if not visible:
-            self.visibilityChanged.disconnect()
-            self._ide.remove_folder_browser_dock_widget(self)
+        pass
+        # if not visible:
+        #     self.visibilityChanged.disconnect()
+        #     self._ide.remove_folder_browser_dock_widget(self)
 
 
 class FolderBrowser(FileSystemTreeView):
@@ -58,7 +63,7 @@ class FolderBrowser(FileSystemTreeView):
         super(FolderBrowser, self).__init__(parent)
         self.main_window = parent
         self._path = path
-        self._ide = ide		
+        self._ide = ide
         self.set_root_path(os.path.normpath(path))
         self.set_context_menu(FileSystemContextMenu())
 
