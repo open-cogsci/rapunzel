@@ -28,6 +28,7 @@ from qtpy.QtWidgets import (
 )
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
+from libqtopensesame.misc.config import cfg
 _ = translation_context(u'QuickSelector', category=u'extension')
 
 
@@ -79,6 +80,7 @@ class QuickSelectorDialog(QDialog):
         self._layout = QVBoxLayout(self)
         self._layout.addWidget(self._search_box)
         self._layout.addWidget(self._result_box)
+        self.setMinimumWidth(cfg.quick_selector_min_width)
         self._search(u'')
 
     def focus_result_box(self):
