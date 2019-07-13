@@ -44,12 +44,8 @@ class OpenSesameIDE(BaseExtension):
         self._scetw = SplittableCodeEditTabWidget(self.main_window)
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
+        self._add_ide_tab()
         self._dock_widgets = {}
-        self.tabwidget.add(
-            self._scetw,
-            u'accessories-text-editor',
-            'IDE'
-        )
         self._patch_behavior()
         self._set_ignore_patterns()
         self._restore_open_folders()
@@ -146,6 +142,17 @@ class OpenSesameIDE(BaseExtension):
             haystack.append((name, lineno, self._jump_to_line))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
 
+    def extension_filter(self, ext_name):
+
+        return ext_name not in [
+            u'notifications',
+            u'plugin_manager',
+            u'pyqode_manager',
+            u'update_checker'
+            u'bug_report',
+            u'QuickSelector',
+        ]
+
     def _jump_to_line(self, lineno):
 
         editor = self._scetw.current_widget()
@@ -190,7 +197,6 @@ class OpenSesameIDE(BaseExtension):
             with open(gitignore) as fd:
                 ignore_patterns += [p.strip() for p in fd.read().split(u'\n')]
         ignore_patterns = [p for p in ignore_patterns if p]
-        oslogger.debug(u'ignoring {}'.format(ignore_patterns))
         for basename in os.listdir(dirname):
             path = os.path.join(dirname, basename)
             if any(
@@ -238,11 +244,19 @@ class OpenSesameIDE(BaseExtension):
 
     def _patch_behavior(self):
 
+        # We open the IDE in a tab, and then set one-tab mode so that there
+        # aren't two layers of tabs. When another tab (say preferences) is
+        # opened, we disable one-tab mode, and then re-enable it again when
+        # the IDE tab is the only tab,
         self.tabwidget.switch(u'OpenSesameIDE')
         if not self.main_window.ui.action_onetabmode.isChecked():
             self.main_window.ui.action_onetabmode.trigger()
+        self.tabwidget.add = self._patch_tabwidget_add(self.tabwidget.add)
+        self.tabwidget.tabCloseRequested.connect(self._on_tabwidget_close)
+        # Create a custom menubar
         self._menubar = MenuBar(self.main_window, self)
         self.main_window.setMenuBar(self._menubar)
+        # Patch the starting and closing of the app
         self.main_window.restore_window_state = \
             self._patch_restore_window_state(
                 self.main_window.restore_window_state
@@ -250,11 +264,6 @@ class OpenSesameIDE(BaseExtension):
         self.main_window.closeEvent = self._patch_close_event(
             self.main_window.closeEvent
         )
-        try:
-            self.extension_manager['get_started'].activate = lambda: None
-        except Exception:
-            pass
-        self.tabwidget.add = self._patch_tabwidget_add(self.tabwidget.add)
 
     def _patch_tabwidget_add(self, fnc):
 
@@ -265,6 +274,23 @@ class OpenSesameIDE(BaseExtension):
             return fnc(widget, *args, **kwargs)
 
         return inner
+
+    def _on_tabwidget_close(self, index):
+
+        if self.tabwidget.get_widget(u'OpenSesameIDE') is None:
+            self._add_ide_tab()
+        if self.tabwidget.count() > 1:
+            return
+        if not self.main_window.ui.action_onetabmode.isChecked():
+            self.main_window.ui.action_onetabmode.trigger()
+
+    def _add_ide_tab(self):
+
+        self.tabwidget.add(
+            self._scetw,
+            u'accessories-text-editor',
+            'IDE'
+        )
 
     def _patch_restore_window_state(self, fnc):
 
