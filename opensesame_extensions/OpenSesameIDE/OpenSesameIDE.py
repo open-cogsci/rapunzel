@@ -49,6 +49,7 @@ class OpenSesameIDE(BaseExtension):
         self._dock_widgets = {}
         self._set_ignore_patterns()
         self._restore_open_folders()
+        self.new_file()
 
     def open_document(self, path):
 
@@ -329,7 +330,7 @@ class OpenSesameIDE(BaseExtension):
         def inner(widget, *args, **kwargs):
 
             if (
-                self.tabwidget.count() > 1 and
+                self.tabwidget.count() == 1 and
                 self.main_window.ui.action_onetabmode.isChecked()
             ):
                 self.main_window.ui.action_onetabmode.trigger()
