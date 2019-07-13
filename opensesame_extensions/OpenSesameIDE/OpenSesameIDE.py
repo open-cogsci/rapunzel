@@ -313,6 +313,7 @@ class OpenSesameIDE(BaseExtension):
         # Create a custom menubar
         self._menubar = MenuBar(self.main_window, self)
         self.main_window.setMenuBar(self._menubar)
+        self.main_window.addToolBar(self._menubar.build_tool_bar())
         # Patch the starting and closing of the app
         self.main_window.restore_window_state = \
             self._patch_restore_window_state(
