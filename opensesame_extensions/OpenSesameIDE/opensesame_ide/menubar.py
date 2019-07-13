@@ -19,7 +19,6 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 from qtpy.QtWidgets import QAction, QMenu, QMenuBar
-from qtpy.QtGui import QKeySequence
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -106,6 +105,12 @@ class MenuBar(QMenuBar):
             u'Ctrl+\\',
             ide.toggle_folder_browsers
         )
+        self._action_locate_file_in_folder = self._action(
+            _(u'Locate active file'),
+            u'folder',
+            u'Ctrl+Shift+\\',
+            ide.locate_file_in_folder
+        )
         self._action_toggle_console = self._action(
             _(u'Toggle console'),
             u'os-debug',
@@ -133,6 +138,7 @@ class MenuBar(QMenuBar):
         self._menu_view.addAction(self._action_split_horizontal)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
+        self._menu_view.addAction(self._action_locate_file_in_folder)
         self._menu_view.addAction(self._action_toggle_console)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_files)

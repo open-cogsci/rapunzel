@@ -55,6 +55,10 @@ class FolderBrowserDockWidget(QDockWidget):
         self.setWidget(self._container_widget)
         self.setWindowTitle(os.path.basename(path))
 
+    def select_path(self, path):
+
+        self._folder_browser.select_path(path)
+
     def _on_close(self, e):
 
         self._ide.remove_folder_browser_dock_widget(self)

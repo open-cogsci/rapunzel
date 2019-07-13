@@ -249,6 +249,20 @@ class OpenSesameIDE(BaseExtension):
         )
         self._dock_widgets[path] = dock_widget
 
+    def locate_file_in_folder(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return
+        for dock_widget in self._dock_widgets.values():
+            dock_widget.select_path(editor.file.path)
+        hidden = any(
+            not dockwidget.isVisible()
+            for dockwidget in self._dock_widgets.values()
+        )
+        if hidden:
+            self.toggle_folder_browsers()
+
     def _patch_close_event(self, fnc):
 
         def inner(e):
