@@ -188,7 +188,7 @@ class OpenSesameIDE(BaseExtension):
             cursor.movePosition(cursor.StartOfLine)
             cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
             editor.setTextCursor(cursor)
-        code = cursor.selectedText()
+        code = cursor.selectedText().replace(u'\u2029', u'\n')
         self.console.execute(code)
 
     def _jump_to_line(self, lineno):
