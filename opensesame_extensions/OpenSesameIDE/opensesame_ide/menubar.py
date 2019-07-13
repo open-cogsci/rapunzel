@@ -144,6 +144,24 @@ class MenuBar(QMenuBar):
         self._menu_view.addAction(self._action_quick_select_files)
         self._menu_view.addAction(self._action_quick_select_symbols)
         self.addMenu(self._menu_view)
+        # Run menu
+        self._action_run_current_file = self._action(
+            _(u'Run current file'),
+            u'system-run',
+            u'F5',
+            ide.run_current_file,
+        )
+        self._action_run_current_selection = self._action(
+            _(u'Run selection or current line'),
+            u'system-run',
+            u'F9',
+            ide.run_current_selection,
+        )
+        self._menu_run = QMenu(_('Run'))
+        self._menu_run.addAction(self._action_run_current_file)
+        self._menu_run.addAction(self._action_run_current_selection)
+        self.addMenu(self._menu_run)
+
 
     def _action(self, title, icon, shortcut, target, checkable=False):
 

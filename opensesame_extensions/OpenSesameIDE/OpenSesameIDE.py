@@ -167,6 +167,29 @@ class OpenSesameIDE(BaseExtension):
             u'QuickSelector',
         ]
 
+    def run_current_file(self):
+
+        editor = self._current_editor()
+        if (
+            editor is None or
+            not os.path.exists(editor.file.path)
+        ):
+            return
+        self.console.execute(u'%run -i {}'.format(editor.file.path))
+
+    def run_current_selection(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return
+        cursor = editor.textCursor()
+        if not cursor.hasSelection():
+            cursor.movePosition(cursor.StartOfLine)
+            cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+            editor.setTextCursor(cursor)
+        code = cursor.selectedText()
+        self.console.execute(code)
+
     def _jump_to_line(self, lineno):
 
         editor = self._scetw.current_widget()
