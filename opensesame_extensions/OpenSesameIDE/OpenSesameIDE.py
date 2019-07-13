@@ -29,7 +29,7 @@ from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QFileDialog
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
-from pyqode.core.widgets import SplittableCodeEditTabWidget
+from pyqode.core import widgets
 from fallback_code_edit import FallbackCodeEdit
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -41,12 +41,12 @@ class OpenSesameIDE(BaseExtension):
         if u'--ide' not in sys.argv:
             return
         os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
-        self._scetw = SplittableCodeEditTabWidget(self.main_window)
+        self._patch_behavior()
+        self._scetw = widgets.SplittableCodeEditTabWidget(self.main_window)
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
         self._add_ide_tab()
         self._dock_widgets = {}
-        self._patch_behavior()
         self._set_ignore_patterns()
         self._restore_open_folders()
 
@@ -65,11 +65,23 @@ class OpenSesameIDE(BaseExtension):
 
     def close_tab(self):
 
-        editor = self._scetw.current_widget()
-        if editor is None:
-            return
-        tab_widget = editor.parent().parent()
-        tab_widget.close()
+        tab_widget = self._current_tabwidget()
+        if tab_widget is not None:
+            tab_widget.close()
+
+    def close_all_tabs(self):
+
+        tab_widget = self._current_tabwidget()
+        if tab_widget is not None:
+            tab_widget.close_all()
+
+    def switch_tab_next(self):
+
+        self._switch_tab(1)
+
+    def switch_tab_previous(self):
+
+        self._switch_tab(-1)
 
     def split_horizontal(self):
 
@@ -253,6 +265,8 @@ class OpenSesameIDE(BaseExtension):
             self.main_window.ui.action_onetabmode.trigger()
         self.tabwidget.add = self._patch_tabwidget_add(self.tabwidget.add)
         self.tabwidget.tabCloseRequested.connect(self._on_tabwidget_close)
+        self.tabwidget.shortcut_switch_left.setKey(u'')
+        self.tabwidget.shortcut_switch_right.setKey(u'')
         # Create a custom menubar
         self._menubar = MenuBar(self.main_window, self)
         self.main_window.setMenuBar(self._menubar)
@@ -264,12 +278,18 @@ class OpenSesameIDE(BaseExtension):
         self.main_window.closeEvent = self._patch_close_event(
             self.main_window.closeEvent
         )
+        # PyQode needs a bit of patching to deal properly with keyboard
+        # shortcuts
+        self._patch_pyqode()
 
     def _patch_tabwidget_add(self, fnc):
 
         def inner(widget, *args, **kwargs):
 
-            if self.main_window.ui.action_onetabmode.isChecked():
+            if (
+                self.tabwidget.count() > 1 and
+                self.main_window.ui.action_onetabmode.isChecked()
+            ):
                 self.main_window.ui.action_onetabmode.trigger()
             return fnc(widget, *args, **kwargs)
 
@@ -332,3 +352,47 @@ class OpenSesameIDE(BaseExtension):
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
+
+    def _current_editor(self):
+
+        return self._scetw.current_widget()
+
+    def _current_tabwidget(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return
+        return editor.parent().parent()
+
+    def _current_splitter(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return self._scetw
+        return editor.parent().parent().parent()
+
+    def _switch_tab(self, direction):
+
+        tabwidget = self._current_tabwidget()
+        if tabwidget is None:
+            return
+        tabwidget.setCurrentIndex(
+            (tabwidget.currentIndex() + direction) % tabwidget.count()
+        )
+
+    def _patch_pyqode_tab_bar_menu(self, fnc):
+
+        def inner(self):
+
+            fnc(self)
+            self.a_close.setShortcut('')
+            self.a_close_all.setShortcut('')
+
+        return inner
+
+    def _patch_pyqode(self):
+
+        widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu = \
+            self._patch_pyqode_tab_bar_menu(
+                widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu
+            )

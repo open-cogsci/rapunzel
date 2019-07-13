@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 from qtpy.QtWidgets import QAction, QMenu, QMenuBar
+from qtpy.QtGui import QKeySequence
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -76,9 +77,15 @@ class MenuBar(QMenuBar):
         self.addMenu(self._menu_file)
         self._action_close_tab = self._action(
             _(u'Close tab'),
-            u'list-remove',
-            u'Ctrl+Shift+T',
+            u'window-close',
+            u'Ctrl+W',
             ide.close_tab
+        )
+        self._action_close_all_tabs = self._action(
+            _(u'Close all tabs'),
+            u'window-close',
+            u'Ctrl+Shift+W',
+            ide.close_all_tabs
         )
         self._action_split_vertical = self._action(
             _(u'Split vertical'),
@@ -120,6 +127,7 @@ class MenuBar(QMenuBar):
         )
         self._menu_view = QMenu(_('View'))
         self._menu_view.addAction(self._action_close_tab)
+        self._menu_view.addAction(self._action_close_all_tabs)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_split_vertical)
         self._menu_view.addAction(self._action_split_horizontal)
@@ -138,4 +146,5 @@ class MenuBar(QMenuBar):
         action.setShortcut(shortcut)
         action.triggered.connect(target)
         action.setCheckable(checkable)
+        action.setPriority(QAction.HighPriority)
         return action
