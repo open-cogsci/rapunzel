@@ -102,7 +102,9 @@ class OpenSesameIDE(BaseExtension):
 
     def new_file(self):
 
-        self._scetw.create_new_document()
+        self._scetw.create_new_document(
+            extension=cfg.opensesame_ide_default_extension
+        )
 
     def save_file(self):
 
@@ -231,6 +233,9 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return
         self._scetw.split(editor, direction)
+        self._scetw._on_current_changed(
+            self._scetw.child_splitters[-1]._tabs[0]
+        )
 
     def _open_folder(self, path):
 
@@ -382,6 +387,10 @@ class OpenSesameIDE(BaseExtension):
 
     def _patch_pyqode_tab_bar_menu(self, fnc):
 
+        """Unsets tab-widget specific keyboard shortcuts, because they are set
+        multiple times and become ambiguous.
+        """
+
         def inner(self):
 
             fnc(self)
@@ -390,9 +399,26 @@ class OpenSesameIDE(BaseExtension):
 
         return inner
 
+    def _patch_pyqode_on_last_tab_closed(self, fnc):
+
+        """Avoids the root tab widget from becoming empty."""
+
+        def inner(self):
+
+            fnc(self)
+            if self.root and not self._tabs:
+                ide.new_file()
+
+        ide = self
+        return inner
+
     def _patch_pyqode(self):
 
         widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu = \
             self._patch_pyqode_tab_bar_menu(
                 widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu
+            )
+        widgets.SplittableCodeEditTabWidget._on_last_tab_closed = \
+            self._patch_pyqode_on_last_tab_closed(
+                widgets.SplittableCodeEditTabWidget._on_last_tab_closed
             )
