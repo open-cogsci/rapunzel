@@ -54,7 +54,7 @@ class MenuBar(QMenuBar):
             ide.save_file
         )
         self._action_save_file_as = self._action(
-            _(u'Save…'),
+            _(u'Save as…'),
             u'document-save-as',
             u'Ctrl+Shift+S',
             ide.save_file_as
