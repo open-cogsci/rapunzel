@@ -159,6 +159,8 @@ class OpenSesameIDE(BaseExtension):
 
     def extension_filter(self, ext_name):
 
+        if u'--ide' not in sys.argv:
+            return
         return ext_name not in [
             u'notifications',
             u'plugin_manager',
