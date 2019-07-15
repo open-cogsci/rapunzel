@@ -38,7 +38,7 @@ class OpenSesameIDE(BaseExtension):
 
     def event_startup(self):
 
-        if u'--ide' not in sys.argv:
+        if self.main_window.mode != u'ide':
             return
         os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
         self._patch_behavior()
@@ -163,7 +163,7 @@ class OpenSesameIDE(BaseExtension):
 
     def extension_filter(self, ext_name):
 
-        if u'--ide' not in sys.argv:
+        if self.main_window.mode != u'ide':
             return
         return ext_name not in [
             u'notifications',
