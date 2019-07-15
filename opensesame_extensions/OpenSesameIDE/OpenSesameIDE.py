@@ -19,7 +19,6 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import os
-import sys
 import ast
 import fnmatch
 from libopensesame.oslogging import oslogger
@@ -30,7 +29,7 @@ from qtpy.QtWidgets import QFileDialog
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
-from fallback_code_edit import FallbackCodeEdit
+from pyqode_extras.widgets import FallbackCodeEdit
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
 
@@ -67,6 +66,7 @@ class OpenSesameIDE(BaseExtension):
 
         oslogger.info(u'removing folder browser: {}'.format(dock_widget.path))
         del self._dock_widgets[dock_widget.path]
+        self._remember_open_folders()
 
     def close_tab(self):
 
