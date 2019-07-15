@@ -182,7 +182,10 @@ class OpenSesameIDE(BaseExtension):
             not os.path.exists(editor.file.path)
         ):
             return
-        self.console.execute(u'%run -i {}'.format(editor.file.path))
+        self.console.execute(u'%cd "{}"'.format(
+            os.path.dirname(editor.file.path)
+        ))
+        self.console.execute(u'%run "{}"'.format(editor.file.path))
 
     def run_current_selection(self):
 
