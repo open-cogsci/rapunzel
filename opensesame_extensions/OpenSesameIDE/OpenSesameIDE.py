@@ -50,10 +50,14 @@ class OpenSesameIDE(BaseExtension):
         self._set_ignore_patterns()
         self._restore_open_folders()
         self.new_file()
+        self.main_window.setWindowTitle(u'OpenSesame IDE')
 
     def open_document(self, path):
 
-        editor = self._scetw.open_document(path)
+        editor = self._scetw.open_document(
+            path,
+            replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces
+        )
         self.extension_manager.fire(
             u'register_editor',
             editor=editor
