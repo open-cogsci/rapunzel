@@ -111,6 +111,8 @@ class QuickSelectorDialog(QDialog):
 
     def _select(self, item):
 
+        if item is None:
+            return
         item.on_select(item.data)
         self.accept()
 

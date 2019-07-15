@@ -155,7 +155,10 @@ class OpenSesameIDE(BaseExtension):
         editor = self._scetw.current_widget()
         if not editor:
             return
-        symbols = self._list_symbols(ast.parse(editor.toPlainText()).body)
+        try:
+            symbols = self._list_symbols(ast.parse(editor.toPlainText()).body)
+        except SyntaxError:
+            return
         haystack = []
         for name, lineno in symbols:
             haystack.append((name, lineno, self._jump_to_line))
