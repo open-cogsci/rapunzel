@@ -185,6 +185,7 @@ class OpenSesameIDE(BaseExtension):
             u'update_checker'
             u'bug_report',
             u'QuickSelector',
+            u'JupyterConsole'
         ]
 
     def run_current_file(self):
@@ -195,10 +196,7 @@ class OpenSesameIDE(BaseExtension):
             not os.path.exists(editor.file.path)
         ):
             return
-        self.console.execute(u'%cd "{}"'.format(
-            os.path.dirname(editor.file.path)
-        ))
-        self.console.execute(u'%run "{}"'.format(editor.file.path))
+        self.extension_manager.fire(u'jupyter_run_file', path=editor.file.path)
 
     def run_current_selection(self):
 
@@ -211,7 +209,7 @@ class OpenSesameIDE(BaseExtension):
             cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
             editor.setTextCursor(cursor)
         code = cursor.selectedText().replace(u'\u2029', u'\n')
-        self.console.execute(code)
+        self.extension_manager.fire(u'jupyter_run_code', code=code)
 
     def open_plugin_manager(self):
 
@@ -392,6 +390,7 @@ class OpenSesameIDE(BaseExtension):
             self.main_window.ui.dock_stdout.show()
             self.main_window.ui.dock_overview.hide()
             self.main_window.ui.dock_pool.hide()
+            self.main_window.ui.dock_stdout.hide()
             try:
                 self.extension_manager['variable_inspector'].set_visible(False)
             except Exception:

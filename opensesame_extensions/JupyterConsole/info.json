@@ -1,0 +1,7 @@
+{
+    "label": "Jupyter/ IPython console",
+    "icon": "os-debug",
+    "settings": {
+        "jupyter_inprocess": false
+    }
+}
