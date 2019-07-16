@@ -213,6 +213,10 @@ class OpenSesameIDE(BaseExtension):
         code = cursor.selectedText().replace(u'\u2029', u'\n')
         self.console.execute(code)
 
+    def open_plugin_manager(self):
+
+        self.extension_manager.activate(u'plugin_manager')
+
     def _jump_to_line(self, lineno):
 
         editor = self._scetw.current_widget()

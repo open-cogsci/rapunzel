@@ -29,6 +29,7 @@ class MenuBar(QMenuBar):
 
         super(MenuBar, self).__init__(parent)
         self._ide = ide
+        # File menu
         self._action_new_file = self._action(
             _(u'&New'),
             u'document-new',
@@ -74,6 +75,24 @@ class MenuBar(QMenuBar):
         self._menu_file.addSeparator()
         self._menu_file.addAction(self._action_quit)
         self.addMenu(self._menu_file)
+        # Tools menu
+        self._action_preferences = self._action(
+            _(u'&Preferences'),
+            u'preferences-system',
+            None,
+            ide.tabwidget.open_preferences
+        )
+        self._action_plugins = self._action(
+            _(u'P&lugins'),
+            u'preferences-system',
+            None,
+            ide.open_plugin_manager
+        )
+        self._menu_tools = QMenu(_(u'&Tools'))
+        self._menu_tools.addAction(self._action_preferences)
+        self._menu_tools.addAction(self._action_plugins)
+        self.addMenu(self._menu_tools)
+        # View menu
         self._action_close_tab = self._action(
             _(u'&Close tab'),
             u'window-close',
@@ -178,7 +197,8 @@ class MenuBar(QMenuBar):
 
         action = QAction(title)
         action.setIcon(self._ide.theme.qicon(icon))
-        action.setShortcut(shortcut)
+        if shortcut:
+            action.setShortcut(shortcut)
         action.triggered.connect(target)
         action.setCheckable(checkable)
         action.setPriority(QAction.HighPriority)
