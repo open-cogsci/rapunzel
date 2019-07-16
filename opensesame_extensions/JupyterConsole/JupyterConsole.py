@@ -32,7 +32,10 @@ class JupyterConsole(BaseExtension):
 
     def event_startup(self):
 
-        self._jupyter_console = ConsoleTabWidget(self.main_window)
+        self._jupyter_console = ConsoleTabWidget(
+            self.main_window,
+            {u'inprocess': cfg.jupyter_inprocess}
+        )
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setWidget(self._jupyter_console)
         self.main_window.addDockWidget(

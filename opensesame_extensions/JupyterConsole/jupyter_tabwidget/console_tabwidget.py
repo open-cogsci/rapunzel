@@ -26,18 +26,19 @@ from jupyter_tabwidget.console_cornerwidget import ConsoleCornerWidget
 
 class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
-    def __init__(self, parent):
+    def __init__(self, parent, kwargs):
 
         super(ConsoleTabWidget, self).__init__(parent)
         self.setup(parent)
         self.setCornerWidget(ConsoleCornerWidget(self))
         self.tabCloseRequested.connect(self.close)
+        self._kwargs = kwargs
         self.add()
 
-    def add(self, **kwargs):
+    def add(self):
 
         self.addTab(
-            JupyterConsole(self, **kwargs),
+            JupyterConsole(self, **self._kwargs),
             self.main_window.theme.qicon('os-debug'),
             u''
         )
