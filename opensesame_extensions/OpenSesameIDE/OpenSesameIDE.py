@@ -152,14 +152,6 @@ class OpenSesameIDE(BaseExtension):
         for dockwidget in self._dock_widgets.values():
             dockwidget.setVisible(hidden)
 
-    def toggle_console(self):
-
-        if not self._menubar._action_toggle_console.isChecked():
-            self.main_window.ui.dock_stdout.setVisible(False)
-            return
-        self.main_window.ui.console.focus()
-        self.main_window.ui.dock_stdout.setVisible(True)
-
     def quick_select_symbols(self):
 
         editor = self._scetw.current_widget()
@@ -337,7 +329,8 @@ class OpenSesameIDE(BaseExtension):
         # Create a custom menubar
         self._menubar = MenuBar(self.main_window, self)
         self.main_window.setMenuBar(self._menubar)
-        self.main_window.addToolBar(self._menubar.build_tool_bar())
+        self._toolbar = self._menubar.build_tool_bar()
+        self.main_window.addToolBar(self._toolbar)
         # Patch the starting and closing of the app
         self.main_window.restore_window_state = \
             self._patch_restore_window_state(

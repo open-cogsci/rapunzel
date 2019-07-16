@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import os
+from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
 from jupyter_tabwidget import ConsoleTabWidget
 from qtpy.QtWidgets import QDockWidget
@@ -38,6 +39,20 @@ class JupyterConsole(BaseExtension):
             Qt.BottomDockWidgetArea,
             self._dock_widget
         )
+        self._set_visible(cfg.jupyter_visible)
+
+    def activate(self):
+
+        self._set_visible(not cfg.jupyter_visible)
+
+    def _set_visible(self, visible):
+
+        cfg.jupyter_visible = visible
+        self.set_checked(visible)
+        if visible:
+            self._dock_widget.show()
+        else:
+            self._dock_widget.hide()
 
     def event_jupyter_run_file(self, path):
 
@@ -53,6 +68,14 @@ class JupyterConsole(BaseExtension):
     def event_jupyter_run_code(self, code):
 
         self._jupyter_console.current.execute(code)
+
+    def event_jupyter_write(self, msg):
+
+        self._jupyter_console.current._control.insertPlainTest(msg)
+
+    def event_jupyter_show_prompt(self):
+
+        self._jupyter_console.current._show_interpreter_prompt()
 
     def event_jupyter_restart(self):
 

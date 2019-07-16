@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 from qtpy.QtWidgets import QAction, QMenu, QMenuBar, QToolBar
+from qtpy.QtCore import QSize
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -130,13 +131,6 @@ class MenuBar(QMenuBar):
             u'Ctrl+Shift+\\',
             ide.locate_file_in_folder
         )
-        self._action_toggle_console = self._action(
-            _(u'T&oggle console'),
-            u'os-debug',
-            u'Ctrl+D',
-            ide.toggle_console,
-            True
-        )
         self._action_quick_select_files = self._action(
             _(u'F&ile selector'),
             u'document-open',
@@ -158,7 +152,14 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_locate_file_in_folder)
-        self._menu_view.addAction(self._action_toggle_console)
+        try:
+            self._action_toggle_console = \
+                ide.extension_manager[u'JupyterConsole'].action
+        except Exception:
+            self._action_toggle_console = None
+        else:
+            self._menu_view.addSeparator()
+            self._menu_view.addAction(self._action_toggle_console)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_files)
         self._menu_view.addAction(self._action_quick_select_symbols)
@@ -184,6 +185,7 @@ class MenuBar(QMenuBar):
     def build_tool_bar(self):
 
         tool_bar = QToolBar(self.parent())
+        tool_bar.setIconSize(QSize(32, 32))
         tool_bar.addAction(self._action_new_file)
         tool_bar.addAction(self._action_open_file)
         tool_bar.addAction(self._action_open_folder)
@@ -191,6 +193,9 @@ class MenuBar(QMenuBar):
         tool_bar.addSeparator()
         tool_bar.addAction(self._action_run_current_file)
         tool_bar.addAction(self._action_run_current_selection)
+        if self._action_toggle_console is not None:
+            tool_bar.addSeparator()
+            tool_bar.addAction(self._action_toggle_console)
         return tool_bar
 
     def _action(self, title, icon, shortcut, target, checkable=False):

@@ -1,7 +1,19 @@
 {
-    "label": "Jupyter/ IPython console",
+    "label": "Show console",
+    "tooltip": "Show Jupyter/ IPython console",
     "icon": "os-debug",
     "settings": {
-        "jupyter_inprocess": false
+        "jupyter_inprocess": false,
+        "jupyter_visible": true,
+        "jupyter_focus_shortcut": "Ctrl+6"
+    },
+    "shortcut": "Ctrl+J",
+    "checkable": true,
+    "menu": {
+        "index": 8,
+        "submenu": "View"
+    },
+    "toolbar": {
+        "index": 13
     }
 }

@@ -70,6 +70,11 @@ class JupyterConsole(BaseWidget):
 
         self._jupyter_widget.execute(code)
 
+    def write(self, msg):
+
+        self._jupyter_widget._control.insertPlainText(msg)
+        self._jupyter_widget._control.ensureCursorVisible()
+
     def restart(self):
 
         oslogger.debug(u'restarting kernel')
