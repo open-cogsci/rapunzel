@@ -76,9 +76,15 @@ class OpenSesameIDE(BaseExtension):
 
     def close_all_tabs(self):
 
+        # To avoid an infinite loop of automatically opening a new tab and then
+        # closing it again, we temporarily disable new_file()
+        new_file = self.new_file
+        self.new_file = lambda: None
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
             tab_widget.close_all()
+        self.new_file = new_file
+        self.new_file()
 
     def switch_tab_next(self):
 
