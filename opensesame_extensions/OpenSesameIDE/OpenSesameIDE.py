@@ -61,6 +61,12 @@ class OpenSesameIDE(BaseExtension):
             u'register_editor',
             editor=editor
         )
+        # If an empty new document was open (as is the case by default),
+        # close it.
+        current_tabwidget = self._current_tabwidget()
+        first_editor = current_tabwidget.widget(0)
+        if not first_editor.file.path and not first_editor.dirty:
+            current_tabwidget.removeTab(0)
 
     def remove_folder_browser_dock_widget(self, dock_widget):
 
@@ -123,11 +129,30 @@ class OpenSesameIDE(BaseExtension):
 
     def save_file(self):
 
-        self._scetw.save_current()
+        if not self._current_editor().file.path:
+            self.save_file_as()
+        else:
+            self._scetw.save_current()
 
     def save_file_as(self):
 
         self._scetw.save_current_as()
+        # This is a hack to ensure that tabs are properly renamed after a file
+        # is saved under a different name. We loop through all editors in all
+        # splitters, and then check if they're clones of the current editor
+        # by comparing their document. If so, the tab text is set to the
+        # _tab_name of the editor.
+        splitters = [self._scetw] + self._scetw.child_splitters
+        current_editor = self._current_editor()
+        for splitter in splitters:
+            for editor in splitter._tabs:
+                if editor.document() != current_editor.document():
+                    continue
+                index = splitter.main_tab_widget.indexOf(editor)
+                splitter.main_tab_widget.setTabText(
+                    index,
+                    current_editor.file.name
+                )
 
     def open_file(self):
 
