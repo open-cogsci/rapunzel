@@ -450,9 +450,10 @@ class OpenSesameIDE(BaseExtension):
 
         def inner(self):
 
-            fnc(self)
+            retval = fnc(self)
             self.a_close.setShortcut('')
             self.a_close_all.setShortcut('')
+            return retval
 
         return inner
 
