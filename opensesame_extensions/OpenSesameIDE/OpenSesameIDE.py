@@ -107,8 +107,12 @@ class OpenSesameIDE(BaseExtension):
 
     def new_file(self):
 
-        self._scetw.create_new_document(
+        editor = self._scetw.create_new_document(
             extension=cfg.opensesame_ide_default_extension
+        )
+        self.extension_manager.fire(
+            u'register_editor',
+            editor=editor
         )
 
     def save_file(self):
