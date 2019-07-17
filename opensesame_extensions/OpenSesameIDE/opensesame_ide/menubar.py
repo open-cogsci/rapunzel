@@ -163,6 +163,14 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_files)
         self._menu_view.addAction(self._action_quick_select_symbols)
+        try:
+            self._action_find_in_files = \
+                ide.extension_manager[u'FindInFiles'].action
+        except Exception:
+            self._action_find_in_files = None
+        else:
+            self._menu_view.addSeparator()
+            self._menu_view.addAction(self._action_find_in_files)
         self.addMenu(self._menu_view)
         # Run menu
         self._action_run_current_file = self._action(
@@ -196,6 +204,8 @@ class MenuBar(QMenuBar):
         if self._action_toggle_console is not None:
             tool_bar.addSeparator()
             tool_bar.addAction(self._action_toggle_console)
+        if self._action_find_in_files is not None:
+            tool_bar.addAction(self._action_find_in_files)
         return tool_bar
 
     def _action(self, title, icon, shortcut, target, checkable=False):

@@ -51,6 +51,11 @@ class OpenSesameIDE(BaseExtension):
         self.new_file()
         self.main_window.setWindowTitle(u'OpenSesame IDE')
 
+    def event_ide_open_file(self, path, line_number=1):
+
+        self.open_document(path)
+        self._jump_to_line(line_number)
+
     def open_document(self, path):
 
         editor = self._scetw.open_document(
@@ -202,7 +207,8 @@ class OpenSesameIDE(BaseExtension):
             u'update_checker'
             u'bug_report',
             u'QuickSelector',
-            u'JupyterConsole'
+            u'JupyterConsole',
+            u'FindInFiles'
         ]
 
     def run_current_file(self):
@@ -266,10 +272,21 @@ class OpenSesameIDE(BaseExtension):
                 haystack.append((label, data, self.open_document))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
 
-    def _list_files(self, dirname):
+    def project_files(self, extra_ignore_pattern=None):
+
+        for dock_widget in self._dock_widgets.values():
+            for path in self._list_files(
+                dock_widget.path,
+                extra_ignore_pattern
+            ):
+                yield path
+
+    def _list_files(self, dirname, extra_ignore_pattern=None):
 
         files = []
         ignore_patterns = self.ignore_patterns
+        if extra_ignore_pattern is not None:
+            ignore_patterns.append(extra_ignore_pattern)
         gitignore = os.path.join(dirname, u'.gitignore')
         if os.path.exists(gitignore):
             oslogger.debug('excluding patterns from {}'.format(gitignore))
