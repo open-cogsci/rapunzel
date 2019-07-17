@@ -106,7 +106,7 @@ class FindWidget(BaseWidget):
         for path in self._ide.project_files():
             if self._canceled:
                 break
-            if not filter or not fnmatch.fnmatch(path, filter):
+            if filter and not fnmatch.fnmatch(path, filter):
                 continue
             try:
                 with open(path) as fd:
