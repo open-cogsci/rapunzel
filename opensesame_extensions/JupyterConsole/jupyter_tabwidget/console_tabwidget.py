@@ -30,9 +30,10 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
         super(ConsoleTabWidget, self).__init__(parent)
         self.setup(parent)
-        self.setCornerWidget(ConsoleCornerWidget(self))
-        self.tabCloseRequested.connect(self.close)
         self._kwargs = kwargs
+        if not kwargs.get(u'inprocess', False):
+            self.setCornerWidget(ConsoleCornerWidget(self, kwargs))
+        self.tabCloseRequested.connect(self.close)
         self.add()
 
     def add(self):

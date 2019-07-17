@@ -23,9 +23,10 @@ from qtpy.QtWidgets import QHBoxLayout, QPushButton
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'JupyterConsole', category=u'extension')
 
+
 class ConsoleCornerWidget(BaseWidget):
 
-    def __init__(self, console_tabwidget):
+    def __init__(self, console_tabwidget, kwargs):
 
         super(ConsoleCornerWidget, self).__init__(console_tabwidget)
         self._console_tabwidget = console_tabwidget

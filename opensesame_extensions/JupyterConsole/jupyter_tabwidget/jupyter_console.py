@@ -39,6 +39,7 @@ class JupyterConsole(BaseWidget):
             )
         else:
             from qtconsole.manager import QtKernelManager
+        self._inprocess = inprocess
         self._kernel_manager = QtKernelManager(kernel_name=kernel)
         self._kernel_manager.start_kernel()
         self._kernel_client = self._kernel_manager.client()
@@ -94,8 +95,11 @@ class JupyterConsole(BaseWidget):
 
     def get_globals(self):
 
-        pass
+        if self._inprocess:
+            return self._kernel_manager.kernel.shell.user_global_ns.copy()
+        return {}
 
     def set_globals(self, global_dict):
 
-        pass
+        if self._inprocess:
+            self._kernel_manager.kernel.shell.push(global_dict)
