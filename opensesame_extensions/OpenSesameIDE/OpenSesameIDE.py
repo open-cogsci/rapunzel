@@ -93,9 +93,19 @@ class OpenSesameIDE(BaseExtension):
         self.new_file = lambda: None
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
-            tab_widget.close_all()
+            root = tab_widget.parent().root
+            try:
+                tab_widget.close_all()
+            except RuntimeError:
+                # Due to a bug (probably) in PyQode, this happens when calling
+                # close_all on a non-root tabwidget that contains an editor
+                # that is not also in the root tabwidget.
+                pass
+        else:
+            root = False
         self.new_file = new_file
-        self.new_file()
+        if root:
+            self.new_file()
 
     def switch_tab_next(self):
 
