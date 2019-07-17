@@ -99,7 +99,7 @@ class JupyterConsole(BaseWidget):
 
     def focus(self):
 
-        self.setFocus()
+        self._jupyter_widget._control.setFocus()
 
     def restart(self):
 

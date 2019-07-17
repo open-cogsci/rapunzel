@@ -23,8 +23,9 @@ from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
 from libopensesame.oslogging import oslogger
 from jupyter_tabwidget import ConsoleTabWidget
-from qtpy.QtWidgets import QDockWidget
+from qtpy.QtWidgets import QDockWidget, QShortcut
 from qtpy.QtCore import Qt
+from qtpy.QtGui import QKeySequence
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'JupyterConsole', category=u'extension')
 
@@ -47,6 +48,12 @@ class JupyterConsole(BaseExtension):
             self._dock_widget
         )
         self._set_visible(cfg.jupyter_visible)
+        self._shortcut_focus = QShortcut(
+            QKeySequence(cfg.jupyter_focus_shortcut),
+            self.main_window,
+            self._focus,
+            context=Qt.ApplicationShortcut
+        )
 
     def activate(self):
 
@@ -118,3 +125,8 @@ class JupyterConsole(BaseExtension):
             self._dock_widget.show()
         else:
             self._dock_widget.hide()
+
+    def _focus(self):
+
+        self._set_visible(True)
+        self._jupyter_console.current.focus()

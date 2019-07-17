@@ -6,9 +6,9 @@
     "settings": {
         "jupyter_inprocess": false,
         "jupyter_visible": true,
-        "jupyter_focus_shortcut": "Ctrl+6"
+        "jupyter_focus_shortcut": "Ctrl+3"
     },
-    "shortcut": "Ctrl+J",
+    "shortcut": "Ctrl+D",
     "checkable": true,
     "menu": {
         "index": 8,
