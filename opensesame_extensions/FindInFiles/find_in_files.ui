@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>find_in_files</class>
+ <widget class="QWidget" name="find_in_files">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Find in files</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="edit-find">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QTreeWidget" name="treewidget_results">
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLineEdit" name="lineedit_needle">
+        <property name="placeholderText">
+         <string>Text to find</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QWidget" name="widget_2" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="button_cancel">
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+           <property name="icon">
+            <iconset theme="process-stop">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="button_find">
+           <property name="text">
+            <string>Find</string>
+           </property>
+           <property name="icon">
+            <iconset theme="edit-find">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLineEdit" name="lineedit_filter">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>File/ directory pattern, e.g. *.py</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
