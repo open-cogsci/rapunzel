@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import os
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
+from libopensesame.oslogging import oslogger
 from jupyter_tabwidget import ConsoleTabWidget
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
@@ -37,7 +38,7 @@ class JupyterConsole(BaseExtension):
             {u'inprocess': cfg.jupyter_inprocess}
         )
         self._jupyter_console.current.set_globals(
-            {u'opensesame' : self.main_window}
+            {u'opensesame': self.main_window}
         )
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setWidget(self._jupyter_console)
@@ -51,14 +52,16 @@ class JupyterConsole(BaseExtension):
 
         self._set_visible(not cfg.jupyter_visible)
 
-    def _set_visible(self, visible):
+    def event_run_experiment(self, fullscreen):
 
-        cfg.jupyter_visible = visible
-        self.set_checked(visible)
-        if visible:
-            self._dock_widget.show()
-        else:
-            self._dock_widget.hide()
+        oslogger.debug(u'capturing stdout')
+        self._jupyter_console.current.capture_stdout()
+
+    def event_end_experiment(self, ret_val):
+
+        self._jupyter_console.current.release_stdout()
+        self._jupyter_console.current.show_prompt()
+        oslogger.debug(u'releasing stdout')
 
     def event_jupyter_run_file(self, path):
 
@@ -77,11 +80,15 @@ class JupyterConsole(BaseExtension):
 
     def event_jupyter_write(self, msg):
 
-        self._jupyter_console.current._control.insertPlainTest(msg)
+        self._jupyter_console.current.write(msg)
+
+    def event_jupyter_focus(self):
+
+        self._jupyter_console.current.focus()
 
     def event_jupyter_show_prompt(self):
 
-        self._jupyter_console.current._show_interpreter_prompt()
+        self._jupyter_console.current.show_prompt()
 
     def event_jupyter_restart(self):
 
@@ -91,14 +98,23 @@ class JupyterConsole(BaseExtension):
 
         self._jupyter_console.current.interrupt()
 
-    def event_jupyter_set_globals(self, global_dict):
+    def event_set_workspace_globals(self, global_dict):
 
         self._jupyter_console.current.set_globals(global_dict)
 
-    def event_jupyer_get_globals(self):
+    def get_workspace_globals(self):
 
         return self._jupyter_console.current.get_globals()
 
     def event_close(self):
 
         self._jupyter_console.close_all()
+
+    def _set_visible(self, visible):
+
+        cfg.jupyter_visible = visible
+        self.set_checked(visible)
+        if visible:
+            self._dock_widget.show()
+        else:
+            self._dock_widget.hide()

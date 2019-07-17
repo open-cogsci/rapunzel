@@ -1,6 +1,7 @@
 {
     "label": "Show console",
     "tooltip": "Show Jupyter/ IPython console",
+    "priority": 101,
     "icon": "os-debug",
     "settings": {
         "jupyter_inprocess": false,

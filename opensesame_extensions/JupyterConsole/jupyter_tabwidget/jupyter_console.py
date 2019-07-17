@@ -18,6 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import sys
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.widgets.base_widget import BaseWidget
@@ -67,14 +68,38 @@ class JupyterConsole(BaseWidget):
         self._layout.addWidget(self._jupyter_widget)
         self.setLayout(self._layout)
 
+    def capture_stdout(self):
+
+        sys.stdout = self
+        sys.stderr = self
+
+    def release_stdout(self):
+
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+
+    def isatty(self):
+
+        return False
+
+    def flush(self):
+
+        pass
+
     def execute(self, code):
 
         self._jupyter_widget.execute(code)
 
     def write(self, msg):
 
-        self._jupyter_widget._control.insertPlainText(msg)
+        self._jupyter_widget._control.insertPlainText(
+            safe_decode(msg, errors=u'ignore')
+        )
         self._jupyter_widget._control.ensureCursorVisible()
+
+    def focus(self):
+
+        self.setFocus()
 
     def restart(self):
 
@@ -92,6 +117,10 @@ class JupyterConsole(BaseWidget):
         oslogger.debug(u'shutting down kernel')
         self._jupyter_widget.kernel_client.stop_channels()
         self._jupyter_widget.kernel_manager.shutdown_kernel()
+
+    def show_prompt(self):
+
+        self._jupyter_widget._show_interpreter_prompt()
 
     def get_globals(self):
 

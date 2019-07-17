@@ -432,10 +432,8 @@ class OpenSesameIDE(BaseExtension):
             fnc()
             self.main_window.ui.toolbar_main.hide()
             self.main_window.ui.toolbar_items.hide()
-            self.main_window.ui.dock_stdout.show()
             self.main_window.ui.dock_overview.hide()
             self.main_window.ui.dock_pool.hide()
-            self.main_window.ui.dock_stdout.hide()
             try:
                 self.extension_manager['variable_inspector'].set_visible(False)
             except Exception:

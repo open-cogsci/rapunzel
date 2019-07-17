@@ -56,7 +56,7 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
     def close_all(self):
 
         while self.count():
-            self.close()
+            self.close(0)
 
     @property
     def current(self):
