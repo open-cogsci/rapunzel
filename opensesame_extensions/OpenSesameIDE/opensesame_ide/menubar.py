@@ -206,6 +206,7 @@ class MenuBar(QMenuBar):
             tool_bar.addAction(self._action_toggle_console)
         if self._action_find_in_files is not None:
             tool_bar.addAction(self._action_find_in_files)
+        tool_bar.setWindowTitle(u'IDE toolbar')
         return tool_bar
 
     def _action(self, title, icon, shortcut, target, checkable=False):
