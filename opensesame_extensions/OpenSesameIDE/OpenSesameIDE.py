@@ -111,6 +111,25 @@ class OpenSesameIDE(BaseExtension):
 
         self._switch_tab(1)
 
+    def switch_splitter_previous(self):
+
+        self._switch_splitter(-1)
+
+    def switch_splitter_next(self):
+
+        self._switch_splitter(1)
+
+    def _switch_splitter(self, d):
+
+        if not self._scetw.child_splitters:
+            return
+        current_splitter = self._current_splitter()
+        splitters = [self._scetw] + self._scetw.child_splitters
+        current_splitter_index = splitters.index(current_splitter)
+        new_splitter_index = (current_splitter_index + d) % len(splitters)
+        new_splitter = splitters[new_splitter_index]
+        new_splitter.main_tab_widget.currentWidget().setFocus()
+
     def switch_tab_previous(self):
 
         self._switch_tab(-1)

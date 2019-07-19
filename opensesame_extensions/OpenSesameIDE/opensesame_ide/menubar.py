@@ -118,7 +118,18 @@ class MenuBar(QMenuBar):
             u'Ctrl+Shift+H',
             ide.split_horizontal
         )
-
+        self._action_switch_splitter_previous = self._action(
+            _(u'Switch to previous panel'),
+            u'go-previous',
+            u'Ctrl+Shift+[',
+            ide.switch_splitter_previous
+        )
+        self._action_switch_splitter_next = self._action(
+            _(u'Switch to next panel'),
+            u'go-next',
+            u'Ctrl+Shift+]',
+            ide.switch_splitter_next
+        )
         self._action_toggle_folder_browsers = self._action(
             _(u'Toggle &folder browsers'),
             u'folder',
@@ -149,6 +160,8 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_split_vertical)
         self._menu_view.addAction(self._action_split_horizontal)
+        self._menu_view.addAction(self._action_switch_splitter_previous)
+        self._menu_view.addAction(self._action_switch_splitter_next)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_locate_file_in_folder)
