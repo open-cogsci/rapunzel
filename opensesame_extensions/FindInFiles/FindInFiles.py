@@ -19,7 +19,8 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import fnmatch
-from qtpy.QtWidgets import QTreeWidgetItem, QApplication
+from qtpy.QtWidgets import QTreeWidgetItem, QApplication, QDockWidget
+from qtpy.QtCore import Qt
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.widgets.base_widget import BaseWidget
 from libqtopensesame.misc.translate import translation_context
@@ -82,6 +83,11 @@ class FindWidget(BaseWidget):
         self.ui.button_cancel.clicked.connect(self._cancel)
         self.ui.button_cancel.hide()
         self.ui.treewidget_results.itemActivated.connect(self._open_result)
+
+    def setFocus(self):
+
+        super(FindWidget, self).setFocus()
+        self.ui.lineedit_needle.setFocus()
 
     def _open_result(self, item, column):
 
@@ -146,12 +152,12 @@ class FindInFiles(BaseExtension):
 
     def activate(self):
 
-        self.tabwidget.add(
-            FindWidget(self.main_window),
-            u'edit-find',
-            _(u'Find in project files')
+        find_widget = FindWidget(self.main_window)
+        dock_widget = QDockWidget(self.main_window)
+        dock_widget.setWidget(find_widget)
+        dock_widget.setWindowTitle(_(u'Find in projects'))
+        self.main_window.addDockWidget(
+            Qt.RightDockWidgetArea,
+            dock_widget
         )
-
-
-# opensesame.experiment.resources['extensions.FindInFiles.find_in_files'] = '/home/sebastiaan/git/opensesame-extension-ide/opensesame_extensions/FindInFiles/find_in_files.ui'
-# w = FindWidget(opensesame); opensesame.tabwidget.add(w, u'edit-find', _(u'Find in files'))
+        find_widget.setFocus()
