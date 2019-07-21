@@ -48,8 +48,7 @@ class OpenSesameIDE(BaseExtension):
         self._dock_widgets = {}
         self._set_ignore_patterns()
         self._restore_open_folders()
-        self.new_file()
-        self.main_window.setWindowTitle(u'OpenSesame IDE')
+        self.main_window.setWindowTitle(u'OpenSesame CODE')
 
     def event_ide_open_file(self, path, line_number=1):
 
@@ -491,7 +490,7 @@ class OpenSesameIDE(BaseExtension):
     def _current_tabwidget(self):
 
         editor = self._current_editor()
-        if editor is None:
+        if editor is None or editor.parent() is None:
             return
         return editor.parent().parent()
 
