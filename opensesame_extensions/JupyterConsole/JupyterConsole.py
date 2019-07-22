@@ -38,9 +38,6 @@ class JupyterConsole(BaseExtension):
             self.main_window,
             {u'inprocess': cfg.jupyter_inprocess}
         )
-        self._jupyter_console.current.set_globals(
-            {u'opensesame': self.main_window}
-        )
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setWidget(self._jupyter_console)
         self.main_window.addDockWidget(
@@ -107,11 +104,11 @@ class JupyterConsole(BaseExtension):
 
     def event_set_workspace_globals(self, global_dict):
 
-        self._jupyter_console.current.set_globals(global_dict)
+        self._jupyter_console.current.set_workspace_globals(global_dict)
 
     def get_workspace_globals(self):
 
-        return self._jupyter_console.current.get_globals()
+        return self._jupyter_console.current.get_workspace_globals()
 
     def event_close(self):
 

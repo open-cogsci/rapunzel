@@ -30,21 +30,41 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
         super(ConsoleTabWidget, self).__init__(parent)
         self.setup(parent)
-        self._kwargs = kwargs
+        self._console_count = 1
         if not kwargs.get(u'inprocess', False):
             self.setCornerWidget(ConsoleCornerWidget(self, kwargs))
+            # Also start a single inprocess console
+            self._kwargs = kwargs
+            self._kwargs[u'inprocess'] = True
+            self.add()
+            self._kwargs[u'inprocess'] = False
+        self._kwargs = kwargs
         self.tabCloseRequested.connect(self.close)
         self.add()
 
     def add(self):
 
-        self.addTab(
-            JupyterConsole(self, **self._kwargs),
-            self.main_window.theme.qicon('os-debug'),
-            u''
+        jupyter_console = JupyterConsole(
+            self,
+            name=str(self._console_count),
+            **self._kwargs
         )
+        self.addTab(
+            jupyter_console,
+            self.main_window.theme.qicon(
+                'utilities-terminal'
+                if self._kwargs.get(u'inprocess', False)
+                else 'os-debug'
+            ),
+            str(self._console_count)
+        )
+        if self._kwargs.get(u'inprocess', False):
+            jupyter_console.set_workspace_globals(
+                {u'opensesame': self.main_window}
+            )
         self.setTabsClosable(self.count() > 1)
         self.setCurrentIndex(self.count() - 1)
+        self._console_count += 1
 
     def close(self, index):
 

@@ -236,7 +236,8 @@ class OpenSesameIDE(BaseExtension):
             u'bug_report',
             u'QuickSelector',
             u'JupyterConsole',
-            u'FindInFiles'
+            u'FindInFiles',
+            u'WorkspaceExplorer'
         ]
 
     def run_current_file(self):

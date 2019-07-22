@@ -25,27 +25,39 @@ from libqtopensesame.widgets.base_widget import BaseWidget
 from qtpy.QtWidgets import QHBoxLayout
 from qtpy.QtGui import QFont
 from qtconsole import styles
-from qtconsole.rich_jupyter_widget import RichJupyterWidget
 
 
 class JupyterConsole(BaseWidget):
 
-    def __init__(self, parent=None, kernel=u'python3', inprocess=False):
+    def __init__(
+        self,
+        parent=None,
+        name=None,
+        kernel=u'python3',
+        inprocess=False
+    ):
 
         super(JupyterConsole, self).__init__(parent)
+        self.name = name
         # Initialize Jupyter Widget
         if inprocess:
             from qtconsole.inprocess import (
                 QtInProcessKernelManager as QtKernelManager
             )
+            from jupyter_tabwidget.transparent_jupyter_widget import (
+                InprocessJupyterWidget as JupyterWidget
+            )
         else:
             from qtconsole.manager import QtKernelManager
+            from jupyter_tabwidget.transparent_jupyter_widget import (
+                OutprocessJupyterWidget as JupyterWidget
+            )
         self._inprocess = inprocess
         self._kernel_manager = QtKernelManager(kernel_name=kernel)
         self._kernel_manager.start_kernel()
         self._kernel_client = self._kernel_manager.client()
         self._kernel_client.start_channels()
-        self._jupyter_widget = RichJupyterWidget()
+        self._jupyter_widget = JupyterWidget(self)
         self._jupyter_widget.kernel_manager = self._kernel_manager
         self._jupyter_widget.kernel_client = self._kernel_client
         # Set theme
@@ -57,7 +69,8 @@ class JupyterConsole(BaseWidget):
         )
         self._jupyter_widget.style_sheet = styles.sheet_from_template(
             cfg.pyqode_color_scheme,
-            u'linux' if styles.dark_style(cfg.pyqode_color_scheme) else 'lightbg'
+            u'linux' if styles.dark_style(cfg.pyqode_color_scheme)
+            else 'lightbg'
         )
         self._jupyter_widget.syntax_style = cfg.pyqode_color_scheme
         self._jupyter_widget._syntax_style_changed()
@@ -122,13 +135,10 @@ class JupyterConsole(BaseWidget):
 
         self._jupyter_widget._show_interpreter_prompt()
 
-    def get_globals(self):
+    def get_workspace_globals(self):
 
-        if self._inprocess:
-            return self._kernel_manager.kernel.shell.user_global_ns.copy()
-        return {}
+        return self._jupyter_widget.get_workspace_globals()
 
-    def set_globals(self, global_dict):
+    def set_workspace_globals(self, global_dict):
 
-        if self._inprocess:
-            self._kernel_manager.kernel.shell.push(global_dict)
+        self._jupyter_widget.set_workspace_globals(global_dict)
