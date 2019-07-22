@@ -48,7 +48,7 @@ class OpenSesameIDE(BaseExtension):
         self._dock_widgets = {}
         self._set_ignore_patterns()
         self._restore_open_folders()
-        self.main_window.setWindowTitle(u'OpenSesame CODE')
+        self.main_window.setWindowTitle(u'Rapunzel')
 
     def event_ide_open_file(self, path, line_number=1):
 
