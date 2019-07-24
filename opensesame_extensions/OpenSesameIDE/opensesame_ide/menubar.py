@@ -73,6 +73,11 @@ class MenuBar(QMenuBar):
         self._menu_file.addAction(self._action_open_folder)
         self._menu_file.addAction(self._action_save_file)
         self._menu_file.addAction(self._action_save_file_as)
+        if u'JupyterNotebook' in ide.extension_manager:
+            jupyter_notebook = ide.extension_manager['JupyterNotebook']
+            self._menu_file.addSeparator()
+            self._menu_file.addAction(jupyter_notebook.action_import_ipynb)
+            self._menu_file.addAction(jupyter_notebook.action_export_ipynb)
         self._menu_file.addSeparator()
         self._menu_file.addAction(self._action_quit)
         self.addMenu(self._menu_file)

@@ -1,0 +1,5 @@
+{
+    "label": "Import and export Jupyter Notebook (.ipynb) files",
+    "tooltip": "Import and export Jupyter Notebook (.ipynb) files",
+    "priority": 101
+}
