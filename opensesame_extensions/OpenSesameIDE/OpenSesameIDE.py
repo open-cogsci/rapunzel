@@ -62,6 +62,13 @@ class OpenSesameIDE(BaseExtension):
             return
         self._current_editor().setPlainText(source)
 
+    def provide_ide_current_source(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return u''
+        return editor.toPlainText()
+
     def open_document(self, path):
 
         editor = self._current_splitter().open_document(
