@@ -25,7 +25,7 @@ from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QFileDialog
+from qtpy.QtWidgets import QFileDialog, QApplication
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
@@ -57,7 +57,7 @@ class OpenSesameIDE(BaseExtension):
 
     def open_document(self, path):
 
-        editor = self._scetw.open_document(
+        editor = self._current_splitter().open_document(
             path,
             replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces
         )
@@ -118,17 +118,6 @@ class OpenSesameIDE(BaseExtension):
 
         self._switch_splitter(1)
 
-    def _switch_splitter(self, d):
-
-        if not self._scetw.child_splitters:
-            return
-        current_splitter = self._current_splitter()
-        splitters = [self._scetw] + self._scetw.child_splitters
-        current_splitter_index = splitters.index(current_splitter)
-        new_splitter_index = (current_splitter_index + d) % len(splitters)
-        new_splitter = splitters[new_splitter_index]
-        new_splitter.main_tab_widget.currentWidget().setFocus()
-
     def switch_tab_previous(self):
 
         self._switch_tab(-1)
@@ -152,7 +141,7 @@ class OpenSesameIDE(BaseExtension):
 
     def new_file(self):
 
-        editor = self._scetw.create_new_document(
+        editor = self._current_splitter().create_new_document(
             extension=cfg.opensesame_ide_default_extension
         )
         self.extension_manager.fire(
@@ -343,10 +332,7 @@ class OpenSesameIDE(BaseExtension):
         editor = self._scetw.current_widget()
         if editor is None:
             return
-        self._scetw.split(editor, direction)
-        self._scetw._on_current_changed(
-            self._scetw.child_splitters[-1]._tabs[0]
-        )
+        new_splitter = self._current_splitter().split(editor, direction)
 
     def _open_folder(self, path):
 
@@ -502,6 +488,24 @@ class OpenSesameIDE(BaseExtension):
             return self._scetw
         return editor.parent().parent().parent()
 
+    def _switch_splitter(self, d):
+
+        if not self._scetw.child_splitters:
+            return
+        current_splitter = self._current_splitter()
+        splitters = self._get_splitters(self._scetw)
+        current_splitter_index = splitters.index(current_splitter)
+        new_splitter_index = (current_splitter_index + d) % len(splitters)
+        new_splitter = splitters[new_splitter_index]
+        new_splitter.main_tab_widget.currentWidget().setFocus()
+
+    def _get_splitters(self, parent_splitter):
+
+        splitters = [parent_splitter]
+        for child_splitter in parent_splitter.child_splitters:
+            splitters += self._get_splitters(child_splitter)
+        return splitters
+
     def _switch_tab(self, direction):
 
         tabwidget = self._current_tabwidget()
@@ -526,26 +530,9 @@ class OpenSesameIDE(BaseExtension):
 
         return inner
 
-    def _patch_pyqode_on_last_tab_closed(self, fnc):
-
-        """Avoids the root tab widget from becoming empty."""
-
-        def inner(self):
-
-            fnc(self)
-            if self.root and not self._tabs:
-                ide.new_file()
-
-        ide = self
-        return inner
-
     def _patch_pyqode(self):
 
         widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu = \
             self._patch_pyqode_tab_bar_menu(
                 widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu
-            )
-        widgets.SplittableCodeEditTabWidget._on_last_tab_closed = \
-            self._patch_pyqode_on_last_tab_closed(
-                widgets.SplittableCodeEditTabWidget._on_last_tab_closed
             )
