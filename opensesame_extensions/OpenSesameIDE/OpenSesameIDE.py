@@ -65,12 +65,6 @@ class OpenSesameIDE(BaseExtension):
             u'register_editor',
             editor=editor
         )
-        # If an empty new document was open (as is the case by default),
-        # close it.
-        current_tabwidget = self._current_tabwidget()
-        first_editor = current_tabwidget.widget(0)
-        if not first_editor.file.path and not first_editor.dirty:
-            current_tabwidget.removeTab(0)
 
     def remove_folder_browser_dock_widget(self, dock_widget):
 
