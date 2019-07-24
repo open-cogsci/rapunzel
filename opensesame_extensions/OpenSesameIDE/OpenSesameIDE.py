@@ -142,23 +142,7 @@ class OpenSesameIDE(BaseExtension):
 
     def save_file_as(self):
 
-        self._scetw.save_current_as()
-        # This is a hack to ensure that tabs are properly renamed after a file
-        # is saved under a different name. We loop through all editors in all
-        # splitters, and then check if they're clones of the current editor
-        # by comparing their document. If so, the tab text is set to the
-        # _tab_name of the editor.
-        splitters = [self._scetw] + self._scetw.child_splitters
-        current_editor = self._current_editor()
-        for splitter in splitters:
-            for editor in splitter._tabs:
-                if editor.document() != current_editor.document():
-                    continue
-                index = splitter.main_tab_widget.indexOf(editor)
-                splitter.main_tab_widget.setTabText(
-                    index,
-                    current_editor.file.name
-                )
+        self._current_splitter().save_current_as()
 
     def open_file(self):
 
@@ -474,18 +458,15 @@ class OpenSesameIDE(BaseExtension):
         if not self._scetw.child_splitters:
             return
         current_splitter = self._current_splitter()
-        splitters = self._get_splitters(self._scetw)
+        splitters = self._get_splitters()
         current_splitter_index = splitters.index(current_splitter)
         new_splitter_index = (current_splitter_index + d) % len(splitters)
         new_splitter = splitters[new_splitter_index]
         new_splitter.main_tab_widget.currentWidget().setFocus()
 
-    def _get_splitters(self, parent_splitter):
+    def _get_splitters(self):
 
-        splitters = [parent_splitter]
-        for child_splitter in parent_splitter.child_splitters:
-            splitters += self._get_splitters(child_splitter)
-        return splitters
+        return self._scetw.get_all_splitters()
 
     def _switch_tab(self, direction):
 
