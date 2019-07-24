@@ -130,12 +130,17 @@ class OpenSesameIDE(BaseExtension):
 
     def select_and_open_folder(self):
 
-        path = QFileDialog.getExistingDirectory(self.main_window)
+        path = QFileDialog.getExistingDirectory(
+            self.main_window,
+            directory=cfg.file_dialog_path
+        )
         if isinstance(path, tuple):
             path = path[0]
-        if path:
-            self._open_folder(path)
-            self._remember_open_folders()
+        if not path:
+            return
+        cfg.file_dialog_path = path
+        self._open_folder(path)
+        self._remember_open_folders()
 
     def new_file(self):
 
@@ -169,6 +174,7 @@ class OpenSesameIDE(BaseExtension):
             path = path[0]
         if not path:
             return
+        cfg.file_dialog_path = os.path.dirname(path)
         self.open_document(path)
 
     def toggle_folder_browsers(self):
