@@ -55,6 +55,13 @@ class OpenSesameIDE(BaseExtension):
         self.open_document(path)
         self._jump_to_line(line_number)
 
+    def event_ide_new_file(self, source=None):
+
+        self.new_file()
+        if source is None:
+            return
+        self._current_editor().setPlainText(source)
+
     def open_document(self, path):
 
         editor = self._current_splitter().open_document(
@@ -193,6 +200,7 @@ class OpenSesameIDE(BaseExtension):
             u'bug_report',
             u'QuickSelector',
             u'JupyterConsole',
+            u'JupyterNotebook',
             u'FindInFiles',
             u'WorkspaceExplorer'
         ]
@@ -270,7 +278,7 @@ class OpenSesameIDE(BaseExtension):
     def _list_files(self, dirname, extra_ignore_pattern=None):
 
         files = []
-        ignore_patterns = self.ignore_patterns
+        ignore_patterns = self.ignore_patterns[:]
         if extra_ignore_pattern is not None:
             ignore_patterns.append(extra_ignore_pattern)
         gitignore = os.path.join(dirname, u'.gitignore')
