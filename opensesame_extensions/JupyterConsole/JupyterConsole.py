@@ -40,6 +40,7 @@ class JupyterConsole(BaseExtension):
         )
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setWidget(self._jupyter_console)
+        self._dock_widget.closeEvent = self._on_close_event
         self.main_window.addDockWidget(
             Qt.BottomDockWidgetArea,
             self._dock_widget
@@ -127,3 +128,7 @@ class JupyterConsole(BaseExtension):
 
         self._set_visible(True)
         self._jupyter_console.current.focus()
+
+    def _on_close_event(self, e):
+
+        self._set_visible(False)
