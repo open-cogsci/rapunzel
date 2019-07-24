@@ -100,6 +100,12 @@ class MenuBar(QMenuBar):
             u'Ctrl+W',
             ide.close_tab
         )
+        self._action_close_other_tabs = self._action(
+            _(u'Close &other tabs'),
+            u'window-close',
+            u'Ctrl+Alt+W',
+            ide.close_other_tabs
+        )
         self._action_close_all_tabs = self._action(
             _(u'Close &all tabs'),
             u'window-close',
@@ -156,6 +162,7 @@ class MenuBar(QMenuBar):
         )
         self._menu_view = QMenu(_('&View'))
         self._menu_view.addAction(self._action_close_tab)
+        self._menu_view.addAction(self._action_close_other_tabs)
         self._menu_view.addAction(self._action_close_all_tabs)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_split_vertical)

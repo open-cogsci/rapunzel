@@ -25,7 +25,7 @@ from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QFileDialog, QApplication
+from qtpy.QtWidgets import QFileDialog
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
@@ -86,25 +86,15 @@ class OpenSesameIDE(BaseExtension):
 
     def close_all_tabs(self):
 
-        # To avoid an infinite loop of automatically opening a new tab and then
-        # closing it again, we temporarily disable new_file()
-        new_file = self.new_file
-        self.new_file = lambda: None
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
-            root = tab_widget.parent().root
-            try:
-                tab_widget.close_all()
-            except RuntimeError:
-                # Due to a bug (probably) in PyQode, this happens when calling
-                # close_all on a non-root tabwidget that contains an editor
-                # that is not also in the root tabwidget.
-                pass
-        else:
-            root = False
-        self.new_file = new_file
-        if root:
-            self.new_file()
+            tab_widget.close_all()
+
+    def close_other_tabs(self):
+
+        tab_widget = self._current_tabwidget()
+        if tab_widget is not None:
+            tab_widget.close_others()
 
     def switch_tab_next(self):
 
@@ -396,9 +386,6 @@ class OpenSesameIDE(BaseExtension):
         self.main_window.closeEvent = self._patch_close_event(
             self.main_window.closeEvent
         )
-        # PyQode needs a bit of patching to deal properly with keyboard
-        # shortcuts
-        self._patch_pyqode()
 
     def _patch_tabwidget_add(self, fnc):
 
@@ -514,25 +501,3 @@ class OpenSesameIDE(BaseExtension):
         tabwidget.setCurrentIndex(
             (tabwidget.currentIndex() + direction) % tabwidget.count()
         )
-
-    def _patch_pyqode_tab_bar_menu(self, fnc):
-
-        """Unsets tab-widget specific keyboard shortcuts, because they are set
-        multiple times and become ambiguous.
-        """
-
-        def inner(self):
-
-            retval = fnc(self)
-            self.a_close.setShortcut('')
-            self.a_close_all.setShortcut('')
-            return retval
-
-        return inner
-
-    def _patch_pyqode(self):
-
-        widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu = \
-            self._patch_pyqode_tab_bar_menu(
-                widgets.splittable_tab_widget.BaseTabWidget._create_tab_bar_menu
-            )
