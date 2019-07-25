@@ -230,16 +230,39 @@ class OpenSesameIDE(BaseExtension):
 
     def run_current_selection(self):
 
+        # 1. If text is selected, run the selected text
+        # 2. Else, if the cursor is in a notebook cell, select and run the
+        #    cell.
+        # 3. Else, select and run the current line
         editor = self._current_editor()
         if editor is None:
             return
         cursor = editor.textCursor()
         if not cursor.hasSelection():
-            cursor.movePosition(cursor.StartOfLine)
-            cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+            cells = self.extension_manager.provide(
+                u'jupyter_notebook_cells',
+                code=editor.toPlainText(),
+                cell_types=[u'code']
+            )
+            if cells is None:
+                cells = []
+            for cell in cells:
+                if cell['start'] <= cursor.position() <= cell['end']:
+                    # Select code cell
+                    cursor.setPosition(cell['start'])
+                    cursor.setPosition(cell['end'], cursor.KeepAnchor)
+                    break
+            else:
+                # Select current line
+                cursor.movePosition(cursor.StartOfLine)
+                cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
             editor.setTextCursor(cursor)
-        code = cursor.selectedText().replace(u'\u2029', u'\n')
+            code = cursor.selectedText().replace(u'\u2029', u'\n')
         self.extension_manager.fire(u'jupyter_run_code', code=code)
+
+    def run_interrupt(self):
+
+        self.extension_manager.fire(u'jupyter_interrupt')
 
     def open_plugin_manager(self):
 

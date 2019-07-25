@@ -29,7 +29,7 @@ _ = translation_context(u'JupyterNotebook', category=u'extension')
 
 MARKDOWN_CELL = u'# <markdowncell>\n"""\n{}\n"""\n# </markdowncell>\n'
 CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
-PATTERN = r'^# <(?P<cell_type>code|markdown)cell>\n(?P<source>.*?)\n^# </(code|markdown)cell>'
+PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
 
 
 class JupyterNotebook(BaseExtension):
@@ -46,6 +46,23 @@ class JupyterNotebook(BaseExtension):
             _('Export notebook'),
             self._export_ipynb,
         )
+
+    def provide_jupyter_notebook_cells(self, code=u'', cell_types=None):
+
+        cells = []
+        for m in re.finditer(PATTERN, code, re.MULTILINE | re.DOTALL):
+            if (
+                cell_types is not None and
+                m.group('cell_type') not in cell_types
+            ):
+                continue
+            cells.append({
+                'cell_type': m.group('cell_type'),
+                'source': m.group('source'),
+                'start': m.start(),
+                'end': m.end()
+            })
+        return cells
 
     def _import_ipynb(self):
 
