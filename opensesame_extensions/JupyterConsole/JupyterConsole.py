@@ -39,6 +39,7 @@ class JupyterConsole(BaseExtension):
             {u'inprocess': cfg.jupyter_inprocess}
         )
         self._dock_widget = QDockWidget(u'Console', self.main_window)
+        self._dock_widget.setObjectName(u'JupyterConsole')
         self._dock_widget.setWidget(self._jupyter_console)
         self._dock_widget.closeEvent = self._on_close_event
         self.main_window.addDockWidget(

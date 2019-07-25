@@ -239,6 +239,7 @@ class MenuBar(QMenuBar):
         if self._action_find_in_files is not None:
             tool_bar.addAction(self._action_find_in_files)
         tool_bar.setWindowTitle(u'IDE toolbar')
+        tool_bar.setObjectName(u'OpenSesameIDE_Toolbar')
         return tool_bar
 
     def _action(self, title, icon, shortcut, target, checkable=False):

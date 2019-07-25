@@ -55,6 +55,7 @@ class FolderBrowserDockWidget(QDockWidget):
         self._container_widget.setLayout(self._container_layout)
         self.setWidget(self._container_widget)
         self.setWindowTitle(os.path.basename(path))
+        self.setObjectName(os.path.basename(path))
 
     def select_path(self, path):
 
