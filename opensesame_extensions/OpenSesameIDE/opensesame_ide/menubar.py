@@ -197,7 +197,7 @@ class MenuBar(QMenuBar):
         self.addMenu(self._menu_view)
         # Run menu
         self._action_run_current_file = self._action(
-            _(u'&Run current file'),
+            _(u'&Run project or file'),
             u'os-run',
             u'F5',
             ide.run_current_file,

@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import os
 import ast
 import fnmatch
+import yaml
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -220,6 +221,13 @@ class OpenSesameIDE(BaseExtension):
 
     def run_current_file(self):
 
+        project_file = self._current_project_file()
+        if project_file is not None and u'run' in project_file:
+            self.extension_manager.fire(
+                u'jupyter_run_code',
+                code=project_file[u'run']
+            )
+            return
         editor = self._current_editor()
         if (
             editor is None or
@@ -478,6 +486,33 @@ class OpenSesameIDE(BaseExtension):
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
+
+    def _current_project_file(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return None
+        for d in self._dock_widgets.values():
+            if not editor.file.path.startswith(d.path):
+                continue
+            project_file_path = os.path.join(
+                d.path,
+                cfg.opensesame_ide_project_file
+            )
+            if not os.path.exists(project_file_path):
+                continue
+            with open(project_file_path) as fd:
+                try:
+                    return yaml.load(fd, Loader=yaml.FullLoader)
+                except Exception as e:
+                    self.extension_manager.fire(
+                        u'notify',
+                        message=_(
+                            u'Failed to parse project file. '
+                            u'See console for details'
+                        )
+                    )
+                    self.console.write(e)
 
     def _current_editor(self):
 
