@@ -368,6 +368,8 @@ class OpenSesameIDE(BaseExtension):
 
     def locate_file_in_folder(self):
 
+        for dockwidget in self._dock_widgets.values():
+            dockwidget.setVisible(True)
         editor = self._current_editor()
         if editor is None:
             return
