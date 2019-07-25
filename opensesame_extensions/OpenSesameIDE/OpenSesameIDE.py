@@ -202,23 +202,6 @@ class OpenSesameIDE(BaseExtension):
             haystack.append((name, lineno, self._jump_to_line))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
 
-    def extension_filter(self, ext_name):
-
-        if self.main_window.mode != u'ide':
-            return
-        return ext_name not in [
-            u'notifications',
-            u'plugin_manager',
-            u'pyqode_manager',
-            u'update_checker'
-            u'bug_report',
-            u'QuickSelector',
-            u'JupyterConsole',
-            u'JupyterNotebook',
-            u'FindInFiles',
-            u'WorkspaceExplorer'
-        ]
-
     def run_current_file(self):
 
         project_file = self._current_project_file()

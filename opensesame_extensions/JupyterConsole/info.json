@@ -16,5 +16,6 @@
     },
     "toolbar": {
         "index": 13
-    }
+    },
+    "modes": ["default", "ide"]
 }

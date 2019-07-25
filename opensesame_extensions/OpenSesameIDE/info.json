@@ -9,5 +9,6 @@
         "opensesame_ide_default_extension": ".py",
         "opensesame_ide_ignore_patterns": "*.pyc, *.pyo, *.coverage, .DS_Store, __pycache__, .git",
         "opensesame_ide_project_file": ".rapunzel.yaml"
-    }
+    },
+    "modes": ["ide"]
 }

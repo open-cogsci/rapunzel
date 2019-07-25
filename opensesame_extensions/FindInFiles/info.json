@@ -6,5 +6,6 @@
     "menu": {
         "index": 0,
         "submenu": "Edit"
-    }
+    },
+    "modes": ["ide"]
 }
