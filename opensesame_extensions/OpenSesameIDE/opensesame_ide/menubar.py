@@ -177,25 +177,23 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_locate_file_in_folder)
-        try:
-            self._action_toggle_console = \
-                ide.extension_manager[u'JupyterConsole'].action
-        except Exception:
-            self._action_toggle_console = None
-        else:
+        if u'JupyterConsole' in ide.extension_manager:
             self._menu_view.addSeparator()
+            self._action_toggle_console = \
+                ide.extension_manager['JupyterConsole'].action
             self._menu_view.addAction(self._action_toggle_console)
+        else:
+            self._action_toggle_console = None
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_files)
         self._menu_view.addAction(self._action_quick_select_symbols)
-        try:
-            self._action_find_in_files = \
-                ide.extension_manager[u'FindInFiles'].action
-        except Exception:
-            self._action_find_in_files = None
-        else:
+        if u'FindInFiles' in ide.extension_manager:
             self._menu_view.addSeparator()
+            self._action_find_in_files = \
+                ide.extension_manager['FindInFiles'].action
             self._menu_view.addAction(self._action_find_in_files)
+        else:
+            self._action_find_in_files = None
         self.addMenu(self._menu_view)
         # Run menu
         self._action_run_current_file = self._action(
@@ -205,14 +203,22 @@ class MenuBar(QMenuBar):
             ide.run_current_file,
         )
         self._action_run_current_selection = self._action(
-            _(u'Run &selection or current line'),
+            _(u'Run &selection, cell, or current line'),
             u'os-run-quick',
             u'F9',
             ide.run_current_selection,
         )
+
+        self._action_run_interrupt = self._action(
+            _(u'&Interrupt kernel'),
+            u'os-kill',
+            u'Ctrl+F9',
+            ide.run_interrupt,
+        )
         self._menu_run = QMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
+        self._menu_run.addAction(self._action_run_interrupt)
         self.addMenu(self._menu_run)
 
     def build_tool_bar(self):
@@ -226,6 +232,7 @@ class MenuBar(QMenuBar):
         tool_bar.addSeparator()
         tool_bar.addAction(self._action_run_current_file)
         tool_bar.addAction(self._action_run_current_selection)
+        tool_bar.addAction(self._action_run_interrupt)
         if self._action_toggle_console is not None:
             tool_bar.addSeparator()
             tool_bar.addAction(self._action_toggle_console)
