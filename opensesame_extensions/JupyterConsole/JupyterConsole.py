@@ -121,6 +121,7 @@ class JupyterConsole(BaseExtension):
         self.set_checked(visible)
         if visible:
             self._dock_widget.show()
+            self._jupyter_console.current.focus()
         else:
             self._dock_widget.hide()
 
