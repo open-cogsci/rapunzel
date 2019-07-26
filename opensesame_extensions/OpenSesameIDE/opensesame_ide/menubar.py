@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 from qtpy.QtWidgets import QAction, QMenu, QMenuBar, QToolBar
 from qtpy.QtCore import QSize
+from libqtopensesame.misc.config import cfg
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -102,68 +103,68 @@ class MenuBar(QMenuBar):
         self._action_close_tab = self._action(
             _(u'&Close tab'),
             u'window-close',
-            u'Ctrl+W',
+            cfg.opensesame_ide_shortcut_close_tab,
             ide.close_tab
         )
         self._action_close_other_tabs = self._action(
             _(u'Close &other tabs'),
             u'window-close',
-            u'Ctrl+Alt+W',
+            cfg.opensesame_ide_shortcut_close_other_tabs,
             ide.close_other_tabs
         )
         self._action_close_all_tabs = self._action(
             _(u'Close &all tabs'),
             u'window-close',
-            u'Ctrl+Shift+W',
+            cfg.opensesame_ide_shortcut_close_all_tabs,
             ide.close_all_tabs
         )
         self._action_split_vertical = self._action(
             _(u'Split &vertical'),
             u'go-down',
-            u'Ctrl+Shift+V',
+            cfg.opensesame_ide_shortcut_split_vertical,
             ide.split_vertical
         )
         self._action_split_horizontal = self._action(
             _(u'Split &horizontal'),
             u'go-next',
-            u'Ctrl+Shift+H',
+            cfg.opensesame_ide_shortcut_split_horizontal,
             ide.split_horizontal
         )
         self._action_switch_splitter_previous = self._action(
             _(u'Switch to previous panel'),
             u'go-previous',
-            u'Ctrl+Shift+[',
+            cfg.opensesame_ide_shortcut_switch_previous_panel,
             ide.switch_splitter_previous
         )
         self._action_switch_splitter_next = self._action(
             _(u'Switch to next panel'),
             u'go-next',
-            u'Ctrl+Shift+]',
+            cfg.opensesame_ide_shortcut_switch_next_panel,
             ide.switch_splitter_next
         )
         self._action_toggle_folder_browsers = self._action(
             _(u'Toggle &folder browsers'),
             u'os-overview',
-            u'Ctrl+\\',
+            cfg.opensesame_ide_shortcut_toggle_folder_browsers,
             ide.toggle_folder_browsers,
             checkable=True
         )
         self._action_locate_file_in_folder = self._action(
             _(u'&Locate active file'),
             u'folder',
-            u'Ctrl+Shift+\\',
+            cfg.opensesame_ide_shortcut_locate_active_file,
             ide.locate_file_in_folder
         )
         self._action_quick_select_files = self._action(
             _(u'F&ile selector'),
             u'document-open',
-            u'Ctrl+P',
+            cfg.opensesame_ide_shortcut_file_selector,
             ide.quick_select_files,
         )
         self._action_quick_select_symbols = self._action(
             _(u'S&ymbol selector'),
             u'text-x-script',
-            u'Ctrl+R',
+            cfg.opensesame_ide_shortcut_symbol_selector,
             ide.quick_select_symbols,
         )
         self._menu_view = QMenu(_('&View'))
@@ -200,20 +201,20 @@ class MenuBar(QMenuBar):
         self._action_run_current_file = self._action(
             _(u'&Run project or file'),
             u'os-run',
-            u'F5',
+            cfg.opensesame_ide_shortcut_run_file,
             ide.run_current_file,
         )
         self._action_run_current_selection = self._action(
             _(u'Run &selection, cell, or current line'),
             u'os-run-quick',
-            u'F9',
+            cfg.opensesame_ide_shortcut_run_selection,
             ide.run_current_selection,
         )
 
         self._action_run_interrupt = self._action(
             _(u'&Interrupt kernel'),
             u'os-kill',
-            u'Ctrl+F9',
+            cfg.opensesame_ide_shortcut_run_interrupt,
             ide.run_interrupt,
         )
         self._menu_run = QMenu(_('&Run'))
