@@ -26,6 +26,7 @@ from qtpy.QtWidgets import (
     QListWidget,
     QListWidgetItem
 )
+import Levenshtein
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 from libqtopensesame.misc.config import cfg
@@ -72,7 +73,11 @@ class QuickSelectorDialog(QDialog):
             Qt.FramelessWindowHint
         )
         self.setWindowTitle(u'Open file')
-        self._haystack = haystack
+        # Already create a lowercase version of the label for performance
+        self._haystack = [
+            (label.lower(), label, data, on_select)
+            for label, data, on_select in haystack
+        ]
         self._search_box = SearchBox(self)
         self._search_box.textEdited.connect(self._search)
         self._result_box = ResultBox(self)
@@ -99,15 +104,37 @@ class QuickSelectorDialog(QDialog):
 
     def _search(self, needle):
 
-        needle = needle.lower()
-        self._result_box.show()
-        self._result_box.clear()
-        for label, data, on_select in self._haystack:
-            if not needle or needle in label.lower():
+        if not needle:
+            for lower_label, label, data, on_select in self._haystack:
                 item = QListWidgetItem(label, self._result_box)
                 item.data = data
                 item.on_select = on_select
                 self._result_box.addItem(item)
+            return
+        needle = needle.lower()
+        needles = needle.split()
+        self._result_box.show()
+        self._result_box.clear()
+        results = []
+        for lower_label, label, data, on_select in self._haystack:
+            for subneedle in needles:
+                if subneedle not in lower_label:
+                    break
+            else:
+                results.append((
+                    Levenshtein.distance(needle, lower_label) / len(label),
+                    label,
+                    data,
+                    on_select
+                ))
+        for score, label, data, on_select in sorted(
+            results,
+            key=lambda t: t[0]
+        ):
+            item = QListWidgetItem(label, self._result_box)
+            item.data = data
+            item.on_select = on_select
+            self._result_box.addItem(item)
 
     def _select(self, item):
 

@@ -305,10 +305,7 @@ class OpenSesameIDE(BaseExtension):
         haystack = []
         for dock_widget in self._dock_widgets.values():
             for path in self._list_files(dock_widget.path):
-                label = u'{}\n{}'.format(
-                    os.path.basename(path),
-                    path[len(dock_widget.path) + 1:]
-                )
+                label = path[len(dock_widget.path) + 1:]
                 data = path
                 haystack.append((label, data, self.open_document))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
