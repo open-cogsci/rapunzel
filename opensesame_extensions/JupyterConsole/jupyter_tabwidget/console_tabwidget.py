@@ -20,29 +20,28 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 from libqtopensesame.misc.base_subcomponent import BaseSubcomponent
 from qtpy.QtWidgets import QTabWidget
+from libqtopensesame.misc.config import cfg
 from jupyter_tabwidget.jupyter_console import JupyterConsole
 from jupyter_tabwidget.console_cornerwidget import ConsoleCornerWidget
 
 
 class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
-    def __init__(self, parent, kwargs):
+    def __init__(self, parent, kwargs={}):
 
         super(ConsoleTabWidget, self).__init__(parent)
         self.setup(parent)
         self._console_count = 1
-        if not kwargs.get(u'inprocess', False):
-            self.setCornerWidget(ConsoleCornerWidget(self, kwargs))
-            # Also start a single inprocess console
-            self._kwargs = kwargs
-            self._kwargs[u'inprocess'] = True
-            self.add()
-            self._kwargs[u'inprocess'] = False
         self._kwargs = kwargs
+        self.setCornerWidget(ConsoleCornerWidget(self, kwargs))
+        if cfg.jupyter_inprocess:
+            # Also start a single inprocess console, mostly for debugging
+            # purposes
+            self.add(inprocess=True)
         self.tabCloseRequested.connect(self.close)
         self.add()
 
-    def add(self):
+    def add(self, inprocess=False):
 
         jupyter_console = JupyterConsole(
             self,
@@ -53,12 +52,12 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
             jupyter_console,
             self.main_window.theme.qicon(
                 'utilities-terminal'
-                if self._kwargs.get(u'inprocess', False)
+                if inprocess
                 else 'os-debug'
             ),
             str(self._console_count)
         )
-        if self._kwargs.get(u'inprocess', False):
+        if inprocess:
             jupyter_console.set_workspace_globals(
                 {u'opensesame': self.main_window}
             )

@@ -34,10 +34,7 @@ class JupyterConsole(BaseExtension):
 
     def event_startup(self):
 
-        self._jupyter_console = ConsoleTabWidget(
-            self.main_window,
-            {u'inprocess': cfg.jupyter_inprocess}
-        )
+        self._jupyter_console = ConsoleTabWidget(self.main_window)
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setObjectName(u'JupyterConsole')
         self._dock_widget.setWidget(self._jupyter_console)
@@ -71,6 +68,7 @@ class JupyterConsole(BaseExtension):
 
     def event_jupyter_run_file(self, path):
 
+        self._set_visible(True)
         if not os.path.isfile(path):
             return
         self._jupyter_console.current.execute(
@@ -82,6 +80,7 @@ class JupyterConsole(BaseExtension):
 
     def event_jupyter_run_code(self, code):
 
+        self._set_visible(True)
         self._jupyter_console.current.execute(code)
 
     def event_jupyter_write(self, msg):
