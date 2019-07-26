@@ -46,6 +46,7 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
         jupyter_console = JupyterConsole(
             self,
             name=str(self._console_count),
+            inprocess=inprocess,
             **self._kwargs
         )
         self.addTab(
