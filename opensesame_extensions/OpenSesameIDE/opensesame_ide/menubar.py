@@ -143,9 +143,10 @@ class MenuBar(QMenuBar):
         )
         self._action_toggle_folder_browsers = self._action(
             _(u'Toggle &folder browsers'),
-            u'folder',
+            u'os-overview',
             u'Ctrl+\\',
-            ide.toggle_folder_browsers
+            ide.toggle_folder_browsers,
+            checkable=True
         )
         self._action_locate_file_in_folder = self._action(
             _(u'&Locate active file'),
@@ -236,6 +237,7 @@ class MenuBar(QMenuBar):
         if self._action_toggle_console is not None:
             tool_bar.addSeparator()
             tool_bar.addAction(self._action_toggle_console)
+        tool_bar.addAction(self._action_toggle_folder_browsers)
         if self._action_find_in_files is not None:
             tool_bar.addAction(self._action_find_in_files)
         tool_bar.setWindowTitle(u'IDE toolbar')

@@ -42,15 +42,9 @@ class FolderBrowserDockWidget(QDockWidget):
         self._ide = ide
         self.path = path
         self._folder_browser = FolderBrowser(parent, ide, path)
-        self._close_button = QPushButton(
-            parent.theme.qicon(u'window-close'),
-            _(u'Close project')
-        )
-        self._close_button.clicked.connect(self._on_close)
         self._container_layout = QVBoxLayout(self)
         self._container_layout.setContentsMargins(6, 6, 6, 6)
         self._container_layout.addWidget(self._folder_browser)
-        self._container_layout.addWidget(self._close_button)
         self._container_widget = QWidget(self)
         self._container_widget.setLayout(self._container_layout)
         self.setWidget(self._container_widget)
@@ -61,7 +55,7 @@ class FolderBrowserDockWidget(QDockWidget):
 
         self._folder_browser.select_path(path)
 
-    def _on_close(self, e):
+    def closeEvent(self, e):
 
         self._ide.remove_folder_browser_dock_widget(self)
         self.close()

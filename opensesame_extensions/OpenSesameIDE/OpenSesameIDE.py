@@ -43,6 +43,7 @@ class OpenSesameIDE(BaseExtension):
         os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
         self._patch_behavior()
         self._scetw = widgets.SplittableCodeEditTabWidget(self.main_window)
+        self._scetw.main_tab_widget.cornerWidget().hide()
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
         self._add_ide_tab()
@@ -178,12 +179,16 @@ class OpenSesameIDE(BaseExtension):
         cfg.file_dialog_path = os.path.dirname(path)
         self.open_document(path)
 
-    def toggle_folder_browsers(self):
+    def folder_browsers_visible(self):
 
-        hidden = any(
-            not dockwidget.isVisible()
+        return all(
+            dockwidget.isVisible()
             for dockwidget in self._dock_widgets.values()
         )
+
+    def toggle_folder_browsers(self):
+
+        hidden = not self.folder_browsers_visible()
         oslogger.info('setting folder-browser visibility to {}'.format(hidden))
         for dockwidget in self._dock_widgets.values():
             dockwidget.setVisible(hidden)
@@ -202,10 +207,20 @@ class OpenSesameIDE(BaseExtension):
             haystack.append((name, lineno, self._jump_to_line))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
 
+    def _run_notify(self, msg):
+
+        self.extension_manager.fire(
+            u'notify',
+            message=msg,
+            timeout=1000,
+            always_show=True
+        )
+
     def run_current_file(self):
 
         project_file = self._current_project_file()
         if project_file is not None and u'run' in project_file:
+            self._run_notify(_(u'Running project'))
             self.extension_manager.fire(
                 u'jupyter_run_code',
                 code=project_file[u'run']
@@ -217,6 +232,7 @@ class OpenSesameIDE(BaseExtension):
             not os.path.exists(editor.file.path)
         ):
             return
+        self._run_notify(_(u'Running file'))
         self.extension_manager.fire(u'jupyter_run_file', path=editor.file.path)
 
     def run_current_selection(self):
@@ -242,13 +258,17 @@ class OpenSesameIDE(BaseExtension):
                     # Select code cell
                     cursor.setPosition(cell['start'])
                     cursor.setPosition(cell['end'], cursor.KeepAnchor)
+                    self._run_notify(_(u'Running notebook cell'))
                     break
             else:
                 # Select current line
                 cursor.movePosition(cursor.StartOfLine)
                 cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+                self._run_notify(_(u'Running current line'))
             editor.setTextCursor(cursor)
             code = cursor.selectedText().replace(u'\u2029', u'\n')
+        else:
+            self._run_notify(_(u'Running selection'))
         self.extension_manager.fire(u'jupyter_run_code', code=code)
 
     def run_interrupt(self):
@@ -335,7 +355,7 @@ class OpenSesameIDE(BaseExtension):
         editor = self._scetw.current_widget()
         if editor is None:
             return
-        new_splitter = self._current_splitter().split(editor, direction)
+        self._current_splitter().split(editor, direction)
 
     def _open_folder(self, path):
 
@@ -358,11 +378,7 @@ class OpenSesameIDE(BaseExtension):
             return
         for dock_widget in self._dock_widgets.values():
             dock_widget.select_path(editor.file.path)
-        hidden = any(
-            not dockwidget.isVisible()
-            for dockwidget in self._dock_widgets.values()
-        )
-        if hidden:
+        if not self.folder_browsers_visible():
             self.toggle_folder_browsers()
 
     def _patch_close_event(self, fnc):
@@ -372,6 +388,17 @@ class OpenSesameIDE(BaseExtension):
             self._scetw.closeEvent(e)
             if e.isAccepted():
                 fnc(e)
+
+        return inner
+
+    def _patch_show_event(self, fnc):
+
+        def inner(e):
+
+            fnc(e)
+            self._menubar._action_toggle_folder_browsers.setChecked(
+                self.folder_browsers_visible()
+            )
 
         return inner
 
@@ -400,6 +427,9 @@ class OpenSesameIDE(BaseExtension):
             )
         self.main_window.closeEvent = self._patch_close_event(
             self.main_window.closeEvent
+        )
+        self.main_window.showEvent = self._patch_show_event(
+            self.main_window.showEvent
         )
 
     def _patch_tabwidget_add(self, fnc):
@@ -437,14 +467,13 @@ class OpenSesameIDE(BaseExtension):
         def inner():
 
             fnc()
-            self.main_window.ui.toolbar_main.hide()
-            self.main_window.ui.toolbar_items.hide()
-            self.main_window.ui.dock_overview.hide()
-            self.main_window.ui.dock_pool.hide()
-            try:
-                self.extension_manager['variable_inspector'].set_visible(False)
-            except Exception:
-                pass
+            # Remove unused dockwidgets and toolbars
+            self.main_window.removeDockWidget(self.main_window.ui.dock_pool)
+            self.main_window.removeDockWidget(
+                self.main_window.ui.dock_overview
+            )
+            self.main_window.removeToolBar(self.main_window.ui.toolbar_items)
+            self.main_window.removeToolBar(self.main_window.ui.toolbar_main)
 
         return inner
 
