@@ -5,6 +5,7 @@
     "tooltip": "Turn OpenSesame into an IDE",
     "settings": {
         "opensesame_ide_last_folder": "",
+        "opensesame_ide_run_autosave": false,
         "opensesame_ide_auto_tabs_to_spaces": false,
         "opensesame_ide_default_extension": ".py",
         "opensesame_ide_ignore_patterns": "*.pyc, *.pyo, *.coverage, .DS_Store, __pycache__, .git",

@@ -26,7 +26,7 @@ from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QFileDialog
+from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
@@ -218,6 +218,15 @@ class OpenSesameIDE(BaseExtension):
 
     def run_current_file(self):
 
+        editor = self._current_editor()
+        if editor.dirty:
+            if not cfg.opensesame_ide_run_autosave:
+                retval = self._save_and_run_dialog()
+                if retval == 2:  # Cancel
+                    return
+                if retval == 1:  # Save and run
+                    cfg.opensesame_ide_run_autosave = True
+            self.save_file()
         project_file = self._current_project_file()
         if project_file is not None and u'run' in project_file:
             self._run_notify(_(u'Running project'))
@@ -226,7 +235,6 @@ class OpenSesameIDE(BaseExtension):
                 code=project_file[u'run']
             )
             return
-        editor = self._current_editor()
         if (
             editor is None or
             not os.path.exists(editor.file.path)
@@ -566,3 +574,34 @@ class OpenSesameIDE(BaseExtension):
         tabwidget.setCurrentIndex(
             (tabwidget.currentIndex() + direction) % tabwidget.count()
         )
+
+    def _save_and_run_dialog(self):
+
+        mb = QMessageBox(self.main_window)
+        mb.setWindowTitle(_(u'Unsaved changes'))
+        mb.setText(
+            u'You have unsaved changes. What do you want to do?'
+        )
+        mb.addButton(
+            QPushButton(
+                self.theme.qicon(u'os-run'),
+                _(u'Save and run')
+            ),
+            QMessageBox.AcceptRole
+        )
+        mb.addButton(
+            QPushButton(
+                self.theme.qicon(u'os-run'),
+                _(u'Save, run, and don\'t ask again')
+            ),
+            QMessageBox.AcceptRole
+        )
+
+        mb.addButton(
+            QPushButton(
+                self.theme.qicon(u'dialog-cancel'),
+                _(u'Cancel')
+            ),
+            QMessageBox.AcceptRole
+        )
+        return mb.exec_()
