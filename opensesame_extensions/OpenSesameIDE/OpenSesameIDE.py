@@ -361,6 +361,10 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return
         self._current_splitter().split(editor, direction)
+        self.extension_manager.fire(
+            u'register_editor',
+            editor=self._current_editor()
+        )
 
     def _open_folder(self, path):
 
