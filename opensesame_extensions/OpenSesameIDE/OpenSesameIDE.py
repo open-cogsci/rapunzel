@@ -547,7 +547,7 @@ class OpenSesameIDE(BaseExtension):
     def _current_splitter(self):
 
         editor = self._current_editor()
-        if editor is None:
+        if editor is None or editor.parent() is None:
             return self._scetw
         return editor.parent().parent().parent()
 
