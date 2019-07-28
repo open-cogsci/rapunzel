@@ -564,7 +564,14 @@ class OpenSesameIDE(BaseExtension):
         current_splitter_index = splitters.index(current_splitter)
         new_splitter_index = (current_splitter_index + d) % len(splitters)
         new_splitter = splitters[new_splitter_index]
-        new_splitter.main_tab_widget.currentWidget().setFocus()
+        if new_splitter.main_tab_widget.currentWidget() is not None:
+            new_splitter.main_tab_widget.currentWidget().setFocus()
+            return
+        # If the next splitter is empty, skip it
+        if d < 0:
+            self._switch_splitter(d - 1)
+        else:
+            self._switch_splitter(d + 1)
 
     def _get_splitters(self):
 
