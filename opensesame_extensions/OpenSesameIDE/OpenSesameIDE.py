@@ -51,6 +51,9 @@ class OpenSesameIDE(BaseExtension):
         self._set_ignore_patterns()
         self._restore_open_folders()
         self.main_window.setWindowTitle(u'Rapunzel')
+        self.main_window.setWindowIcon(
+            self.theme.qicon('accessories-text-editor')
+        )
 
     def event_ide_open_file(self, path, line_number=1):
 
@@ -357,14 +360,40 @@ class OpenSesameIDE(BaseExtension):
 
     def _split(self, direction):
 
-        editor = self._scetw.current_widget()
+        editor = self._current_editor()
         if editor is None:
             return
-        self._current_splitter().split(editor, direction)
+        splitter = self._current_splitter()
+        # If there are no child splitters, we use the regular split() method
+        if not splitter.child_splitters:
+            splitter.split(editor, direction)
+            self.extension_manager.fire(
+                u'register_editor',
+                editor=self._current_editor()
+            )
+            return
+        # If there are child splitters, then we use a double split to put the
+        # current editor inside a new splitter with a clone of itself. The
+        # original editor is then closed, and all other tabs are moved into the
+        # new splitter. This is an ugly hack to deal with a limitation in
+        # pyqode.
+        subsplitter = splitter.split(editor, splitter.orientation(), index=1)
+        editor = self._current_editor()
         self.extension_manager.fire(
             u'register_editor',
-            editor=self._current_editor()
+            editor=editor
         )
+        subsplitter.split(editor, direction, index=1)
+        editor = self._current_editor()
+        self.extension_manager.fire(
+            u'register_editor',
+            editor=editor
+        )
+        splitter.main_tab_widget.close()
+        for index in range(splitter.main_tab_widget.count()):
+            editor = splitter.main_tab_widget.widget(index)
+            subsplitter.main_tab_widget._on_tab_move_request(editor, index)
+        subsplitter.main_tab_widget.setCurrentIndex(index + 1)
 
     def _open_folder(self, path):
 
