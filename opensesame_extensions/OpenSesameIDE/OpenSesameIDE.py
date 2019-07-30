@@ -274,9 +274,9 @@ class OpenSesameIDE(BaseExtension):
                 cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
                 self._run_notify(_(u'Running current line'))
             editor.setTextCursor(cursor)
-            code = cursor.selectedText().replace(u'\u2029', u'\n')
         else:
             self._run_notify(_(u'Running selection'))
+        code = cursor.selectedText().replace(u'\u2029', u'\n')
         self.extension_manager.fire(u'jupyter_run_code', code=code)
 
     def run_interrupt(self):
