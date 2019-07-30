@@ -156,7 +156,7 @@ class OpenSesameIDE(BaseExtension):
 
     def save_file(self):
 
-        if not self._current_editor().file.path:
+        if not self._current_original_editor().file.path:
             self.save_file_as()
         else:
             self._scetw.save_current()
@@ -540,6 +540,15 @@ class OpenSesameIDE(BaseExtension):
     def _current_editor(self):
 
         return self._scetw.current_widget()
+
+    def _current_original_editor(self):
+
+        editor = self._scetw.current_widget()
+        if editor is None:
+            return
+        if editor.original:
+            return editor.original
+        return editor
 
     def _current_tabwidget(self):
 
