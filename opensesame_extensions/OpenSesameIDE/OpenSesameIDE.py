@@ -74,6 +74,16 @@ class OpenSesameIDE(BaseExtension):
 
     def open_document(self, path):
 
+        # If the file is already open, switch to it
+        path = os.path.normpath(os.path.normcase(path))
+        for editor in self._scetw.widgets():
+            if editor.file.path is None:
+                continue
+            if path == os.path.normpath(os.path.normcase(editor.file.path)):
+                editor.parent().parent().setCurrentWidget(editor)
+                editor.setFocus()
+                return
+        # Otherwise open it in a new tab in the current splitter
         editor = self._current_splitter().open_document(
             path,
             replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces
