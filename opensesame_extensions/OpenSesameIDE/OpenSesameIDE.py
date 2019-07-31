@@ -411,7 +411,9 @@ class OpenSesameIDE(BaseExtension):
         for index in range(splitter.main_tab_widget.count()):
             editor = splitter.main_tab_widget.widget(index)
             subsplitter.main_tab_widget._on_tab_move_request(editor, index)
-        subsplitter.main_tab_widget.setCurrentIndex(index + 1)
+        subsplitter.main_tab_widget.setCurrentIndex(
+            subsplitter.main_tab_widget.count() - 1
+        )
 
     def _open_folder(self, path):
 
@@ -517,7 +519,7 @@ class OpenSesameIDE(BaseExtension):
         self.tabwidget.add(
             self._scetw,
             u'accessories-text-editor',
-            'IDE'
+            'Rapunzel'
         )
 
     def _patch_restore_window_state(self, fnc):
