@@ -99,6 +99,7 @@ setup(
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
     url='https://github.com/smathot/opensesame-extension-ide',
+    scripts=['rapunzel'],
     classifiers=[
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',
