@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import os
+import sys
 import ast
 import fnmatch
 import yaml
@@ -50,6 +51,7 @@ class OpenSesameIDE(BaseExtension):
         self._dock_widgets = {}
         self._set_ignore_patterns()
         self._restore_open_folders()
+        self._parse_command_line()
         self.main_window.setWindowTitle(u'Rapunzel')
 
     def event_ide_open_file(self, path, line_number=1):
@@ -330,8 +332,9 @@ class OpenSesameIDE(BaseExtension):
 
         haystack = []
         for dock_widget in self._dock_widgets.values():
+            strip_first = len(os.path.split(dock_widget.path)[0])
             for path in self._list_files(dock_widget.path):
-                label = path[len(dock_widget.path) + 1:]
+                label = path[strip_first + 1:]
                 data = path
                 haystack.append((label, data, self.open_document))
         self.extension_manager.fire(u'quick_select', haystack=haystack)
@@ -555,6 +558,14 @@ class OpenSesameIDE(BaseExtension):
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
+
+    def _parse_command_line(self):
+
+        for arg in sys.argv[1:]:
+            if os.path.isfile(arg):
+                self.open_document(arg)
+            elif os.path.isdir(arg):
+                self._open_folder(arg)
 
     def _current_project_file(self):
 
