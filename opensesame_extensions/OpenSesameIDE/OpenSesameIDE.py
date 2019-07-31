@@ -201,6 +201,11 @@ class OpenSesameIDE(BaseExtension):
         try:
             symbols = self._list_symbols(ast.parse(editor.toPlainText()).body)
         except SyntaxError:
+            self.extension_manager.fire(
+                u'notify',
+                message=_(u'Cannot parse symbols because of SyntaxError'),
+                category=u'warning'
+            )
             return
         haystack = []
         for name, lineno in symbols:
