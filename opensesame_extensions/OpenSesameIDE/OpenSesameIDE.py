@@ -416,6 +416,8 @@ class OpenSesameIDE(BaseExtension):
             dock_widget
         )
         self._dock_widgets[path] = dock_widget
+        if not self.folder_browsers_visible():
+            self.toggle_folder_browsers()
 
     def locate_file_in_folder(self):
 
