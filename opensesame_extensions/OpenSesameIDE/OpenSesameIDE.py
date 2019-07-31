@@ -21,7 +21,6 @@ from libopensesame.py3compat import *
 import os
 import sys
 import ast
-import fnmatch
 import yaml
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -333,7 +332,7 @@ class OpenSesameIDE(BaseExtension):
         haystack = []
         for dock_widget in self._dock_widgets.values():
             strip_first = len(os.path.split(dock_widget.path)[0])
-            for path in self._list_files(dock_widget.path):
+            for path in dock_widget.file_list:
                 label = path[strip_first + 1:]
                 data = path
                 haystack.append((label, data, self.open_document))
@@ -342,39 +341,8 @@ class OpenSesameIDE(BaseExtension):
     def project_files(self, extra_ignore_pattern=None):
 
         for dock_widget in self._dock_widgets.values():
-            for path in self._list_files(
-                dock_widget.path,
-                extra_ignore_pattern
-            ):
+            for path in dock_widget.file_list:
                 yield path
-
-    def _list_files(self, dirname, extra_ignore_pattern=None):
-
-        files = []
-        ignore_patterns = self.ignore_patterns[:]
-        if extra_ignore_pattern is not None:
-            ignore_patterns.append(extra_ignore_pattern)
-        gitignore = os.path.join(dirname, u'.gitignore')
-        if os.path.exists(gitignore):
-            oslogger.debug('excluding patterns from {}'.format(gitignore))
-            with open(gitignore) as fd:
-                ignore_patterns += [p.strip() for p in fd.read().split(u'\n')]
-        ignore_patterns = [p for p in ignore_patterns if p]
-        for basename in os.listdir(dirname):
-            path = os.path.join(dirname, basename)
-            if any(
-                (
-                    ignore_pattern in path or
-                    fnmatch.fnmatch(basename, ignore_pattern)
-                )
-                for ignore_pattern in ignore_patterns
-            ):
-                continue
-            if os.path.isdir(path):
-                files += self._list_files(path)
-            else:
-                files.append(path)
-        return files
 
     def _split(self, direction):
 
