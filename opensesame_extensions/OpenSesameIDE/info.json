@@ -10,6 +10,7 @@
         "opensesame_ide_default_extension": ".py",
         "opensesame_ide_ignore_patterns": "*.pyc, *.pyo, *.coverage, .DS_Store, __pycache__, .git",
         "opensesame_ide_project_file": ".rapunzel.yaml",
+        "opensesame_ide_run_selection_change_working_directory": true,
         "opensesame_ide_shortcut_close_tab": "Ctrl+W",
         "opensesame_ide_shortcut_close_other_tabs": "Ctrl+Alt+W",
         "opensesame_ide_shortcut_close_all_tabs": "Ctrl+Shift+W",

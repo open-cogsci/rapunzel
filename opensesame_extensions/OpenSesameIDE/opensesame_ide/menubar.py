@@ -217,10 +217,17 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_run_interrupt,
             ide.run_interrupt,
         )
+        self._action_run_restart = self._action(
+            _(u'Restart &kernel'),
+            u'view-refresh',
+            None,
+            ide.run_restart,
+        )
         self._menu_run = QMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
         self._menu_run.addAction(self._action_run_interrupt)
+        self._menu_run.addAction(self._action_run_restart)
         self.addMenu(self._menu_run)
 
     def build_tool_bar(self):
@@ -235,6 +242,7 @@ class MenuBar(QMenuBar):
         tool_bar.addAction(self._action_run_current_file)
         tool_bar.addAction(self._action_run_current_selection)
         tool_bar.addAction(self._action_run_interrupt)
+        tool_bar.addAction(self._action_run_restart)
         if self._action_toggle_console is not None:
             tool_bar.addSeparator()
             tool_bar.addAction(self._action_toggle_console)

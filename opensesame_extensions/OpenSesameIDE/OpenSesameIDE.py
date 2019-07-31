@@ -51,9 +51,6 @@ class OpenSesameIDE(BaseExtension):
         self._set_ignore_patterns()
         self._restore_open_folders()
         self.main_window.setWindowTitle(u'Rapunzel')
-        self.main_window.setWindowIcon(
-            self.theme.qicon('accessories-text-editor')
-        )
 
     def event_ide_open_file(self, path, line_number=1):
 
@@ -255,6 +252,15 @@ class OpenSesameIDE(BaseExtension):
         editor = self._current_editor()
         if editor is None:
             return
+        # If the current editor is attached to a file, change the working
+        # directory if this behavior is specified in the configuration
+        if cfg.opensesame_ide_run_selection_change_working_directory:
+            path = self._current_path()
+            if os.path.isfile(path):
+                self.extension_manager.fire(
+                    u'jupyter_run_code',
+                    code=u'%cd "{}"'.format(os.path.dirname(path))
+                )
         cursor = editor.textCursor()
         if not cursor.hasSelection():
             cells = self.extension_manager.provide(
@@ -285,6 +291,10 @@ class OpenSesameIDE(BaseExtension):
     def run_interrupt(self):
 
         self.extension_manager.fire(u'jupyter_interrupt')
+
+    def run_restart(self):
+
+        self.extension_manager.fire(u'jupyter_restart')
 
     def open_plugin_manager(self):
 
@@ -578,6 +588,10 @@ class OpenSesameIDE(BaseExtension):
         if editor.original:
             return editor.original
         return editor
+
+    def _current_path(self):
+
+        return self._current_original_editor().file.path
 
     def _current_tabwidget(self):
 
