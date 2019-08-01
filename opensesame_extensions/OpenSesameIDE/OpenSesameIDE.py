@@ -52,6 +52,9 @@ class OpenSesameIDE(BaseExtension):
         self._restore_open_folders()
         self._parse_command_line()
         self.main_window.setWindowTitle(u'Rapunzel')
+        self.main_window.setWindowIcon(
+            self.theme.qicon(u'accessories-text-editor')
+        )
 
     def event_ide_open_file(self, path, line_number=1):
 
@@ -75,7 +78,7 @@ class OpenSesameIDE(BaseExtension):
     def open_document(self, path):
 
         # If the file is already open, switch to it
-        path = os.path.normpath(os.path.normcase(path))
+        path = os.path.abspath(os.path.normcase(path))
         for editor in self._scetw.widgets():
             if editor.file.path is None:
                 continue
@@ -403,6 +406,7 @@ class OpenSesameIDE(BaseExtension):
 
     def _open_folder(self, path):
 
+        path = os.path.abspath(os.path.normcase(path))
         if path in self._dock_widgets:
             return
         oslogger.info(u'adding folder browser: {}'.format(path))
