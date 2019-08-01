@@ -46,6 +46,20 @@ class JupyterNotebook(BaseExtension):
             _('Export notebook'),
             self._export_ipynb,
         )
+        self._widget = None
+
+    def activate(self):
+
+        self.tabwidget.add(self.widget(), self.icon(), self.label())
+
+    def widget(self):
+
+        if self._widget is None:
+            self.set_busy()
+            from jupyter_widget import LaunchJupyterLabWidget
+            self._widget = LaunchJupyterLabWidget(self.main_window, self)
+            self.set_busy(False)
+        return self._widget
 
     def provide_jupyter_notebook_cells(self, code=u'', cell_types=None):
 

@@ -98,6 +98,10 @@ class MenuBar(QMenuBar):
         self._menu_tools = QMenu(_(u'&Tools'))
         self._menu_tools.addAction(self._action_preferences)
         self._menu_tools.addAction(self._action_plugins)
+        if u'JupyterNotebook' in ide.extension_manager:
+            self._menu_tools.addAction(
+                ide.extension_manager['JupyterNotebook'].action
+            )
         self.addMenu(self._menu_tools)
         # View menu
         self._action_close_tab = self._action(

@@ -1,6 +1,16 @@
 {
-    "label": "Import and export Jupyter Notebook (.ipynb) files",
+    "label": "Launch Jupyter Lab",
     "tooltip": "Import and export Jupyter Notebook (.ipynb) files",
     "priority": 101,
-    "modes": ["ide"]
+    "modes": ["ide"],
+    "menu": {
+        "index": -1,
+        "separator_after": false,
+        "separator_before": true,
+        "submenu": "Tools"
+    },
+    "settings": {
+        "jupyter_lab_executable": "",
+        "jupyter_lab_args": ""
+    }
 }
