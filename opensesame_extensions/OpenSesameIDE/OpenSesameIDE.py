@@ -399,6 +399,8 @@ class OpenSesameIDE(BaseExtension):
         splitter.main_tab_widget.close()
         for index in range(splitter.main_tab_widget.count()):
             editor = splitter.main_tab_widget.widget(index)
+            if editor is None:  # This seems to happen under race conditions
+                continue
             subsplitter.main_tab_widget._on_tab_move_request(editor, index)
         subsplitter.main_tab_widget.setCurrentIndex(
             subsplitter.main_tab_widget.count() - 1
