@@ -210,7 +210,6 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_run_selection,
             ide.run_current_selection,
         )
-
         self._action_run_interrupt = self._action(
             _(u'&Interrupt kernel'),
             u'os-kill',
@@ -223,11 +222,20 @@ class MenuBar(QMenuBar):
             None,
             ide.run_restart,
         )
+        self._action_change_working_directory = self._action(
+            _(u'Change &working directory to active file'),
+            u'folder-open',
+            cfg.opensesame_ide_shortcut_change_working_directory,
+            ide.change_working_directory,
+        )
         self._menu_run = QMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
+        self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_run_interrupt)
         self._menu_run.addAction(self._action_run_restart)
+        self._menu_run.addSeparator()
+        self._menu_run.addAction(self._action_change_working_directory)
         self.addMenu(self._menu_run)
 
     def build_tool_bar(self):

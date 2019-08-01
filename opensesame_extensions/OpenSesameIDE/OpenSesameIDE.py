@@ -270,6 +270,16 @@ class OpenSesameIDE(BaseExtension):
         self._run_notify(_(u'Running file'))
         self.extension_manager.fire(u'jupyter_run_file', path=editor.file.path)
 
+    def change_working_directory(self):
+
+        path = self._current_path()
+        if not os.path.isfile(path):
+            return
+        self.extension_manager.fire(
+            u'jupyter_run_code',
+            code=u'%cd "{}"'.format(os.path.dirname(path))
+        )
+
     def run_current_selection(self):
 
         # 1. If text is selected, run the selected text
@@ -282,12 +292,7 @@ class OpenSesameIDE(BaseExtension):
         # If the current editor is attached to a file, change the working
         # directory if this behavior is specified in the configuration
         if cfg.opensesame_ide_run_selection_change_working_directory:
-            path = self._current_path()
-            if os.path.isfile(path):
-                self.extension_manager.fire(
-                    u'jupyter_run_code',
-                    code=u'%cd "{}"'.format(os.path.dirname(path))
-                )
+            self.change_working_directory()
         cursor = editor.textCursor()
         if not cursor.hasSelection():
             cells = self.extension_manager.provide(
