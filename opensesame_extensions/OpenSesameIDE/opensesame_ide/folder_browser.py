@@ -27,13 +27,13 @@ from pyqode.core.widgets import (
 )
 from qtpy.QtWidgets import (
     QDockWidget,
-    QPushButton,
     QWidget,
     QVBoxLayout,
     QApplication
 )
 from qtpy.QtCore import QFileSystemWatcher, QTimer
 from libopensesame.oslogging import oslogger
+from libqtopensesame.misc.config import cfg
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -120,7 +120,12 @@ class FolderBrowser(FileSystemTreeView):
         self._queue = multiprocessing.Queue()
         self._file_indexer = multiprocessing.Process(
             target=file_indexer,
-            args=(self._queue, self._path, self._ide.ignore_patterns)
+            args=(
+                self._queue,
+                self._path,
+                self._ide.ignore_patterns,
+                cfg.opensesame_ide_max_index_files
+            )
         )
         self._file_indexer.start()
         oslogger.debug(u'indexing {}'.format(self._path))
@@ -134,6 +139,16 @@ class FolderBrowser(FileSystemTreeView):
             return
         self._file_list = self._queue.get()
         self._indexing = False
+        if self._file_list is None:
+            self._ide.extension_manager.fire(
+                u'notify',
+                message=_(u'Not indexing {} (too many files)').format(
+                    self._path
+                ),
+                category=u'warning'
+            )
+            self._file_list = []
+            return
         oslogger.debug(u'{} files indexed for {}'.format(
             len(self._file_list),
             self._path)
@@ -141,7 +156,7 @@ class FolderBrowser(FileSystemTreeView):
         QTimer.singleShot(300000, self._index_files)
 
 
-def file_indexer(queue, path, ignore_patterns):
+def file_indexer(queue, path, ignore_patterns, max_files):
 
     import fnmatch
 
@@ -169,6 +184,12 @@ def file_indexer(queue, path, ignore_patterns):
                 files += _list_files(path, ignore_patterns)
             else:
                 files.append(path)
+        if len(files) > max_files:
+            raise ValueError(u'Too many files')
         return files
 
-    queue.put(_list_files(path, ignore_patterns))
+    try:
+        files = _list_files(path, ignore_patterns)
+    except ValueError:
+        files = None
+    queue.put(files)
