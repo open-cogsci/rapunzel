@@ -83,6 +83,14 @@ class OpenSesameIDE(BaseExtension):
                 editor.parent().parent().setCurrentWidget(editor)
                 editor.setFocus()
                 return
+        # Don't try to open non-existing paths
+        if not os.path.isfile(path):
+            self.extension_manager.fire(
+                u'notify',
+                message=_(u'{} is not a file'.format(path)),
+                category=u'warning'
+            )
+            return
         # Otherwise open it in a new tab in the current splitter
         editor = self._current_splitter().open_document(
             path,
