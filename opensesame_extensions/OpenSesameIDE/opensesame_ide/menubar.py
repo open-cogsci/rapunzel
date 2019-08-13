@@ -42,13 +42,13 @@ class MenuBar(QMenuBar):
             _(u'&Open…'),
             u'document-open',
             u'Ctrl+O',
-            ide.open_file
+            ide.quick_select_files
         )
         self._action_open_folder = self._action(
             _(u'Open &folder…'),
             u'folder',
             u'Ctrl+Shift+O',
-            ide.select_and_open_folder
+            ide.quick_select_folders
         )
         self._action_save_file = self._action(
             _(u'&Save'),
@@ -159,12 +159,6 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_locate_active_file,
             ide.locate_file_in_folder
         )
-        self._action_quick_select_files = self._action(
-            _(u'F&ile selector'),
-            u'document-open',
-            cfg.opensesame_ide_shortcut_file_selector,
-            ide.quick_select_files,
-        )
         self._action_quick_select_symbols = self._action(
             _(u'S&ymbol selector'),
             u'text-x-script',
@@ -191,7 +185,6 @@ class MenuBar(QMenuBar):
         else:
             self._action_toggle_console = None
         self._menu_view.addSeparator()
-        self._menu_view.addAction(self._action_quick_select_files)
         self._menu_view.addAction(self._action_quick_select_symbols)
         if u'FindInFiles' in ide.extension_manager:
             self._menu_view.addSeparator()

@@ -5,6 +5,7 @@
     "tooltip": "Turn OpenSesame into an IDE",
     "settings": {
         "opensesame_ide_last_folder": "",
+        "opensesame_ide_recent_folders": "",
         "opensesame_ide_run_autosave": false,
         "opensesame_ide_auto_tabs_to_spaces": false,
         "opensesame_ide_default_extension": ".py",
@@ -21,7 +22,6 @@
         "opensesame_ide_shortcut_switch_next_panel": "Ctrl+Shift+]",
         "opensesame_ide_shortcut_toggle_folder_browsers": "Ctrl+\\",
         "opensesame_ide_shortcut_locate_active_file": "Ctrl+Shift+\\",
-        "opensesame_ide_shortcut_file_selector": "Ctrl+P",
         "opensesame_ide_shortcut_symbol_selector": "Ctrl+R",
         "opensesame_ide_shortcut_run_file": "F5",
         "opensesame_ide_shortcut_run_selection": "F9",

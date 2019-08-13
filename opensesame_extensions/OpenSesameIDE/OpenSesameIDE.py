@@ -103,6 +103,8 @@ class OpenSesameIDE(BaseExtension):
             u'register_editor',
             editor=editor
         )
+        # And remember the folder
+        self._add_recent_folder(os.path.dirname(path))
 
     def remove_folder_browser_dock_widget(self, dock_widget):
 
@@ -152,7 +154,7 @@ class OpenSesameIDE(BaseExtension):
 
         self._split(Qt.Vertical)
 
-    def select_and_open_folder(self):
+    def select_and_open_folder(self, *args):
 
         path = QFileDialog.getExistingDirectory(
             self.main_window,
@@ -164,6 +166,7 @@ class OpenSesameIDE(BaseExtension):
             return
         cfg.file_dialog_path = path
         self._open_folder(path)
+        self._add_recent_folder(path)
         self._remember_open_folders()
 
     def new_file(self):
@@ -187,7 +190,7 @@ class OpenSesameIDE(BaseExtension):
 
         self._current_splitter().save_current_as()
 
-    def open_file(self):
+    def open_file(self, *args):
 
         path = QFileDialog.getOpenFileName(
             self.main_window,
@@ -232,7 +235,11 @@ class OpenSesameIDE(BaseExtension):
         haystack = []
         for name, lineno in symbols:
             haystack.append((name, lineno, self._jump_to_line))
-        self.extension_manager.fire(u'quick_select', haystack=haystack)
+        self.extension_manager.fire(
+            u'quick_select',
+            haystack=haystack,
+            placeholder_text=_(u'Search symbols in current file …')
+        )
 
     def _run_notify(self, msg):
 
@@ -355,14 +362,31 @@ class OpenSesameIDE(BaseExtension):
 
     def quick_select_files(self):
 
-        haystack = []
+        haystack = [(_(u'Browse disk …'), None, self.open_file)]
         for dock_widget in self._dock_widgets.values():
             strip_first = len(os.path.split(dock_widget.path)[0])
             for path in dock_widget.file_list:
                 label = path[strip_first + 1:]
                 data = path
                 haystack.append((label, data, self.open_document))
-        self.extension_manager.fire(u'quick_select', haystack=haystack)
+        self.extension_manager.fire(
+            u'quick_select',
+            haystack=haystack,
+            placeholder_text=_(u'Search project files or browse disk …')
+        )
+
+    def quick_select_folders(self):
+
+        haystack = [(_(u'Browse disk …'), None, self.select_and_open_folder)]
+        for path in cfg.opensesame_ide_recent_folders.split(u';'):
+            if not os.path.isdir(path):
+                continue
+            haystack.append((path, path, self._open_folder))
+        self.extension_manager.fire(
+            u'quick_select',
+            haystack=haystack,
+            placeholder_text=_(u'Search recent folders or browse disk …')
+        )
 
     def project_files(self, extra_ignore_pattern=None):
 
@@ -540,6 +564,13 @@ class OpenSesameIDE(BaseExtension):
             p.strip()
             for p in cfg.opensesame_ide_ignore_patterns.split(u',')
         ]
+
+    def _add_recent_folder(self, path):
+
+        folders = cfg.opensesame_ide_recent_folders.split(u';')
+        if path not in folders:
+            folders.append(path)
+        cfg.opensesame_ide_recent_folders = u';'.join(folders)
 
     def _remember_open_folders(self):
 
