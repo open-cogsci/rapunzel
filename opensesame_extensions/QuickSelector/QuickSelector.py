@@ -66,7 +66,7 @@ class ResultBox(QListWidget):
 
 class QuickSelectorDialog(QDialog):
 
-    def __init__(self, parent, haystack):
+    def __init__(self, parent, haystack, placeholder_text):
 
         super(QuickSelectorDialog, self).__init__(
             parent,
@@ -80,6 +80,8 @@ class QuickSelectorDialog(QDialog):
         ]
         self._search_box = SearchBox(self)
         self._search_box.textEdited.connect(self._search)
+        if placeholder_text:
+            self._search_box.setPlaceholderText(placeholder_text)
         self._result_box = ResultBox(self)
         self._result_box.itemActivated.connect(self._select)
         self._layout = QVBoxLayout(self)
@@ -146,6 +148,10 @@ class QuickSelectorDialog(QDialog):
 
 class QuickSelector(BaseExtension):
 
-    def event_quick_select(self, haystack):
+    def event_quick_select(self, haystack, placeholder_text=None):
 
-        QuickSelectorDialog(self.main_window, haystack).exec()
+        QuickSelectorDialog(
+            self.main_window,
+            haystack,
+            placeholder_text
+        ).exec()
