@@ -32,6 +32,24 @@ from libqtopensesame.misc.translate import translation_context
 from libqtopensesame.misc.config import cfg
 _ = translation_context(u'QuickSelector', category=u'extension')
 
+STYLESHEET = '''
+QuickSelectorDialog {
+    background-color: #263238;
+    color: #FFFFFF;
+    padding: 8px;
+    border-radius: 4px;
+}
+QLineEdit {
+    margin-bottom: 4px;
+}
+QLineEdit, QListWidget {
+    color: #ffffff;
+    border: none;
+    background-color: #37474f;
+    padding: 4px;
+}
+'''
+
 
 class SearchBox(QLineEdit):
 
@@ -73,6 +91,7 @@ class QuickSelectorDialog(QDialog):
             Qt.FramelessWindowHint
         )
         self.setWindowTitle(u'Open file')
+        self.setStyleSheet(STYLESHEET)
         # Already create a lowercase version of the label for performance
         self._haystack = [
             (label.lower(), label, data, on_select)
@@ -84,6 +103,8 @@ class QuickSelectorDialog(QDialog):
             self._search_box.setPlaceholderText(placeholder_text)
         self._result_box = ResultBox(self)
         self._result_box.itemActivated.connect(self._select)
+        self._result_box.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self._result_box.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self._layout = QVBoxLayout(self)
         self._layout.addWidget(self._search_box)
         self._layout.addWidget(self._result_box)
