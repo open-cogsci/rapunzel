@@ -103,8 +103,6 @@ class OpenSesameIDE(BaseExtension):
             u'register_editor',
             editor=editor
         )
-        # And remember the folder
-        self._add_recent_folder(os.path.dirname(path))
 
     def remove_folder_browser_dock_widget(self, dock_widget):
 
@@ -203,6 +201,8 @@ class OpenSesameIDE(BaseExtension):
             return
         cfg.file_dialog_path = os.path.dirname(path)
         self.open_document(path)
+        # And remember the folder
+        self._add_recent_folder(os.path.dirname(path))
 
     def folder_browsers_visible(self):
 
