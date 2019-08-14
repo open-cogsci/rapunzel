@@ -27,27 +27,30 @@ from qtpy.QtWidgets import (
     QListWidgetItem
 )
 import Levenshtein
+from pygments import styles, token
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 from libqtopensesame.misc.config import cfg
 _ = translation_context(u'QuickSelector', category=u'extension')
 
 STYLESHEET = '''
-QuickSelectorDialog {
-    background-color: #263238;
-    color: #FFFFFF;
+QuickSelectorDialog {{
+    background-color: {background};
+    color: {foreground};
     padding: 8px;
     border-radius: 4px;
-}
-QLineEdit {
+}}
+QLineEdit {{
     margin-bottom: 4px;
-}
-QLineEdit, QListWidget {
-    color: #ffffff;
+}}
+QLineEdit, QListWidget {{
+    color: {foreground};
     border: none;
-    background-color: #37474f;
+    font-family: {font_family};
+    font-size: {font_size}px;
+    background-color: {selected_background};
     padding: 4px;
-}
+}}
 '''
 
 
@@ -91,7 +94,14 @@ class QuickSelectorDialog(QDialog):
             Qt.FramelessWindowHint
         )
         self.setWindowTitle(u'Open file')
-        self.setStyleSheet(STYLESHEET)
+        style = styles.get_style_by_name(cfg.pyqode_color_scheme)
+        self.setStyleSheet(STYLESHEET.format(
+            background=style.highlight_color,
+            selected_background=style.background_color,
+            foreground=style.styles.get(token.Text),
+            font_family=cfg.pyqode_font_name,
+            font_size=cfg.pyqode_font_size
+        ))
         # Already create a lowercase version of the label for performance
         self._haystack = [
             (label.lower(), label, data, on_select)
