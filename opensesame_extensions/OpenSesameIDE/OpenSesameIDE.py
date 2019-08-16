@@ -512,6 +512,9 @@ class OpenSesameIDE(BaseExtension):
         self.main_window.showEvent = self._patch_show_event(
             self.main_window.showEvent
         )
+        # Disable keyboard shortcuts that show the overview area etc.
+        self.main_window.ui.shortcut_itemtree.disconnect()
+        self.main_window.ui.shortcut_pool.disconnect()
 
     def _patch_tabwidget_add(self, fnc):
 
