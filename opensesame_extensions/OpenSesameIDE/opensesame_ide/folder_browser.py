@@ -46,7 +46,7 @@ class FolderBrowserDockWidget(QDockWidget):
         self.main_window = parent
         self._ide = ide
         self.path = path
-        self._folder_browser = FolderBrowser(parent, ide, path)
+        self._folder_browser = FolderBrowser(parent, ide, path, self)
         self._container_layout = QVBoxLayout(self)
         self._container_layout.setContentsMargins(6, 6, 6, 6)
         self._container_layout.addWidget(self._folder_browser)
@@ -73,12 +73,13 @@ class FolderBrowserDockWidget(QDockWidget):
 
 class FolderBrowser(FileSystemTreeView):
 
-    def __init__(self, parent, ide, path):
+    def __init__(self, parent, ide, path, dock_widget):
 
         super(FolderBrowser, self).__init__(parent)
         self.main_window = parent
         self._path = path
         self._ide = ide
+        self._dock_widget = dock_widget
         self.clear_ignore_patterns()
         self.add_ignore_patterns(ide.ignore_patterns)
         self.set_root_path(os.path.normpath(path))
@@ -90,6 +91,17 @@ class FolderBrowser(FileSystemTreeView):
         self._indexing = False
         self._file_list = []
         self._index_files()
+
+    def currentChanged(self, current_index, previous_index):
+
+        # If the current item has changed, then the container dock widget
+        # should be raised. This is necessary for locating files in dock
+        # widgets that are tabbed and not active.
+        super(FolderBrowser, self).currentChanged(
+            current_index,
+            previous_index
+        )
+        self._dock_widget.raise_()
 
     def mouseDoubleClickEvent(self, event):
 
