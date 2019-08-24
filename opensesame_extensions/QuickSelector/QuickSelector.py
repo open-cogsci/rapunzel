@@ -185,4 +185,4 @@ class QuickSelector(BaseExtension):
             self.main_window,
             haystack,
             placeholder_text
-        ).exec()
+        ).exec_()
