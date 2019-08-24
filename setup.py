@@ -92,14 +92,27 @@ def extensions():
     return globbed
 
 
+def data_files():
+
+    return (
+        [
+            (u"share/icons/hicolor/scalable/apps", [u"mime/rapunzel.svg"]),
+            (u"share/applications", [u"mime/rapunzel.desktop"]),
+        ] +
+        extensions()
+    )
+
+
 setup(
-    name='opensesame-extension-ide',
+    name='rapunzel',
     version='0.1.0',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
     url='https://github.com/smathot/opensesame-extension-ide',
-    scripts=['rapunzel'],
+    scripts=[
+        'rapunzel'
+    ],
     classifiers=[
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',
@@ -119,5 +132,5 @@ setup(
         'nbformat',
         'pyyaml'
     ],
-    data_files=extensions()
+    data_files=data_files()
 )

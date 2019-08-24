@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Rapunzel
+GenericName=Code Editor
+Comment=Code Editor for Python
+TryExec=rapunzel
+Exec=rapunzel
+Icon=rapunzel
+Type=Application
+Categories=Development;IDE;Science
+StartupNotify=true
