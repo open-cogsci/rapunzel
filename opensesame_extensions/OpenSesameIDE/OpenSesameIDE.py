@@ -21,7 +21,6 @@ from libopensesame.py3compat import *
 import os
 import sys
 import ast
-import yaml
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -618,7 +617,7 @@ class OpenSesameIDE(BaseExtension):
                 continue
             with open(project_file_path) as fd:
                 try:
-                    return yaml.load(fd, Loader=yaml.FullLoader)
+                    return safe_yaml_load(fd)
                 except Exception as e:
                     self.extension_manager.fire(
                         u'notify',
