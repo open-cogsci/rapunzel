@@ -105,14 +105,16 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.1.0',
+    version='0.1.1',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
     url='https://github.com/smathot/opensesame-extension-ide',
-    scripts=[
-        'rapunzel'
-    ],
+    entry_points={
+        'gui_scripts': [
+            'rapunzel = rapunzel:rapunzel'
+        ]
+    },
     classifiers=[
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering',

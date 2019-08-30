@@ -18,10 +18,17 @@ You should have received a copy of the GNU General Public License
 along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-# checking if __name__ is __main__ is required to let multiprocessing correctly
-# work on Windows (or any other platform that is not able to use os.fork)
-if __name__ == "__main__":
+
+def rapunzel():
+
     import sys
     sys.argv.append(u'--mode=ide')
     from libqtopensesame import __main__
     __main__.opensesame()
+
+
+# checking if __name__ is __main__ is required to let multiprocessing correctly
+# work on Windows (or any other platform that is not able to use os.fork)
+if __name__ == "__main__":
+
+    rapunzel()

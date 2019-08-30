@@ -1,11 +1,13 @@
-# IDE Extension for OpenSesame
+# Rapunzel
+
+A code editor for Python
 
 Copyright 2019 Sebastiaan Mathôt (@smathot)
 
 
 ## About
 
-This OpenSesame extension turns OpenSesame into an integrated development environment. Currently, this is work in progress and not intended for use.
+Rapunzel is a set of OpenSesame extensions that turn OpenSesame into an integrated development environment.
 
 - <https://github.com/smathot/OpenSesame/>
 
