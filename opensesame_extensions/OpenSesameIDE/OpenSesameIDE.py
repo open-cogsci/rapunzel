@@ -436,7 +436,7 @@ class OpenSesameIDE(BaseExtension):
 
     def _open_folder(self, path):
 
-        path = os.path.abspath(os.path.normcase(path))
+        path = os.path.abspath(path)
         if path in self._dock_widgets:
             return
         oslogger.info(u'adding folder browser: {}'.format(path))
@@ -591,6 +591,7 @@ class OpenSesameIDE(BaseExtension):
         if not folders:
             folders = [os.getcwd()]
         for folder in folders:
+            print('restore: "{}" {}'.format(folder, type(folder)))
             self._open_folder(folder)
 
     def _parse_command_line(self):
