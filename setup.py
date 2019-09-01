@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
+import sys
 import fnmatch
 from setuptools import setup
 
@@ -105,7 +106,7 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.1.1',
+    version='0.1.4',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
@@ -125,14 +126,19 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
-    install_requires=[
-        'pyqode.core',
-        'pyqode.python',
-        'python-levenshtein',
-        'python-opensesame',
-        'qtconsole',
-        'nbformat',
-        'pyyaml'
-    ],
+    py_modules=['rapunzel'],
+    # The dependencies are ignored when invoked by stdeb3
+    install_requires=(
+        [] if 'install' in sys.argv and '--root' in sys.argv
+        else [
+            'pyqode.core',
+            'pyqode.python',
+            'python-levenshtein',
+            'python-opensesame',
+            'qtconsole',
+            'nbformat',
+            'pyyaml'
+        ]
+    ),
     data_files=data_files()
 )
