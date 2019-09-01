@@ -178,24 +178,28 @@ def file_indexer(queue, path, ignore_patterns, max_files):
         ignore_patterns = ignore_patterns[:]
         gitignore = os.path.join(dirname, u'.gitignore')
         if os.path.exists(gitignore):
-            oslogger.debug('excluding patterns from {}'.format(gitignore))
             with open(gitignore) as fd:
                 ignore_patterns += [p.strip() for p in fd.read().split(u'\n')]
         ignore_patterns = [p for p in ignore_patterns if p]
-        for basename in os.listdir(dirname):
-            path = os.path.join(dirname, basename)
-            if any(
-                (
-                    ignore_pattern in path or
-                    fnmatch.fnmatch(basename, ignore_pattern)
-                )
-                for ignore_pattern in ignore_patterns
-            ):
-                continue
-            if os.path.isdir(path):
-                files += _list_files(path, ignore_patterns)
-            else:
-                files.append(path)
+        try:
+            basenames = os.listdir(dirname)
+        except Exception:
+            pass
+        else:
+            for basename in basenames:
+                path = os.path.join(dirname, basename)
+                if any(
+                    (
+                        ignore_pattern in path or
+                        fnmatch.fnmatch(basename, ignore_pattern)
+                    )
+                    for ignore_pattern in ignore_patterns
+                ):
+                    continue
+                if os.path.isdir(path):
+                    files += _list_files(path, ignore_patterns)
+                else:
+                    files.append(path)
         if len(files) > max_files:
             raise ValueError(u'Too many files')
         return files
