@@ -148,16 +148,28 @@ class FindWidget(BaseWidget):
         self._canceled = True
 
 
+class FindDockWidget(QDockWidget):
+
+    def __init__(self, parent):
+
+        super(FindDockWidget, self).__init__(parent)
+        self._main_window = parent
+        self._find_widget = FindWidget(self._main_window)
+        self.setWidget(self._find_widget)
+        self.setWindowTitle(_(u'Find in projects'))
+        self._find_widget.setFocus()
+
+    def closeEvent(self, e):
+
+        self._main_window.removeDockWidget(self)
+        e.accept()
+
+
 class FindInFiles(BaseExtension):
 
     def activate(self):
 
-        find_widget = FindWidget(self.main_window)
-        dock_widget = QDockWidget(self.main_window)
-        dock_widget.setWidget(find_widget)
-        dock_widget.setWindowTitle(_(u'Find in projects'))
         self.main_window.addDockWidget(
             Qt.RightDockWidgetArea,
-            dock_widget
+            FindDockWidget(self.main_window)
         )
-        find_widget.setFocus()

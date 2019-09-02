@@ -106,6 +106,7 @@ class OpenSesameIDE(BaseExtension):
     def remove_folder_browser_dock_widget(self, dock_widget):
 
         oslogger.info(u'removing folder browser: {}'.format(dock_widget.path))
+        self.main_window.removeDockWidget(dock_widget)
         del self._dock_widgets[dock_widget.path]
         self._remember_open_folders()
 
