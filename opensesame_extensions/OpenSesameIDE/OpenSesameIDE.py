@@ -412,6 +412,7 @@ class OpenSesameIDE(BaseExtension):
         # original editor is then closed, and all other tabs are moved into the
         # new splitter. This is an ugly hack to deal with a limitation in
         # pyqode.
+        self.main_window.setUpdatesEnabled(False)
         subsplitter = splitter.split(editor, splitter.orientation(), index=1)
         editor = self._current_editor()
         self.extension_manager.fire(
@@ -433,6 +434,7 @@ class OpenSesameIDE(BaseExtension):
         subsplitter.main_tab_widget.setCurrentIndex(
             subsplitter.main_tab_widget.count() - 1
         )
+        self.main_window.setUpdatesEnabled(True)
 
     def _open_folder(self, path):
 
@@ -467,7 +469,9 @@ class OpenSesameIDE(BaseExtension):
 
         def inner(e):
 
+            self.main_window.setUpdatesEnabled(False)
             self._scetw.closeEvent(e)
+            self.main_window.setUpdatesEnabled(True)
             if e.isAccepted():
                 fnc(e)
 
