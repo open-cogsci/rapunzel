@@ -52,7 +52,7 @@ class OpenSesameIDE(BaseExtension):
         self._parse_command_line()
         self.main_window.setWindowTitle(u'Rapunzel')
         self.main_window.setWindowIcon(
-            self.theme.qicon(u'accessories-text-editor')
+            self.theme.qicon(u'rapunzel')
         )
 
     def event_ide_open_file(self, path, line_number=1):
