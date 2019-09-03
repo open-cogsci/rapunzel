@@ -29,7 +29,11 @@ from qtconsole.rich_jupyter_widget import RichJupyterWidget
 
 
 GLOBAL_EXPR = u'''{
-key: (json.dumps(val, default=lambda x: u"<no preview>"), str(type(val)))
+key: (
+    json.dumps(val, default=lambda x: '<no preview>'),
+    val.__class__.__name__,
+    len(val) if hasattr(val, '__len__') else '<na>'
+)
 for key, val in globals().items()
 if not key.startswith(u'_') and
 key not in ('In', 'Out') and
@@ -122,8 +126,9 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
 
         return {
             key: (
-                json.dumps(val, default=lambda x: u"<no preview>"),
-                str(type(val))
+                json.dumps(val, default=lambda x: u'<no preview>'),
+                val.__class__.__name__,
+                len(val) if hasattr(val, '__len__') else '<na>'
             )
             for key, val
             in self._kernel_manager.kernel.shell.user_global_ns.copy().items()

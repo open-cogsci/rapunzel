@@ -184,6 +184,12 @@ class MenuBar(QMenuBar):
             self._menu_view.addAction(self._action_toggle_console)
         else:
             self._action_toggle_console = None
+        if u'WorkspaceExplorer' in ide.extension_manager:
+            self._action_toggle_workspace = \
+                ide.extension_manager['WorkspaceExplorer'].action
+            self._menu_view.addAction(self._action_toggle_workspace)
+        else:
+            self._action_toggle_workspace = None
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_quick_select_symbols)
         if u'FindInFiles' in ide.extension_manager:
@@ -248,11 +254,14 @@ class MenuBar(QMenuBar):
         tool_bar.addAction(self._action_run_current_selection)
         tool_bar.addAction(self._action_run_interrupt)
         tool_bar.addAction(self._action_run_restart)
-        if self._action_toggle_console is not None:
-            tool_bar.addSeparator()
-            tool_bar.addAction(self._action_toggle_console)
+        tool_bar.addSeparator()
         tool_bar.addAction(self._action_toggle_folder_browsers)
+        if self._action_toggle_console is not None:
+            tool_bar.addAction(self._action_toggle_console)
+        if self._action_toggle_workspace is not None:
+            tool_bar.addAction(self._action_toggle_workspace)
         if self._action_find_in_files is not None:
+            tool_bar.addSeparator()
             tool_bar.addAction(self._action_find_in_files)
         tool_bar.setWindowTitle(u'IDE toolbar')
         tool_bar.setObjectName(u'OpenSesameIDE_Toolbar')
