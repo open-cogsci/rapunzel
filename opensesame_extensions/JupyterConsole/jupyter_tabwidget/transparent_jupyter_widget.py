@@ -51,7 +51,7 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
     def _on_executed(self):
 
         self.extension_manager.fire(
-            u'jupyter_workspace_updated',
+            u'workspace_update',
             name=self._name,
             workspace_func=self.get_workspace_globals
         )

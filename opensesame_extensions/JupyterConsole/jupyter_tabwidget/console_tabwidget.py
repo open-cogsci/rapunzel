@@ -39,13 +39,15 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
             # purposes
             self.add(inprocess=True)
         self.tabCloseRequested.connect(self.close)
+        self.currentChanged.connect(self._on_switch)
         self.add()
 
     def add(self, inprocess=False):
 
+        name = str(self._console_count)
         jupyter_console = JupyterConsole(
             self,
-            name=str(self._console_count),
+            name=name,
             inprocess=inprocess,
             **self._kwargs
         )
@@ -56,7 +58,7 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
                 if inprocess
                 else 'os-debug'
             ),
-            str(self._console_count)
+            name
         )
         if inprocess:
             jupyter_console.set_workspace_globals(
@@ -65,6 +67,11 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
         self.setTabsClosable(self.count() > 1)
         self.setCurrentIndex(self.count() - 1)
         self._console_count += 1
+        self.extension_manager.fire(
+            'workspace_new',
+            name=name,
+            workspace_func=jupyter_console.get_workspace_globals
+        )
 
     def close(self, index):
 
@@ -72,6 +79,10 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
         console.shutdown()
         self.removeTab(index)
         self.setTabsClosable(self.count() > 1)
+        self.extension_manager.fire(
+            'workspace_close',
+            name=console.name
+        )
 
     def close_all(self):
 
@@ -82,3 +93,13 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
     def current(self):
 
         return self.currentWidget()
+
+    def _on_switch(self, index):
+
+        if self.widget(index) is None:
+            return
+        self.extension_manager.fire(
+            'workspace_switch',
+            name=self.widget(index).name,
+            workspace_func=self.widget(index).get_workspace_globals
+        )

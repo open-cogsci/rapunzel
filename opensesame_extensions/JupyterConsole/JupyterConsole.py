@@ -85,7 +85,10 @@ class JupyterConsole(BaseExtension):
 
     def event_jupyter_write(self, msg):
 
-        self._jupyter_console.current.write(msg)
+        try:
+            self._jupyter_console.current.write(msg)
+        except AttributeError:
+            oslogger.error(safe_decode(msg))
 
     def event_jupyter_focus(self):
 
@@ -106,6 +109,14 @@ class JupyterConsole(BaseExtension):
     def event_set_workspace_globals(self, global_dict):
 
         self._jupyter_console.current.set_workspace_globals(global_dict)
+
+    def provide_jupyter_workspace_name(self):
+
+        return self._jupyter_console.current.name
+
+    def provide_jupyter_workspace_globals(self):
+
+        return self.get_workspace_globals()
 
     def get_workspace_globals(self):
 

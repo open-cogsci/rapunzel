@@ -119,6 +119,11 @@ class JupyterConsole(BaseWidget):
         oslogger.debug(u'restarting kernel')
         self._jupyter_widget.request_restart_kernel()
         self._jupyter_widget.reset(clear=True)
+        self.extension_manager.fire(
+            'workspace_restart',
+            name=self.name,
+            workspace_func=self.get_workspace_globals
+        )
 
     def interrupt(self):
 
