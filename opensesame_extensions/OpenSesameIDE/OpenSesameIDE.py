@@ -253,6 +253,8 @@ class OpenSesameIDE(BaseExtension):
     def run_current_file(self):
 
         editor = self._current_editor()
+        if editor is None:
+            return
         if editor.dirty:
             if not cfg.opensesame_ide_run_autosave:
                 retval = self._save_and_run_dialog()
