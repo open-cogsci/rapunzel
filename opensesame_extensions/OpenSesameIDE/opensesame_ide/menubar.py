@@ -71,9 +71,9 @@ class MenuBar(QMenuBar):
         self._menu_file = QMenu(_(u'&File'))
         self._menu_file.addAction(self._action_new_file)
         self._menu_file.addAction(self._action_open_file)
-        self._menu_file.addAction(self._action_open_folder)
         self._menu_file.addAction(self._action_save_file)
         self._menu_file.addAction(self._action_save_file_as)
+        self._menu_file.addAction(self._action_open_folder)
         if u'JupyterNotebook' in ide.extension_manager:
             jupyter_notebook = ide.extension_manager['JupyterNotebook']
             self._menu_file.addSeparator()
@@ -256,8 +256,8 @@ class MenuBar(QMenuBar):
         tool_bar.setIconSize(QSize(32, 32))
         tool_bar.addAction(self._action_new_file)
         tool_bar.addAction(self._action_open_file)
-        tool_bar.addAction(self._action_open_folder)
         tool_bar.addAction(self._action_save_file)
+        tool_bar.addAction(self._action_open_folder)
         tool_bar.addSeparator()
         tool_bar.addAction(self._action_run_current_file)
         tool_bar.addAction(self._action_run_current_selection)
