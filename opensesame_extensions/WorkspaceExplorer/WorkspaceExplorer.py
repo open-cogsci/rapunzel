@@ -63,6 +63,7 @@ class WorkspaceExplorer(BaseExtension):
         self._dock_widget = QDockWidget(self.main_window)
         self._dock_widget.setWidget(self._qdm)
         self._dock_widget.closeEvent = self._on_close_event
+        self._dock_widget.setWindowTitle(_(u'Workspace'))
         self._dock_widget.visibilityChanged.connect(
             self._on_visibility_changed
         )
