@@ -146,6 +146,13 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_switch_next_panel,
             ide.switch_splitter_next
         )
+        self._action_toggle_fullscreen = self._action(
+            _(u'Toogle fullscreen'),
+            u'view-fullscreen',
+            cfg.opensesame_ide_shortcut_toggle_fullscreen,
+            ide._toggle_fullscreen,
+            checkable=True
+        )
         self._action_toggle_folder_browsers = self._action(
             _(u'Toggle &folder browsers'),
             u'os-overview',
@@ -174,6 +181,8 @@ class MenuBar(QMenuBar):
         self._menu_view.addAction(self._action_split_horizontal)
         self._menu_view.addAction(self._action_switch_splitter_previous)
         self._menu_view.addAction(self._action_switch_splitter_next)
+        self._menu_view.addSeparator()
+        self._menu_view.addAction(self._action_toggle_fullscreen)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_locate_file_in_folder)

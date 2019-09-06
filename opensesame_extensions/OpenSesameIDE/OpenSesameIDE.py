@@ -727,3 +727,11 @@ class OpenSesameIDE(BaseExtension):
             QMessageBox.AcceptRole
         )
         return mb.exec_()
+
+    def _toggle_fullscreen(self):
+
+        self.main_window.setWindowState(
+            (self.main_window.windowState() & ~Qt.WindowFullScreen)
+            if self.main_window.isFullScreen()
+            else (self.main_window.windowState() | Qt.WindowFullScreen)
+        )
