@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import os
 import sys
 import ast
+import mimetypes
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -187,6 +188,17 @@ class OpenSesameIDE(BaseExtension):
     def save_file_as(self):
 
         self._current_splitter().save_current_as()
+        editor = self._current_editor()
+        if editor is None:
+            return
+        path = editor.file.path
+        if path is None:
+            return
+        mimetype, encoding = mimetypes.guess_type(path)
+        if mimetype in editor.mimetypes:
+            return
+        self.close_tab()
+        self.open_document(path)
 
     def open_file(self, *args):
 
