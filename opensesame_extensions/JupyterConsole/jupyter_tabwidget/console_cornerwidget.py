@@ -35,11 +35,23 @@ class ConsoleCornerWidget(BaseWidget):
         self._add_button.setFlat(True)
         self._add_button.clicked.connect(self._add)
         self._add_button.setToolTip(_(u'Start new console'))
+        self._restart_button = QPushButton()
+        self._restart_button.setIcon(
+            self.main_window.theme.qicon(u'view-refresh')
+        )
+        self._restart_button.setFlat(True)
+        self._restart_button.clicked.connect(self._restart)
+        self._restart_button.setToolTip(_(u'Restart kernel'))
         self._layout = QHBoxLayout(self)
         self._layout.setContentsMargins(0, 0, 0, 0)
+        self._layout.addWidget(self._restart_button)
         self._layout.addWidget(self._add_button)
         self.setLayout(self._layout)
 
     def _add(self):
 
         self._console_tabwidget.add()
+
+    def _restart(self):
+
+        self._console_tabwidget.current.restart()
