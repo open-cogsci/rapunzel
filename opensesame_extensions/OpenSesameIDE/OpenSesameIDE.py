@@ -106,7 +106,7 @@ class OpenSesameIDE(BaseExtension):
 
     def remove_folder_browser_dock_widget(self, dock_widget):
 
-        oslogger.info(u'removing folder browser: {}'.format(dock_widget.path))
+        oslogger.debug(u'removing folder browser: {}'.format(dock_widget.path))
         self.main_window.removeDockWidget(dock_widget)
         del self._dock_widgets[dock_widget.path]
         self._remember_open_folders()
@@ -226,7 +226,9 @@ class OpenSesameIDE(BaseExtension):
     def toggle_folder_browsers(self):
 
         hidden = not self.folder_browsers_visible()
-        oslogger.info('setting folder-browser visibility to {}'.format(hidden))
+        oslogger.debug(
+            'setting folder-browser visibility to {}'.format(hidden)
+        )
         for dockwidget in self._dock_widgets.values():
             dockwidget.setVisible(hidden)
 
