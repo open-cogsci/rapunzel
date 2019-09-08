@@ -64,7 +64,7 @@ class MenuBar(QMenuBar):
         )
         self._action_quit = self._action(
             _(u'&Quit'),
-            u'application-exit',
+            u'window-close',
             u'Alt+F4',
             ide.main_window.close
         )
