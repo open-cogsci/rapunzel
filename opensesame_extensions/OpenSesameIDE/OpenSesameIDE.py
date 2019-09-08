@@ -458,7 +458,7 @@ class OpenSesameIDE(BaseExtension):
         path = os.path.abspath(path)
         if path in self._dock_widgets:
             return
-        oslogger.info(u'adding folder browser: {}'.format(path))
+        oslogger.debug(u'adding folder browser: {}'.format(path))
         dock_widget = FolderBrowserDockWidget(self.main_window, self, path)
         self.main_window.addDockWidget(
             Qt.LeftDockWidgetArea,
