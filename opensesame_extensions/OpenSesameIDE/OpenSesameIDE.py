@@ -41,6 +41,7 @@ class OpenSesameIDE(BaseExtension):
         if self.main_window.mode != u'ide':
             return
         os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
+        self._register_mimetypes()
         self._patch_behavior()
         self._scetw = widgets.SplittableCodeEditTabWidget(self.main_window)
         self._scetw.main_tab_widget.cornerWidget().hide()
@@ -749,3 +750,14 @@ class OpenSesameIDE(BaseExtension):
             if self.main_window.isFullScreen()
             else (self.main_window.windowState() | Qt.WindowFullScreen)
         )
+
+    def _register_mimetypes(self):
+
+        try:
+            custom_mimetypes = safe_yaml_load(cfg.opensesame_ide_mimetypes)
+            assert(isinstance(custom_mimetypes, dict))
+        except Exception:
+            oslogger.warning('failed to parse mimetypes')
+            return
+        for ext, mimetype in custom_mimetypes.items():
+            mimetypes.add_type(mimetype, ext)
