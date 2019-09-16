@@ -238,8 +238,9 @@ class OpenSesameIDE(BaseExtension):
         editor = self._scetw.current_widget()
         if not editor:
             return
+        code = safe_encode(editor.toPlainText())
         try:
-            symbols = self._list_symbols(ast.parse(editor.toPlainText()).body)
+            symbols = self._list_symbols(ast.parse(code).body)
         except SyntaxError:
             self.extension_manager.fire(
                 u'notify',
