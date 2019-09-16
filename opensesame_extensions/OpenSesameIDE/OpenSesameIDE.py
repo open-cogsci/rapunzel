@@ -181,7 +181,10 @@ class OpenSesameIDE(BaseExtension):
 
     def save_file(self):
 
-        if not self._current_original_editor().file.path:
+        editor = self._current_original_editor()
+        if not editor:
+            return
+        if not editor.file.path:
             self.save_file_as()
         else:
             self._scetw.save_current()
@@ -193,7 +196,7 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return
         path = editor.file.path
-        if path is None:
+        if not path:
             return
         mimetype, encoding = mimetypes.guess_type(path)
         if mimetype in editor.mimetypes:
