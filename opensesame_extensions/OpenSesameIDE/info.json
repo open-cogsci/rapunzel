@@ -28,7 +28,7 @@
         "opensesame_ide_shortcut_run_selection": "F9",
         "opensesame_ide_shortcut_run_interrupt": "Ctrl+F9",
         "opensesame_ide_shortcut_toggle_fullscreen": "F11",
-        "opensesame_ide_mimetypes": "{'.md': 'text/x-markdown'}"
+        "opensesame_ide_mimetypes": "{'.md': 'text/x-markdown', '.r': 'text/x-r', '.R': 'text/x-r'}"
     },
     "modes": ["ide"]
 }
