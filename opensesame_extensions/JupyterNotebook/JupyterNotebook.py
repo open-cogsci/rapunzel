@@ -20,7 +20,6 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import re
-import nbformat
 from qtpy.QtWidgets import QFileDialog
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -35,6 +34,9 @@ PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^
 class JupyterNotebook(BaseExtension):
 
     def event_startup(self):
+
+        global nbformat
+        import nbformat
 
         self.action_import_ipynb = self.qaction(
             u'document-open',
