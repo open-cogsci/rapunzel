@@ -20,7 +20,6 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import sys
-import ast
 import mimetypes
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -75,6 +74,13 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return u''
         return editor.toPlainText()
+
+    def provide_ide_current_language(self):
+
+        editor = self._current_editor()
+        if editor is None:
+            return None
+        return editor.language
 
     def open_document(self, path):
 
@@ -236,30 +242,6 @@ class OpenSesameIDE(BaseExtension):
         for dockwidget in self._dock_widgets.values():
             dockwidget.setVisible(hidden)
 
-    def quick_select_symbols(self):
-
-        editor = self._scetw.current_widget()
-        if not editor:
-            return
-        code = safe_encode(editor.toPlainText())
-        try:
-            symbols = self._list_symbols(ast.parse(code).body)
-        except SyntaxError:
-            self.extension_manager.fire(
-                u'notify',
-                message=_(u'Cannot parse symbols because of SyntaxError'),
-                category=u'warning'
-            )
-            return
-        haystack = []
-        for name, lineno in symbols:
-            haystack.append((name, lineno, self._jump_to_line))
-        self.extension_manager.fire(
-            u'quick_select',
-            haystack=haystack,
-            placeholder_text=_(u'Search symbols in current file …')
-        )
-
     def _run_notify(self, msg):
 
         self.extension_manager.fire(
@@ -360,7 +342,7 @@ class OpenSesameIDE(BaseExtension):
 
         self.extension_manager.activate(u'plugin_manager')
 
-    def _jump_to_line(self, lineno):
+    def event_ide_jump_to_line(self, lineno):
 
         editor = self._scetw.current_widget()
         if not editor:
@@ -370,16 +352,6 @@ class OpenSesameIDE(BaseExtension):
         cursor = editor.textCursor()
         cursor.setPosition(position)
         editor.setTextCursor(cursor)
-
-    def _list_symbols(self, body):
-
-        symbols = []
-        for node in body:
-            if node.__class__.__name__ not in ('ClassDef', 'FunctionDef'):
-                continue
-            symbols.append((node.name, node.lineno))
-            symbols += self._list_symbols(node.body)
-        return symbols
 
     def quick_select_files(self):
 

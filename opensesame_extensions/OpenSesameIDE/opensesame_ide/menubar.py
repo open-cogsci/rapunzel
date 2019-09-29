@@ -166,12 +166,6 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_locate_active_file,
             ide.locate_file_in_folder
         )
-        self._action_quick_select_symbols = self._action(
-            _(u'S&ymbol selector'),
-            u'text-x-script',
-            cfg.opensesame_ide_shortcut_symbol_selector,
-            ide.quick_select_symbols,
-        )
         self._menu_view = QMenu(_('&View'))
         self._menu_view.addAction(self._action_close_tab)
         self._menu_view.addAction(self._action_close_other_tabs)
@@ -199,8 +193,13 @@ class MenuBar(QMenuBar):
             self._menu_view.addAction(self._action_toggle_workspace)
         else:
             self._action_toggle_workspace = None
-        self._menu_view.addSeparator()
-        self._menu_view.addAction(self._action_quick_select_symbols)
+        if u'SymbolSelector' in ide.extension_manager:
+            self._menu_view.addSeparator()
+            self._action_symbol_selector = \
+                ide.extension_manager['SymbolSelector'].action
+            self._menu_view.addAction(self._action_symbol_selector)
+        else:
+            self._action_symbol_selector = None
         if u'FindInFiles' in ide.extension_manager:
             self._menu_view.addSeparator()
             self._action_find_in_files = \
