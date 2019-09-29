@@ -105,22 +105,31 @@ class WorkspaceExplorer(BaseExtension):
                 lambda: self._update(name, workspace_func)
             )
             return
-        dm = DataMatrix(length=len(workspace))
-        dm.sorted = False
-        dm.name = -1
-        dm.value = -1
-        dm['length'] = -1
-        dm.type = -1
-        for row, (var, (value, type_, length)) in zip(dm, workspace.items()):
-            row.name = var
-            # Unstrip the quotes that JSON automatically adds to strings
-            row.value = (
-                u'<no preview>'
-                if value == u'"<no preview>"'
-                else value
-            )
-            row['length'] = length
-            row.type = type_
+        # If the current kernel doesn't expose its workspace, indicate this
+        if workspace.get(u'not supported', False) is None:
+            dm = DataMatrix(length=0)
+            dm.kernel_not_supported = -1
+        # Create a DataMatrix that exposes the workspace
+        else:
+            dm = DataMatrix(length=len(workspace))
+            dm.sorted = False
+            dm.name = -1
+            dm.value = -1
+            dm['length'] = -1
+            dm.type = -1
+            for row, (var, (value, type_, length)) in zip(
+                dm,
+                workspace.items()
+            ):
+                row.name = var
+                # Unstrip the quotes that JSON automatically adds to strings
+                row.value = (
+                    u'<no preview>'
+                    if value == u'"<no preview>"'
+                    else value
+                )
+                row['length'] = length
+                row.type = type_
         self._qdm.dm = dm
         self._qdm.refresh()
 

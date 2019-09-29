@@ -71,12 +71,8 @@ class JupyterConsole(BaseExtension):
         self._set_visible(True)
         if not os.path.isfile(path):
             return
-        self._jupyter_console.current.execute(
-            u'%cd "{}"'.format(os.path.dirname(path))
-        )
-        self._jupyter_console.current.execute(
-            u'%run "{}"'.format(path)
-        )
+        self._jupyter_console.current.change_dir(os.path.dirname(path))
+        self._jupyter_console.current.run_file(path)
 
     def event_jupyter_change_dir(self, path):
 

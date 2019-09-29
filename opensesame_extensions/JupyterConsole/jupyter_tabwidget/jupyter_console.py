@@ -30,6 +30,11 @@ CHANGE_DIR_CMD = {
     u'ir': 'setwd("{}")'
 }
 DEFAULT_CHANGE_DIR_CMD = u'%cd "{}"'
+RUN_FILE_CMD = {
+    u'ir': 'source("{}")'
+}
+DEFAULT_RUN_FILE_CMD = u'%run "{}"'
+TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']
 
 
 class JupyterConsole(BaseWidget):
@@ -148,7 +153,9 @@ class JupyterConsole(BaseWidget):
 
     def get_workspace_globals(self):
 
-        return self._jupyter_widget.get_workspace_globals()
+        if self._kernel in TRANSPARENT_KERNELS:
+            return self._jupyter_widget.get_workspace_globals()
+        return {'not supported': None}
 
     def set_workspace_globals(self, global_dict):
 
@@ -160,5 +167,14 @@ class JupyterConsole(BaseWidget):
             CHANGE_DIR_CMD.get(
                 self._kernel,
                 DEFAULT_CHANGE_DIR_CMD
+            ).format(path)
+        )
+
+    def run_file(self, path):
+
+        self.execute(
+            RUN_FILE_CMD.get(
+                self._kernel,
+                DEFAULT_RUN_FILE_CMD
             ).format(path)
         )
