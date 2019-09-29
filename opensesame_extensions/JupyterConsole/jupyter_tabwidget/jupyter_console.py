@@ -26,6 +26,11 @@ from qtpy.QtWidgets import QHBoxLayout
 from qtpy.QtGui import QFont
 from qtconsole import styles
 
+CHANGE_DIR_CMD = {
+    u'ir': 'setwd("{}")'
+}
+DEFAULT_CHANGE_DIR_CMD = u'%cd "{}"'
+
 
 class JupyterConsole(BaseWidget):
 
@@ -33,7 +38,7 @@ class JupyterConsole(BaseWidget):
         self,
         parent=None,
         name=None,
-        kernel=u'python3',
+        kernel=u'python',
         inprocess=False
     ):
 
@@ -53,6 +58,7 @@ class JupyterConsole(BaseWidget):
                 OutprocessJupyterWidget as JupyterWidget
             )
         self._inprocess = inprocess
+        self._kernel = kernel
         self._kernel_manager = QtKernelManager(kernel_name=kernel)
         self._kernel_manager.start_kernel()
         self._kernel_client = self._kernel_manager.client()
@@ -147,3 +153,12 @@ class JupyterConsole(BaseWidget):
     def set_workspace_globals(self, global_dict):
 
         self._jupyter_widget.set_workspace_globals(global_dict)
+
+    def change_dir(self, path):
+
+        self.execute(
+            CHANGE_DIR_CMD.get(
+                self._kernel,
+                DEFAULT_CHANGE_DIR_CMD
+            ).format(path)
+        )

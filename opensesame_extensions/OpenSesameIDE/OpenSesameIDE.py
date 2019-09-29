@@ -304,8 +304,8 @@ class OpenSesameIDE(BaseExtension):
         if not os.path.isfile(path):
             return
         self.extension_manager.fire(
-            u'jupyter_run_code',
-            code=u'%cd "{}"'.format(os.path.dirname(path))
+            u'jupyter_change_dir',
+            path=os.path.dirname(path)
         )
 
     def run_current_selection(self):

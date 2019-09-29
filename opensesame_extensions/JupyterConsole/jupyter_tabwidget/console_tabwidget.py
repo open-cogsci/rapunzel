@@ -42,14 +42,16 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
         self.currentChanged.connect(self._on_switch)
         self.add()
 
-    def add(self, inprocess=False):
+    def add(self, inprocess=False, **kwargs):
 
+        merged_kwargs = self._kwargs.copy()
+        merged_kwargs.update(kwargs)
         name = str(self._console_count)
         jupyter_console = JupyterConsole(
             self,
             name=name,
             inprocess=inprocess,
-            **self._kwargs
+            **merged_kwargs
         )
         self.addTab(
             jupyter_console,

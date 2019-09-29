@@ -18,10 +18,18 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import functools
+from libqtopensesame.misc.config import cfg
 from libqtopensesame.widgets.base_widget import BaseWidget
-from qtpy.QtWidgets import QHBoxLayout, QPushButton
+from qtpy.QtWidgets import QHBoxLayout, QPushButton, QMenu
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'JupyterConsole', category=u'extension')
+
+
+KERNEL_NAMES = {
+    u'python': u'Python',
+    u'ir': u'R'
+}
 
 
 class ConsoleCornerWidget(BaseWidget):
@@ -33,7 +41,7 @@ class ConsoleCornerWidget(BaseWidget):
         self._add_button = QPushButton()
         self._add_button.setIcon(self.main_window.theme.qicon(u'list-add'))
         self._add_button.setFlat(True)
-        self._add_button.clicked.connect(self._add)
+        self._add_button.setMenu(self._kernel_menu())
         self._add_button.setToolTip(_(u'Start new console'))
         self._restart_button = QPushButton()
         self._restart_button.setIcon(
@@ -48,9 +56,17 @@ class ConsoleCornerWidget(BaseWidget):
         self._layout.addWidget(self._add_button)
         self.setLayout(self._layout)
 
-    def _add(self):
+    def _add(self, kernel):
 
-        self._console_tabwidget.add()
+        self._console_tabwidget.add(kernel=kernel)
+
+    def _kernel_menu(self):
+
+        menu = QMenu(self.main_window)
+        for kernel in safe_decode(cfg.jupyter_kernels).split(u';'):
+            action = menu.addAction(KERNEL_NAMES.get(kernel, kernel))
+            action.triggered.connect(functools.partial(self._add, kernel=kernel))
+        return menu
 
     def _restart(self):
 

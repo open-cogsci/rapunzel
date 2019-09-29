@@ -6,7 +6,8 @@
     "settings": {
         "jupyter_inprocess": false,
         "jupyter_visible": true,
-        "jupyter_focus_shortcut": "Ctrl+3"
+        "jupyter_focus_shortcut": "Ctrl+3",
+        "jupyter_kernels": "python;ir"
     },
     "shortcut": "Ctrl+D",
     "checkable": true,

@@ -78,6 +78,10 @@ class JupyterConsole(BaseExtension):
             u'%run "{}"'.format(path)
         )
 
+    def event_jupyter_change_dir(self, path):
+
+        self._jupyter_console.current.change_dir(path)
+
     def event_jupyter_run_code(self, code):
 
         self._set_visible(True)
