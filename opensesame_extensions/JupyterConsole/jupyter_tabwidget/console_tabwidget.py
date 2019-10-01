@@ -23,6 +23,7 @@ from qtpy.QtWidgets import QTabWidget
 from libqtopensesame.misc.config import cfg
 from jupyter_tabwidget.jupyter_console import JupyterConsole
 from jupyter_tabwidget.console_cornerwidget import ConsoleCornerWidget
+from jupyter_tabwidget.constants import KERNEL_NAMES
 
 
 class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
@@ -46,7 +47,12 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
         merged_kwargs = self._kwargs.copy()
         merged_kwargs.update(kwargs)
-        name = str(self._console_count)
+        name = u'{} ({})'.format(
+            KERNEL_NAMES[
+                merged_kwargs.get('kernel', cfg.jupyter_default_kernel)
+            ],
+            self._console_count
+        )
         jupyter_console = JupyterConsole(
             self,
             name=name,

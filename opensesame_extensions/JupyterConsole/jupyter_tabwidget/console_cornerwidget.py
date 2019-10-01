@@ -23,13 +23,8 @@ from libqtopensesame.misc.config import cfg
 from libqtopensesame.widgets.base_widget import BaseWidget
 from qtpy.QtWidgets import QHBoxLayout, QPushButton, QMenu
 from libqtopensesame.misc.translate import translation_context
+from jupyter_tabwidget.constants import KERNEL_NAMES
 _ = translation_context(u'JupyterConsole', category=u'extension')
-
-
-KERNEL_NAMES = {
-    u'python': u'Python',
-    u'ir': u'R'
-}
 
 
 class ConsoleCornerWidget(BaseWidget):

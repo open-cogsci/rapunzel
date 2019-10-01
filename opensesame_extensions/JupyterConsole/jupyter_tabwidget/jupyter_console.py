@@ -25,16 +25,13 @@ from libqtopensesame.widgets.base_widget import BaseWidget
 from qtpy.QtWidgets import QHBoxLayout
 from qtpy.QtGui import QFont
 from qtconsole import styles
-
-CHANGE_DIR_CMD = {
-    u'ir': 'setwd("{}")'
-}
-DEFAULT_CHANGE_DIR_CMD = u'%cd "{}"'
-RUN_FILE_CMD = {
-    u'ir': 'source("{}")'
-}
-DEFAULT_RUN_FILE_CMD = u'%run "{}"'
-TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']
+from jupyter_tabwidget.constants import (
+    CHANGE_DIR_CMD,
+    DEFAULT_CHANGE_DIR_CMD,
+    RUN_FILE_CMD,
+    DEFAULT_RUN_FILE_CMD,
+    TRANSPARENT_KERNELS
+)
 
 
 class JupyterConsole(BaseWidget):
@@ -43,11 +40,13 @@ class JupyterConsole(BaseWidget):
         self,
         parent=None,
         name=None,
-        kernel=u'python',
+        kernel=None,
         inprocess=False
     ):
 
         super(JupyterConsole, self).__init__(parent)
+        if kernel is None:
+            kernel = cfg.jupyter_default_kernel
         self.name = name
         # Initialize Jupyter Widget
         if inprocess:
