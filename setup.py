@@ -37,7 +37,8 @@ EXTENSIONS = [
     u'JupyterConsole',
     u'JupyterNotebook',
     u'QuickSelector',
-    u'WorkspaceExplorer'
+    u'WorkspaceExplorer',
+    u'SymbolSelector'
 ]
 
 
@@ -107,7 +108,7 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.2.1',
+    version='0.2.2',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
