@@ -48,12 +48,19 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
     def __init__(self, jupyter_console):
 
         self._name = jupyter_console.name
+        self._jupyter_console = jupyter_console
         super(TransparentJupyterWidget, self).__init__(jupyter_console)
         self.setup(jupyter_console)
         self.executed.connect(self._on_executed)
+        self.executing.connect(self._on_executing)
+
+    def _on_executing(self):
+
+        self._jupyter_console.set_busy(True)
 
     def _on_executed(self):
 
+        self._jupyter_console.set_busy(False)
         self.extension_manager.fire(
             u'workspace_update',
             name=self._name,

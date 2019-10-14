@@ -47,6 +47,7 @@ class JupyterConsole(BaseWidget):
         super(JupyterConsole, self).__init__(parent)
         if kernel is None:
             kernel = cfg.jupyter_default_kernel
+        self._console_tabwidget = parent
         self.name = name
         # Initialize Jupyter Widget
         if inprocess:
@@ -123,6 +124,21 @@ class JupyterConsole(BaseWidget):
     def focus(self):
 
         self._jupyter_widget._control.setFocus()
+
+    def set_busy(self, busy=True):
+
+        if busy:
+            icon = u'os-run'
+        else:
+            icon = 'utilities-terminal' if self._inprocess else 'os-debug'
+        self._set_icon(icon)
+
+    def _set_icon(self, icon):
+
+        self._console_tabwidget.setTabIcon(
+            self._console_tabwidget.indexOf(self),
+            self.main_window.theme.qicon(icon)
+        )
 
     def restart(self):
 
