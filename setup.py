@@ -38,7 +38,8 @@ EXTENSIONS = [
     u'JupyterNotebook',
     u'QuickSelector',
     u'WorkspaceExplorer',
-    u'SymbolSelector'
+    u'SymbolSelector',
+    u'RapunzelWelcome'
 ]
 
 
