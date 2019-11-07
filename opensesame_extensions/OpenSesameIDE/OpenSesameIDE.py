@@ -355,7 +355,7 @@ class OpenSesameIDE(BaseExtension):
 
     def quick_select_files(self):
 
-        haystack = [(_(u'Browse disk …'), None, self.open_file)]
+        haystack = []
         for dock_widget in self._dock_widgets.values():
             strip_first = len(os.path.split(dock_widget.path)[0])
             for path in dock_widget.file_list:
@@ -365,12 +365,13 @@ class OpenSesameIDE(BaseExtension):
         self.extension_manager.fire(
             u'quick_select',
             haystack=haystack,
-            placeholder_text=_(u'Search project files or browse disk …')
+            placeholder_text=_(u'Search project files or browse disk …'),
+            default=(_(u'Browse disk …'), None, self.open_file)
         )
 
     def quick_select_folders(self):
 
-        haystack = [(_(u'Browse disk …'), None, self.select_and_open_folder)]
+        haystack = []
         for path in cfg.opensesame_ide_recent_folders.split(u';'):
             if not os.path.isdir(path):
                 continue
@@ -378,7 +379,8 @@ class OpenSesameIDE(BaseExtension):
         self.extension_manager.fire(
             u'quick_select',
             haystack=haystack,
-            placeholder_text=_(u'Search recent folders or browse disk …')
+            placeholder_text=_(u'Search recent folders or browse disk …'),
+            default=(_(u'Browse disk …'), None, self.select_and_open_folder)
         )
 
     def project_files(self, extra_ignore_pattern=None):

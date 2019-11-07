@@ -87,7 +87,7 @@ class ResultBox(QListWidget):
 
 class QuickSelectorDialog(QDialog):
 
-    def __init__(self, parent, haystack, placeholder_text):
+    def __init__(self, parent, haystack, placeholder_text, default):
 
         super(QuickSelectorDialog, self).__init__(
             parent,
@@ -107,6 +107,7 @@ class QuickSelectorDialog(QDialog):
             (label.lower(), label, data, on_select)
             for label, data, on_select in haystack
         ]
+        self._default = default
         self._search_box = SearchBox(self)
         self._search_box.textEdited.connect(self._search)
         if placeholder_text:
@@ -138,7 +139,11 @@ class QuickSelectorDialog(QDialog):
     def _search(self, needle):
 
         if not needle:
-            for lower_label, label, data, on_select in self._haystack:
+            haystack = self._haystack[:]
+            if self._default:
+                haystack.insert(0, (self._default[0].lower(),) + self._default)
+            self._result_box.clear()
+            for lower_label, label, data, on_select in haystack:
                 item = QListWidgetItem(label, self._result_box)
                 item.data = data
                 item.on_select = on_select
@@ -179,10 +184,15 @@ class QuickSelectorDialog(QDialog):
 
 class QuickSelector(BaseExtension):
 
-    def event_quick_select(self, haystack, placeholder_text=None):
+    def event_quick_select(
+        self, haystack,
+        placeholder_text=None,
+        default=None
+    ):
 
         QuickSelectorDialog(
             self.main_window,
             haystack,
-            placeholder_text
+            placeholder_text,
+            default
         ).exec_()
