@@ -54,7 +54,6 @@ class RapunzelWelcome(base_extension):
         if not self._widget:
             return
         index = self.tabwidget.indexOf(self._widget)
-        print('index', index)
         self._widget = None
         if index < 0:
             return
