@@ -59,7 +59,7 @@ class OpenSesameIDE(BaseExtension):
     def event_ide_open_file(self, path, line_number=1):
 
         self.open_document(path)
-        self._jump_to_line(line_number)
+        self.extension_manager.fire('ide_jump_to_line', lineno=line_number)
 
     def event_ide_new_file(self, source=None):
 
