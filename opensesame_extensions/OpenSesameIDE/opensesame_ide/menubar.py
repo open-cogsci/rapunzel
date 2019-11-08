@@ -98,10 +98,10 @@ class MenuBar(QMenuBar):
         self._menu_tools = QMenu(_(u'&Tools'))
         self._menu_tools.addAction(self._action_preferences)
         self._menu_tools.addAction(self._action_plugins)
-        if u'JupyterNotebook' in ide.extension_manager:
-            self._menu_tools.addAction(
-                ide.extension_manager['JupyterNotebook'].action
-            )
+        self._action_jupyter_notebook = self._add_extension_action(
+            'JupyterNotebook',
+            menu=self._menu_tools
+        )
         self.addMenu(self._menu_tools)
         # View menu
         self._action_close_tab = self._action(
@@ -180,33 +180,30 @@ class MenuBar(QMenuBar):
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_folder_browsers)
         self._menu_view.addAction(self._action_locate_file_in_folder)
-        if u'JupyterConsole' in ide.extension_manager:
-            self._menu_view.addSeparator()
-            self._action_toggle_console = \
-                ide.extension_manager['JupyterConsole'].action
-            self._menu_view.addAction(self._action_toggle_console)
-        else:
-            self._action_toggle_console = None
-        if u'WorkspaceExplorer' in ide.extension_manager:
-            self._action_toggle_workspace = \
-                ide.extension_manager['WorkspaceExplorer'].action
-            self._menu_view.addAction(self._action_toggle_workspace)
-        else:
-            self._action_toggle_workspace = None
-        if u'SymbolSelector' in ide.extension_manager:
-            self._menu_view.addSeparator()
-            self._action_symbol_selector = \
-                ide.extension_manager['SymbolSelector'].action
-            self._menu_view.addAction(self._action_symbol_selector)
-        else:
-            self._action_symbol_selector = None
-        if u'FindInFiles' in ide.extension_manager:
-            self._menu_view.addSeparator()
-            self._action_find_in_files = \
-                ide.extension_manager['FindInFiles'].action
-            self._menu_view.addAction(self._action_find_in_files)
-        else:
-            self._action_find_in_files = None
+        self._action_toggle_console = self._add_extension_action(
+            'JupyterConsole',
+            menu=self._menu_view,
+            separate=True
+        )
+        self._action_toggle_workspace = self._add_extension_action(
+            'WorkspaceExplorer',
+            menu=self._menu_view,
+        )
+        self._action_symbol_selector = self._add_extension_action(
+            'SymbolSelector',
+            menu=self._menu_view,
+            separate=True
+        )
+        self._action_find_in_files = self._add_extension_action(
+            'FindInFiles',
+            menu=self._menu_view,
+            separate=True
+        )
+        self._action_command_palette = self._add_extension_action(
+            'CommandPalette',
+            menu=self._menu_view,
+            separate=True
+        )
         self.addMenu(self._menu_view)
         # Run menu
         self._action_run_current_file = self._action(
@@ -248,6 +245,15 @@ class MenuBar(QMenuBar):
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_change_working_directory)
         self.addMenu(self._menu_run)
+
+    def _add_extension_action(self, ext, menu, separate=False):
+
+        if ext not in self._ide.extension_manager:
+            return None
+        if separate:
+            menu.addSeparator()
+        menu.addAction(self._ide.extension_manager[ext].action)
+        return self._ide.extension_manager[ext].action
 
     def build_tool_bar(self):
 
