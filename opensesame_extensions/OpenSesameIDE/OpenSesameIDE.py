@@ -68,6 +68,14 @@ class OpenSesameIDE(BaseExtension):
             return
         self._current_editor().setPlainText(source)
 
+    def event_ide_run_current_file(self):
+
+        self.run_current_file()
+
+    def event_ide_run_current_selection(self):
+
+        self.run_current_selection()
+
     def provide_ide_current_source(self):
 
         editor = self._current_editor()

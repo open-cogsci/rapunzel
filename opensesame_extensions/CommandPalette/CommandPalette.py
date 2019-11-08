@@ -49,3 +49,7 @@ class CommandPalette(BaseExtension):
     def _trigger(self, action):
 
         action.trigger()
+
+    def event_command_palette_activate(self):
+
+        self.activate()

@@ -68,3 +68,7 @@ class SymbolSelector(BaseExtension):
             symbols.append((node.name, node.lineno))
             symbols += self._get_python_symbols(node.body)
         return symbols
+
+    def event_symbol_selector_activate(self):
+
+        self.activate()
