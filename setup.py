@@ -110,7 +110,7 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.2.5',
+    version='0.2.6',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
