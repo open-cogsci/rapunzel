@@ -18,11 +18,15 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
-import ast
+import re
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'SymbolSelector', category=u'extension')
+
+
+PYTHON_SYMBOLS = r'^[ \t]*(?P<type>def|class)[ \t]+(?P<name>\w+)'
+R_SYMBOLS = r'^[ \t]*(?P<name>[\w.]+)[ \t]*<-[ \t]*function'
 
 
 class SymbolSelector(BaseExtension):
@@ -49,25 +53,20 @@ class SymbolSelector(BaseExtension):
 
         self.extension_manager.fire('ide_jump_to_line', lineno=lineno)
 
-    def _get_python_symbols(self, nodes):
+    def _get_symbols(self, pattern, code):
 
-        if isinstance(nodes, str):
-            try:
-                nodes = ast.parse(nodes).body
-            except SyntaxError:
-                self.extension_manager.fire(
-                    u'notify',
-                    message=_(u'Cannot parse symbols because of SyntaxError'),
-                    category=u'warning'
-                )
-                return []
-        symbols = []
-        for node in nodes:
-            if node.__class__.__name__ not in ('ClassDef', 'FunctionDef'):
-                continue
-            symbols.append((node.name, node.lineno))
-            symbols += self._get_python_symbols(node.body)
-        return symbols
+        return [
+            (m.group('name'), code[:m.start()].count('\n') + 1)
+            for m in re.finditer(pattern, code, re.MULTILINE | re.ASCII)
+        ]
+
+    def _get_python_symbols(self, code):
+
+        return self._get_symbols(PYTHON_SYMBOLS, code)
+
+    def _get_R_symbols(self, code):
+
+        return self._get_symbols(R_SYMBOLS, code)
 
     def event_symbol_selector_activate(self):
 
