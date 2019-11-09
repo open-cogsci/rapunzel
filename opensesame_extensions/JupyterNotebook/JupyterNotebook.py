@@ -28,7 +28,12 @@ _ = translation_context(u'JupyterNotebook', category=u'extension')
 
 MARKDOWN_CELL = u'# <markdowncell>\n"""\n{}\n"""\n# </markdowncell>\n'
 CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
-PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
+# Matches <codecell> ... </codecell> and <markdowncell> ... </markdowncell>
+NOTEBOOK_PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
+# Matches # %% .. # %%
+SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)\n((?=#[ \t]*%%[ \t]*\n)|\Z)'
+# To check whether there any Spyder cells in there
+SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*\n'
 
 
 class JupyterNotebook(BaseExtension):
@@ -66,7 +71,8 @@ class JupyterNotebook(BaseExtension):
     def provide_jupyter_notebook_cells(self, code=u'', cell_types=None):
 
         cells = []
-        for m in re.finditer(PATTERN, code, re.MULTILINE | re.DOTALL):
+        # Notebook type cells
+        for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
             if (
                 cell_types is not None and
                 m.group('cell_type') not in cell_types
@@ -78,6 +84,24 @@ class JupyterNotebook(BaseExtension):
                 'start': m.start(),
                 'end': m.end()
             })
+        # Spyder type cells. We only search for those if there's at least one
+        # Spyder cell definition in the code, because otherwise we match the
+        # entire code.
+        if (
+            (cell_types is None or 'code' in cell_types) and
+            re.search(SPYDER_HAS_CELLS, code, re.DOTALL) is not None
+        ):
+            for m in re.finditer(
+                SPYDER_PATTERN,
+                code,
+                re.MULTILINE | re.DOTALL
+            ):
+                cells.append({
+                    'cell_type': 'code',
+                    'source': m.group('source'),
+                    'start': m.start(),
+                    'end': m.end()
+                })
         return cells
 
     def _import_ipynb(self):
