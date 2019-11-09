@@ -147,7 +147,7 @@ class MenuBar(QMenuBar):
             ide.switch_splitter_next
         )
         self._action_toggle_fullscreen = self._action(
-            _(u'Toogle fullscreen'),
+            _(u'Toggle fullscreen'),
             u'view-fullscreen',
             cfg.opensesame_ide_shortcut_toggle_fullscreen,
             ide._toggle_fullscreen,
@@ -236,6 +236,35 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_change_working_directory,
             ide.change_working_directory,
         )
+        # Editor menu
+        self._menu_editor = QMenu(_('&Editor'))
+        self._action_toggle_line_wrap = self._action(
+            _(u'Wrap lines'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_line_wrap,
+            checkable=True,
+            checked=cfg.pyqode_line_wrap
+        )
+        self._action_toggle_whitespaces = self._action(
+            _(u'Show whitespace'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_show_whitespaces,
+            checkable=True,
+            checked=cfg.pyqode_show_whitespaces
+        )
+        self._action_select_indentation_mode = self._action(
+            _(u'Select indentation mode'),
+            u'accessories-text-editor',
+            None,
+            self._select_indentation_mode
+        )
+        self._menu_editor.addAction(self._action_toggle_line_wrap)
+        self._menu_editor.addAction(self._action_toggle_whitespaces)
+        self._menu_editor.addAction(self._action_select_indentation_mode)
+        self.addMenu(self._menu_editor)
+        # Run menu
         self._menu_run = QMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
@@ -281,13 +310,40 @@ class MenuBar(QMenuBar):
         tool_bar.setObjectName(u'OpenSesameIDE_Toolbar')
         return tool_bar
 
-    def _action(self, title, icon, shortcut, target, checkable=False):
+    def _action(
+        self,
+        title,
+        icon,
+        shortcut,
+        target,
+        checkable=False,
+        checked=False
+    ):
 
         action = QAction(title)
         action.setIcon(self._ide.theme.qicon(icon))
         if shortcut:
             action.setShortcut(shortcut)
         action.triggered.connect(target)
-        action.setCheckable(checkable)
+        if checkable:
+            action.setCheckable(True)
+            action.setChecked(checked)
         action.setPriority(QAction.HighPriority)
         return action
+
+    def _toggle_line_wrap(self, line_wrap):
+
+        self._ide.extension_manager.fire(
+            'pyqode_set_line_wrap',
+            line_wrap=line_wrap
+        )
+
+    def _toggle_show_whitespaces(self, show_whitespaces):
+        self._ide.extension_manager.fire(
+            'pyqode_set_show_whitespaces',
+            show_whitespaces=show_whitespaces
+        )
+
+    def _select_indentation_mode(self):
+
+        self._ide.extension_manager.fire('pyqode_select_indentation_mode')
