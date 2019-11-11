@@ -1,4 +1,4 @@
-#-*- coding:utf-8 -*-
+# coding=utf-8
 
 """
 This file is part of OpenSesame.
@@ -21,15 +21,15 @@ from libopensesame.py3compat import *
 import os
 import sys
 from libopensesame import misc, metadata
-from libqtopensesame.extensions import base_extension
+from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 from libqtopensesame.misc import template_info
-_ = translation_context(u'get_started', category=u'extension')
+_ = translation_context(u'RapunzelWelcome', category=u'extension')
 
 
-class RapunzelWelcome(base_extension):
+class RapunzelWelcome(BaseExtension):
 
-    @base_extension.as_thread(wait=500)
+    @BaseExtension.as_thread(wait=500)
     def event_startup(self):
 
         with safe_open(self.ext_resource(u'rapunzel_welcome.md')) as fd:

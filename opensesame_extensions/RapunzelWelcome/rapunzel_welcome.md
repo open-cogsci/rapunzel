@@ -11,8 +11,8 @@ Welcome to Rapunzel, a modern development environment for Python and R. Here are
 
 ## Doing things quickly
 
-- [`Ctrl+Shift+P`: Command palette](opensesame://event.command_palette_activate)
-- `Ctrl+R`: Jump to function, class, etc in current file
+- [`Ctrl+Shift+P`: Activate command palette](opensesame://event.command_palette_activate)
+- `Ctrl+R`: Jump to function or class
 
 
 ## Running code
