@@ -263,6 +263,11 @@ class MenuBar(QMenuBar):
         self._menu_editor.addAction(self._action_toggle_line_wrap)
         self._menu_editor.addAction(self._action_toggle_whitespaces)
         self._menu_editor.addAction(self._action_select_indentation_mode)
+        self._action_word_count = self._add_extension_action(
+            'WordCount',
+            menu=self._menu_editor,
+            separate=True
+        )
         self.addMenu(self._menu_editor)
         # Run menu
         self._menu_run = QMenu(_('&Run'))
