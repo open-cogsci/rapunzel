@@ -264,6 +264,11 @@ class MenuBar(QMenuBar):
         self._menu_editor.addAction(self._action_toggle_whitespaces)
         self._menu_editor.addAction(self._action_select_indentation_mode)
         self._action_word_count = self._add_extension_action(
+            'SpellCheck',
+            menu=self._menu_editor,
+            separate=True
+        )
+        self._action_word_count = self._add_extension_action(
             'WordCount',
             menu=self._menu_editor,
             separate=True

@@ -1,0 +1,12 @@
+{
+    "label": "Check spelling",
+    "tooltip": "Check spelling",
+    "shortcut": "Ctrl+Alt+S",
+    "icon": "tools-check-spelling",
+    "priority": -2,
+    "menu": {
+        "index": 3,
+        "submenu": "View"
+    },
+    "modes": ["ide"]
+}
