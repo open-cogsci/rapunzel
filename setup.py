@@ -41,7 +41,8 @@ EXTENSIONS = [
     u'SymbolSelector',
     u'RapunzelWelcome',
     u'CommandPalette',
-    u'WordCount'
+    u'WordCount',
+    u'SpellCheck'
 ]
 
 
@@ -111,7 +112,7 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.2.7',
+    version='0.3.0',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
@@ -142,7 +143,8 @@ setup(
             'python-opensesame',
             'qtconsole',
             'nbformat',
-            'pyyaml'
+            'pyyaml',
+            'pyspellchecker'
         ]
     ),
     data_files=data_files()
