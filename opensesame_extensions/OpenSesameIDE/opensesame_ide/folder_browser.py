@@ -140,7 +140,10 @@ class FolderBrowser(FileSystemTreeView):
             )
         )
         self._file_indexer.start()
-        oslogger.debug(u'indexing {}'.format(self._path))
+        oslogger.debug(u'indexing {} (PID={})'.format(
+            self._path,
+            self._file_indexer.pid
+        ))
         QTimer.singleShot(1000, self._check_file_indexer)
 
     def _check_file_indexer(self):
@@ -165,6 +168,7 @@ class FolderBrowser(FileSystemTreeView):
             len(self._file_list),
             self._path)
         )
+        self._file_indexer.close()
         QTimer.singleShot(300000, self._index_files)
 
 
