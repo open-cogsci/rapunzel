@@ -168,6 +168,7 @@ class FolderBrowser(FileSystemTreeView):
             len(self._file_list),
             self._path)
         )
+        self._file_indexer.join()
         self._file_indexer.close()
         QTimer.singleShot(300000, self._index_files)
 
