@@ -254,15 +254,42 @@ class MenuBar(QMenuBar):
             checkable=True,
             checked=cfg.pyqode_show_whitespaces
         )
+        self._action_toggle_line_numbers = self._action(
+            _(u'Show line numbers'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_show_line_numbers,
+            checkable=True,
+            checked=cfg.pyqode_show_line_numbers
+        )
         self._action_select_indentation_mode = self._action(
             _(u'Select indentation mode'),
             u'accessories-text-editor',
             None,
             self._select_indentation_mode
         )
+        self._action_toggle_code_folding = self._action(
+            _(u'Code folding'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_code_folding,
+            checkable=True,
+            checked=cfg.pyqode_code_folding
+        )
+        self._action_toggle_right_margin = self._action(
+            _(u'Show right margin'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_show_right_margin,
+            checkable=True,
+            checked=cfg.pyqode_right_margin
+        )
         self._menu_editor.addAction(self._action_toggle_line_wrap)
         self._menu_editor.addAction(self._action_toggle_whitespaces)
+        self._menu_editor.addAction(self._action_toggle_line_numbers)
         self._menu_editor.addAction(self._action_select_indentation_mode)
+        self._menu_editor.addAction(self._action_toggle_code_folding)
+        self._menu_editor.addAction(self._action_toggle_right_margin)
         self._action_word_count = self._add_extension_action(
             'SpellCheck',
             menu=self._menu_editor,
@@ -348,10 +375,32 @@ class MenuBar(QMenuBar):
             line_wrap=line_wrap
         )
 
+    def _toggle_code_folding(self, code_folding):
+
+        self._ide.extension_manager.fire(
+            'pyqode_set_code_folding',
+            code_folding=code_folding
+        )
+
+    def _toggle_show_right_margin(self, show_right_margin):
+
+        self._ide.extension_manager.fire(
+            'pyqode_set_show_right_margin',
+            show_right_margin=show_right_margin
+        )
+
     def _toggle_show_whitespaces(self, show_whitespaces):
+
         self._ide.extension_manager.fire(
             'pyqode_set_show_whitespaces',
             show_whitespaces=show_whitespaces
+        )
+
+    def _toggle_show_line_numbers(self, show_line_numbers):
+
+        self._ide.extension_manager.fire(
+            'pyqode_set_show_line_numbers',
+            show_line_numbers=show_line_numbers
         )
 
     def _select_indentation_mode(self):
