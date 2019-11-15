@@ -2,7 +2,7 @@
     "label": "Check spelling",
     "tooltip": "Check spelling",
     "shortcut": "Ctrl+Alt+S",
-    "icon": "tools-check-spelling",
+    "icon": "edit-flag",
     "priority": -2,
     "menu": {
         "index": 3,
