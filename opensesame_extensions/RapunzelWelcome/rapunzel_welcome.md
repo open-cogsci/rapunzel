@@ -7,6 +7,7 @@ Welcome to Rapunzel, a modern development environment for Python and R. Here are
 
 - [`Ctrl+Shift+O`: Open project folder](opensesame://event.rapunzel_welcome_open_folders)
 - [`Ctrl+O`: Open file from project folders](opensesame://event.rapunzel_welcome_open_files)
+- [`Ctrl+N`: Create empty document](opensesame://event.ide_new_file)
 
 
 ## Doing things quickly
