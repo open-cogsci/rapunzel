@@ -18,6 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import os
 from qtpy.QtWidgets import QAction, QMenu, QMenuBar, QToolBar
 from qtpy.QtCore import QSize
 from libqtopensesame.misc.config import cfg
@@ -331,8 +332,7 @@ class MenuBar(QMenuBar):
 
     def build_tool_bar(self):
 
-        tool_bar = QToolBar(self.parent())
-        tool_bar.setIconSize(QSize(32, 32))
+        tool_bar = ToolBar(self.parent(), self._ide)
         tool_bar.addAction(self._action_new_file)
         tool_bar.addAction(self._action_open_file)
         tool_bar.addAction(self._action_save_file)
@@ -414,3 +414,29 @@ class MenuBar(QMenuBar):
     def _select_indentation_mode(self):
 
         self._ide.extension_manager.fire('pyqode_select_indentation_mode')
+
+
+class ToolBar(QToolBar):
+
+    def __init__(self, parent, ide):
+
+        super(QToolBar, self).__init__(parent)
+        self._ide = ide
+        self.setIconSize(QSize(32, 32))
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, e):
+
+        m = e.mimeData()
+        if m.hasUrls() and all(url.isLocalFile() for url in m.urls()):
+            e.acceptProposedAction()
+
+    def dropEvent(self, e):
+
+        m = e.mimeData()
+        if m.hasUrls() and all(url.isLocalFile() for url in m.urls()):
+            for url in m.urls():
+                if os.path.isdir(url.path()):
+                    self._ide._open_folder(url.path())
+                else:
+                    self._ide.open_document(url.path())
