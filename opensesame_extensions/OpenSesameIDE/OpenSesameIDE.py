@@ -259,6 +259,20 @@ class OpenSesameIDE(BaseExtension):
             always_show=True
         )
 
+    def _run_project_file(self, project_file):
+
+        if u'kernel' in project_file:
+            self.extension_manager.fire(
+                u'jupyter_start_kernel',
+                kernel=project_file['kernel']
+            )
+        self._run_notify(_(u'Running project'))
+        self.extension_manager.fire(
+            u'jupyter_run_code',
+            code=project_file.get(u'run', u'')
+        )
+        return
+
     def run_current_file(self):
 
         editor = self._current_editor()
@@ -273,12 +287,9 @@ class OpenSesameIDE(BaseExtension):
                     cfg.opensesame_ide_run_autosave = True
             self.save_file()
         project_file = self._current_project_file()
-        if project_file is not None and u'run' in project_file:
+        if project_file:
             self._run_notify(_(u'Running project'))
-            self.extension_manager.fire(
-                u'jupyter_run_code',
-                code=project_file[u'run']
-            )
+            self._run_project_file(project_file)
             return
         if (
             editor is None or

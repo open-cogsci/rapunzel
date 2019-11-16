@@ -66,6 +66,10 @@ class JupyterConsole(BaseExtension):
         self._jupyter_console.current.show_prompt()
         oslogger.debug(u'releasing stdout')
 
+    def event_jupyter_start_kernel(self, kernel):
+
+        self._jupyter_console.add(kernel=kernel)
+
     def event_jupyter_run_file(self, path):
 
         self._set_visible(True)
