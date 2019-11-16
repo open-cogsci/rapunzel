@@ -47,10 +47,9 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
         merged_kwargs = self._kwargs.copy()
         merged_kwargs.update(kwargs)
+        kernel = merged_kwargs.get('kernel', cfg.jupyter_default_kernel)
         name = u'{} ({})'.format(
-            KERNEL_NAMES[
-                merged_kwargs.get('kernel', cfg.jupyter_default_kernel)
-            ],
+            KERNEL_NAMES.get(kernel, kernel),
             self._console_count
         )
         jupyter_console = JupyterConsole(

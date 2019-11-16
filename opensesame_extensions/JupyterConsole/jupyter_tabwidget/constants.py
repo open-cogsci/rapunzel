@@ -21,14 +21,17 @@ KERNEL_NAMES = {
     u'python': u'Python',
     u'python2': u'Python',
     u'python3': u'Python',
-    u'ir': u'R'
+    u'ir': u'R',
+    u'bash': u'Bash'
 }
 CHANGE_DIR_CMD = {
-    u'ir': 'setwd("{}")'
+    u'ir': 'setwd("{}")',
+    u'bash': 'cd "{}"'
 }
 DEFAULT_CHANGE_DIR_CMD = u'%cd "{}"'
 RUN_FILE_CMD = {
-    u'ir': 'source("{}")'
+    u'ir': 'source("{}")',
+    u'bash': '"{}"'
 }
 DEFAULT_RUN_FILE_CMD = u'%run "{}"'
 TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']

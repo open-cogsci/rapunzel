@@ -19,8 +19,10 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import functools
+from jupyter_client import kernelspec
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.widgets.base_widget import BaseWidget
+from libopensesame.oslogging import oslogger
 from qtpy.QtWidgets import QHBoxLayout, QPushButton, QMenu
 from libqtopensesame.misc.translate import translation_context
 from jupyter_tabwidget.constants import KERNEL_NAMES
@@ -55,12 +57,28 @@ class ConsoleCornerWidget(BaseWidget):
 
         self._console_tabwidget.add(kernel=kernel)
 
+    def _installed_kernels(self):
+
+        if cfg.jupyter_kernels:
+            return safe_decode(cfg.jupyter_kernels).split(u';')
+        kernelspec_manager = kernelspec.KernelSpecManager()
+        kernels = list(kernelspec_manager.find_kernel_specs().keys())
+        # Python 2 and 3 kernels apparently just start the same kernel that
+        # corresponds to the active Python kernel. So if they are both
+        # installed, we expose only one.
+        if 'python2' in kernels and 'python3' in kernels:
+            kernels.remove('python2')
+        oslogger.debug('installed kernels: {}'.format(str(kernels)))
+        return kernels
+
     def _kernel_menu(self):
 
         menu = QMenu(self.main_window)
-        for kernel in safe_decode(cfg.jupyter_kernels).split(u';'):
+        for kernel in self._installed_kernels():
             action = menu.addAction(KERNEL_NAMES.get(kernel, kernel))
-            action.triggered.connect(functools.partial(self._add, kernel=kernel))
+            action.triggered.connect(
+                functools.partial(self._add, kernel=kernel)
+            )
         return menu
 
     def _restart(self):

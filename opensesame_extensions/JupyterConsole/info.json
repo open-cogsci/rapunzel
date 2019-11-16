@@ -7,7 +7,7 @@
         "jupyter_inprocess": false,
         "jupyter_visible": true,
         "jupyter_focus_shortcut": "Ctrl+3",
-        "jupyter_kernels": "python;ir",
+        "jupyter_kernels": "",
         "jupyter_default_kernel": "python"
     },
     "shortcut": "Ctrl+D",
