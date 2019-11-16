@@ -52,7 +52,7 @@ class MenuBar(QMenuBar):
             ide.quick_select_folders
         )
         self._action_close_all_folders = self._action(
-            _(u'&Close all folders…'),
+            _(u'&Close all folders'),
             u'folder',
             None,
             ide.close_all_folders
