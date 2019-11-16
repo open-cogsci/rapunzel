@@ -1,6 +1,6 @@
 # Rapunzel
 
-A code editor for Python
+A modern code editor, focused on numerical computing with Python and R
 
 Copyright 2019 Sebastiaan Mathôt (@smathot)
 
@@ -12,23 +12,9 @@ Rapunzel is a set of OpenSesame extensions that turn OpenSesame into an integrat
 - <https://github.com/smathot/OpenSesame/>
 
 
-### Download and installation
+### Documentation and installation instructions
 
-*Rapunzel is under active development. For now, expect slow performance (on startup especially) and occasional bugs.*
-
-For Windows, preliminary builds are available under releases:
-
-- <https://github.com/smathot/rapunzel/releases>
-
-For Ubuntu, you can use the `rapunzel` repository
-
-```
-sudo add-apt-repository ppa:smathot/rapunzel
-sudo apt update
-sudo apt install python3-rapunzel
-```
-
-For Mac OS, packages are not yet available.
+- <https://rapunzel.cogsci.nl/>
 
 
 ## License
