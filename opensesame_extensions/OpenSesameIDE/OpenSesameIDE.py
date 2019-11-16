@@ -266,7 +266,6 @@ class OpenSesameIDE(BaseExtension):
                 u'jupyter_start_kernel',
                 kernel=project_file['kernel']
             )
-        self._run_notify(_(u'Running project'))
         self.extension_manager.fire(
             u'jupyter_run_code',
             code=project_file.get(u'run', u'')
