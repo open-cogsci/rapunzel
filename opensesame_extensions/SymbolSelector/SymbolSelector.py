@@ -27,6 +27,7 @@ _ = translation_context(u'SymbolSelector', category=u'extension')
 
 PYTHON_SYMBOLS = r'^[ \t]*(?P<type>def|class)[ \t]+(?P<name>\w+)'
 R_SYMBOLS = r'^[ \t]*(?P<name>[\w.]+)[ \t]*<-[ \t]*function'
+MARKDOWN_SYMBOLS = r'^#+[ \t]*(?P<name>.+)$'
 
 
 class SymbolSelector(BaseExtension):
@@ -67,6 +68,10 @@ class SymbolSelector(BaseExtension):
     def _get_R_symbols(self, code):
 
         return self._get_symbols(R_SYMBOLS, code)
+
+    def _get_markdown_symbols(self, code):
+
+        return self._get_symbols(MARKDOWN_SYMBOLS, code)
 
     def event_symbol_selector_activate(self):
 
