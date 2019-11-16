@@ -50,6 +50,12 @@ class MenuBar(QMenuBar):
             u'Ctrl+Shift+O',
             ide.quick_select_folders
         )
+        self._action_close_all_folders = self._action(
+            _(u'&Close all folders…'),
+            u'folder',
+            None,
+            ide.close_all_folders
+        )
         self._action_save_file = self._action(
             _(u'&Save'),
             u'document-save',
@@ -74,6 +80,8 @@ class MenuBar(QMenuBar):
         self._menu_file.addAction(self._action_save_file)
         self._menu_file.addAction(self._action_save_file_as)
         self._menu_file.addAction(self._action_open_folder)
+        self._menu_file.addSeparator()
+        self._menu_file.addAction(self._action_close_all_folders)
         if u'JupyterNotebook' in ide.extension_manager:
             jupyter_notebook = ide.extension_manager['JupyterNotebook']
             self._menu_file.addSeparator()

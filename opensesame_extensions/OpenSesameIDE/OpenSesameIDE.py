@@ -468,6 +468,11 @@ class OpenSesameIDE(BaseExtension):
         self._remember_open_folders()
         self._add_recent_folder(path)
 
+    def close_all_folders(self):
+
+        for dockwidget in list(self._dock_widgets.values()):
+            dockwidget.close()
+
     def locate_file_in_folder(self):
 
         for dockwidget in self._dock_widgets.values():
