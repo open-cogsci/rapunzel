@@ -544,11 +544,20 @@ class OpenSesameIDE(BaseExtension):
 
         def inner(widget, *args, **kwargs):
 
+            # We automatically enable one-tab mode if only the rapunzel tab is
+            # shown, so that we don't have two layers of tabs.
             if (
                 self.tabwidget.count() == 1 and
                 self.main_window.ui.action_onetabmode.isChecked()
             ):
                 self.main_window.ui.action_onetabmode.trigger()
+            # The runner options are not applicable to rapunzel, so we hide
+            # those from the preferences tab.
+            if (
+                hasattr(widget, 'tab_name') and
+                widget.tab_name == '__preferences__'
+            ):
+                widget.ui.groupbox_runner.hide()
             return fnc(widget, *args, **kwargs)
 
         return inner
