@@ -68,9 +68,12 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
             name
         )
         if inprocess:
-            jupyter_console.set_workspace_globals(
-                {u'opensesame': self.main_window}
-            )
+            global_dict = {
+                ext.name(): ext
+                for ext in self.extension_manager.extensions
+            }
+            global_dict['opensesame'] = self.main_window
+            jupyter_console.set_workspace_globals(global_dict)
         self.setTabsClosable(self.count() > 1)
         self.setCurrentIndex(self.count() - 1)
         self._console_count += 1
