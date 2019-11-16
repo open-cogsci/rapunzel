@@ -42,7 +42,8 @@ EXTENSIONS = [
     u'RapunzelWelcome',
     u'CommandPalette',
     u'WordCount',
-    u'SpellCheck'
+    u'SpellCheck',
+    u'DataViewer'
 ]
 
 
@@ -112,7 +113,7 @@ def data_files():
 
 setup(
     name='rapunzel',
-    version='0.3.4',
+    version='0.3.5',
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
