@@ -47,10 +47,10 @@ class FolderBrowserDockWidget(QDockWidget):
         self._ide = ide
         self.path = path
         self._folder_browser = FolderBrowser(parent, ide, path, self)
-        self._container_layout = QVBoxLayout(self)
+        self._container_layout = QVBoxLayout()
+        self._container_widget = QWidget(self)
         self._container_layout.setContentsMargins(6, 6, 6, 6)
         self._container_layout.addWidget(self._folder_browser)
-        self._container_widget = QWidget(self)
         self._container_widget.setLayout(self._container_layout)
         self.setWidget(self._container_widget)
         self.setWindowTitle(os.path.basename(path))

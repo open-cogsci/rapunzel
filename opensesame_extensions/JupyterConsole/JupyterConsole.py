@@ -122,6 +122,10 @@ class JupyterConsole(BaseExtension):
 
         return self.get_workspace_globals()
 
+    def provide_jupyter_workspace_variable(self, name):
+
+        return self._jupyter_console.current.get_workspace_variable(name)
+
     def get_workspace_globals(self):
 
         return self._jupyter_console.current.get_workspace_globals()

@@ -23,6 +23,7 @@ import ast
 import time
 import json
 import inspect
+import pickle
 from libqtopensesame.misc.base_subcomponent import BaseSubcomponent
 from qtpy.QtWidgets import QApplication
 from qtconsole.rich_jupyter_widget import RichJupyterWidget
@@ -30,7 +31,7 @@ from qtconsole.rich_jupyter_widget import RichJupyterWidget
 
 GLOBAL_EXPR = u'''{
 key: (
-    json.dumps(val, default=lambda x: '<no preview>'),
+    json.dumps(val, default=lambda x: '<double-click for preview>'),
     val.__class__.__name__,
     len(val) if hasattr(val, '__len__') else '<na>'
 )
@@ -115,7 +116,50 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
 
     def set_workspace_globals(self, global_dict):
 
-        pass
+        code = ['from pickle import loads']
+        for var, val in global_dict.items():
+            if (
+                var.startswith('_') or
+                callable(val) or
+                inspect.isclass(val) or
+                inspect.ismodule(val)
+            ):
+                continue
+            try:
+                blob = pickle.dumps(val)
+            except (pickle.PicklingError, TypeError):
+                pass
+            else:
+                code.append('{} = loads({})'.format(var, blob))
+        self._kernel_client.execute(';'.join(code), silent=True)
+
+    def get_workspace_variable(self, name):
+
+        key = str(uuid.uuid4())
+        self._kernel_client.execute(
+            u'import pickle',
+            silent=True,
+            user_expressions={
+                key: u'pickle.dumps({})'.format(name)
+            }
+        )
+        for _ in range(100):
+            if key in self._user_expressions:
+                break
+            time.sleep(0.01)
+            QApplication.processEvents()
+        else:
+            return None
+        reply = self._user_expressions[key].get(
+            u'data',
+            {}
+        ).get(u'text/plain', None)
+        if reply is None:
+            return None
+        try:
+            return pickle.loads(eval(reply))
+        except (TypeError, pickle.UnpicklingError, RecursionError):
+            return None
 
 
 class InprocessJupyterWidget(TransparentJupyterWidget):

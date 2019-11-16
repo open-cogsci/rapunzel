@@ -30,27 +30,10 @@ _ = translation_context(u'WorkspaceExplorer', category=u'extension')
 
 class WorkspaceMatrix(QDataMatrix):
 
-    def __init__(self, dm):
+    @property
+    def cell_double_clicked(self):
 
-        super(WorkspaceMatrix, self).__init__(dm)
-        self._spreadsheet.contextMenuEvent = self._on_context_menu
-
-    def refresh(self):
-
-        super(WorkspaceMatrix, self).refresh()
-        self._spreadsheet.setRowCount(len(self._dm)+1)
-        self._spreadsheet.setColumnCount(len(self.dm.columns))
-        # Make cells readonly
-        for row in range(0, self._spreadsheet.rowCount()):
-            for col in range(self._spreadsheet.columnCount()):
-                item = self._spreadsheet.item(row, col)
-                if item is None:
-                    continue
-                item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-
-    def _on_context_menu(self, e):
-
-        pass
+        return self._spreadsheet.cellDoubleClicked
 
 
 class WorkspaceExplorer(BaseExtension):
@@ -59,11 +42,13 @@ class WorkspaceExplorer(BaseExtension):
 
         dm = DataMatrix(length=0)
         dm.initializing = -1
-        self._qdm = WorkspaceMatrix(dm)
+        self._qdm = WorkspaceMatrix(dm, read_only=True)
+        self._qdm.cell_double_clicked.connect(self._inspect_variable)
         self._dock_widget = QDockWidget(self.main_window)
         self._dock_widget.setWidget(self._qdm)
         self._dock_widget.closeEvent = self._on_close_event
         self._dock_widget.setWindowTitle(_(u'Workspace'))
+        self._dock_widget.setObjectName('WorkspaceExplorer')
         self._dock_widget.visibilityChanged.connect(
             self._on_visibility_changed
         )
@@ -72,6 +57,30 @@ class WorkspaceExplorer(BaseExtension):
             self._dock_widget
         )
         self._set_visible(cfg.workspace_visible)
+
+    def _inspect_variable(self, row, column):
+
+        def _cannot_preview():
+
+            self.extension_manager.fire(
+                u'notify',
+                message=_(u'Don\'t know how to preview this data type'),
+                category='warning',
+                always_show=True
+            )
+
+        if not row:
+            return
+        name = self._qdm.dm.name[row - 1]
+        value = self.extension_manager.provide(
+            'jupyter_workspace_variable',
+            name=name
+        )
+        self.extension_manager.fire(
+            'data_viewer_inspect',
+            name=name,
+            value=value
+        )
 
     def activate(self):
 
@@ -124,8 +133,8 @@ class WorkspaceExplorer(BaseExtension):
                 row.name = var
                 # Unstrip the quotes that JSON automatically adds to strings
                 row.value = (
-                    u'<no preview>'
-                    if value == u'"<no preview>"'
+                    u'<double-click for preview>'
+                    if value == u'"<double-click for preview>"'
                     else value
                 )
                 row['length'] = length

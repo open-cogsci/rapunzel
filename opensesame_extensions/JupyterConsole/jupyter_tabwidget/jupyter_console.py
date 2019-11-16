@@ -172,6 +172,12 @@ class JupyterConsole(BaseWidget):
             return self._jupyter_widget.get_workspace_globals()
         return {'not supported': None}
 
+    def get_workspace_variable(self, name):
+
+        if self._kernel in TRANSPARENT_KERNELS:
+            return self._jupyter_widget.get_workspace_variable(name)
+        return None
+
     def set_workspace_globals(self, global_dict):
 
         self._jupyter_widget.set_workspace_globals(global_dict)
