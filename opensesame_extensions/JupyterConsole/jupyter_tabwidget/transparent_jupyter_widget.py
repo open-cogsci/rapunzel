@@ -31,9 +31,13 @@ from qtconsole.rich_jupyter_widget import RichJupyterWidget
 
 GLOBAL_EXPR = u'''{
 key: (
-    json.dumps(val, default=lambda x: '<double-click for preview>'),
+    repr(val),
     val.__class__.__name__,
-    len(val) if hasattr(val, '__len__') else '<na>'
+    (
+        val.shape if hasattr(val, 'shape')
+        else len(val) if hasattr(val, '__len__')
+        else None
+    )
 )
 for key, val in globals().items()
 if not key.startswith(u'_') and

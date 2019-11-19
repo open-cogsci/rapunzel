@@ -60,15 +60,6 @@ class WorkspaceExplorer(BaseExtension):
 
     def _inspect_variable(self, row, column):
 
-        def _cannot_preview():
-
-            self.extension_manager.fire(
-                u'notify',
-                message=_(u'Don\'t know how to preview this data type'),
-                category='warning',
-                always_show=True
-            )
-
         if not row:
             return
         name = self._qdm.dm.name[row - 1]
@@ -122,22 +113,18 @@ class WorkspaceExplorer(BaseExtension):
         else:
             dm = DataMatrix(length=len(workspace))
             dm.sorted = False
-            dm.name = -1
-            dm.value = -1
-            dm['length'] = -1
-            dm.type = -1
-            for row, (var, (value, type_, length)) in zip(
+            dm.name = ''
+            dm.value = ''
+            dm.shape = ''
+            dm.type = ''
+            for row, (var, (value, type_, shape)) in zip(
                 dm,
                 workspace.items()
             ):
+                row.value = value
                 row.name = var
-                # Unstrip the quotes that JSON automatically adds to strings
-                row.value = (
-                    u'<double-click for preview>'
-                    if value == u'"<double-click for preview>"'
-                    else value
-                )
-                row['length'] = length
+                if shape is not None:
+                    row.shape = repr(shape)
                 row.type = type_
         self._qdm.dm = dm
         self._qdm.refresh()

@@ -675,7 +675,14 @@ class OpenSesameIDE(BaseExtension):
 
     def _current_path(self):
 
-        return self._current_original_editor().file.path
+        editor = self._current_original_editor()
+        if editor is None:
+            return None
+        return editor.file.path
+
+    def provide_ide_current_path(self):
+
+        return self._current_path()
 
     def _current_tabwidget(self):
 
