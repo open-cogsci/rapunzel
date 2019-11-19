@@ -1,0 +1,11 @@
+{
+    "label": "Launch Git GUI",
+    "description": "Starts Git GUI",
+    "modes": ["ide"],
+    "tooltip": "Start Git GUI",
+    "icon": "gitg",
+    "priority": -2,
+    "settings" : {
+        "git_gui_executable": "git gui"
+    }
+}

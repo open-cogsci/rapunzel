@@ -111,6 +111,10 @@ class MenuBar(QMenuBar):
             'JupyterNotebook',
             menu=self._menu_tools
         )
+        self._action_git_gui = self._add_extension_action(
+            'GitGUI',
+            menu=self._menu_tools
+        )
         self.addMenu(self._menu_tools)
         # View menu
         self._action_close_tab = self._action(
