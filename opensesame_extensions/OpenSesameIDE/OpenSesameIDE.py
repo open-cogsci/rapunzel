@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import os
 import sys
 import mimetypes
+import textwrap
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -250,6 +251,35 @@ class OpenSesameIDE(BaseExtension):
         for dockwidget in self._dock_widgets.values():
             dockwidget.setVisible(hidden)
 
+    def _select_logical_line(self, editor, scan_width=8):
+
+        best_cursor = None
+        smallest_chunk = float('inf')
+        for n_up in range(scan_width):
+            for n_down in range(scan_width):
+                if best_cursor is not None and n_up + n_down >= smallest_chunk:
+                    continue
+                cursor = editor.textCursor()
+                cursor.movePosition(cursor.StartOfLine)
+                cursor.movePosition(cursor.Up, n=n_up)
+                cursor.movePosition(
+                    cursor.Down,
+                    cursor.KeepAnchor,
+                    n=n_up + n_down
+                )
+                cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+                if not best_cursor:
+                    best_cursor = cursor
+                code = cursor.selectedText().replace(u'\u2029', u'\n')
+                if not self.extension_manager.provide(
+                    'jupyter_check_syntax',
+                    code=code
+                ):
+                    continue
+                best_cursor = cursor
+                smallest_chunk = n_up + n_down
+        return best_cursor
+
     def _run_notify(self, msg):
 
         self.extension_manager.fire(
@@ -339,13 +369,14 @@ class OpenSesameIDE(BaseExtension):
                     break
             else:
                 # Select current line
-                cursor.movePosition(cursor.StartOfLine)
-                cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+                # cursor.movePosition(cursor.StartOfLine)
+                # cursor.movePosition(cursor.EndOfLine, cursor.KeepAnchor)
+                cursor = self._select_logical_line(editor)
                 self._run_notify(_(u'Running current line'))
             editor.setTextCursor(cursor)
         else:
             self._run_notify(_(u'Running selection'))
-        code = cursor.selectedText().replace(u'\u2029', u'\n')
+        code = textwrap.dedent(cursor.selectedText().replace(u'\u2029', u'\n'))
         self.extension_manager.fire(u'jupyter_run_code', code=code)
 
     def run_interrupt(self):

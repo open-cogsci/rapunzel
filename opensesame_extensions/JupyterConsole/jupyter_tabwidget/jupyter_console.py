@@ -199,3 +199,13 @@ class JupyterConsole(BaseWidget):
                 DEFAULT_RUN_FILE_CMD
             ).format(path)
         )
+
+    def check_syntax(self, code):
+
+        if 'python' not in self._kernel:
+            return True
+        try:
+            compile(code, 'dummy', 'exec')
+        except SyntaxError:
+            return False
+        return True
