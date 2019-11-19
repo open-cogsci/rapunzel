@@ -44,7 +44,7 @@ EXTENSIONS = [
     u'WordCount',
     u'SpellCheck',
     u'DataViewer',
-    u'GitGUI
+    u'GitGUI'
 ]
 
 
