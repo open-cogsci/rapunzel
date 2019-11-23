@@ -1,1 +1,6 @@
-{}
+Download: download
+Manual:
+    Workflow: manual/workflow
+    Running code: manual/running
+    Exploring the workspace: manual/workspace
+    Working with Jupyter notebooks: manual/notebooks
