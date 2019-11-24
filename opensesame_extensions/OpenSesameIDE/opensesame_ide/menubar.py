@@ -107,6 +107,7 @@ class MenuBar(QMenuBar):
         self._menu_tools = QMenu(_(u'&Tools'))
         self._menu_tools.addAction(self._action_preferences)
         self._menu_tools.addAction(self._action_plugins)
+        self._menu_tools.addSeparator()
         self._action_jupyter_notebook = self._add_extension_action(
             'JupyterNotebook',
             menu=self._menu_tools
@@ -373,6 +374,9 @@ class MenuBar(QMenuBar):
         action.setIcon(self._ide.theme.qicon(icon))
         if shortcut:
             action.setShortcut(shortcut)
+            action.setToolTip(
+                '{} ({})'.format(title.replace('&', ''), shortcut)
+            )
         action.triggered.connect(target)
         if checkable:
             action.setCheckable(True)
