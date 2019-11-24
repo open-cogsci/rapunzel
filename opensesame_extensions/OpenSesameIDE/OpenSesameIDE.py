@@ -622,6 +622,10 @@ class OpenSesameIDE(BaseExtension):
             )
             self.main_window.removeToolBar(self.main_window.ui.toolbar_items)
             self.main_window.removeToolBar(self.main_window.ui.toolbar_main)
+            # Always start with the folder browsers visible. This avoids
+            # inconsistencies in their visibility.
+            for dockwidget in self._dock_widgets.values():
+                dockwidget.setVisible(True)
 
         return inner
 
