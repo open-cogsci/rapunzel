@@ -160,7 +160,7 @@ class JupyterNotebook(BaseExtension):
     def _code_to_notebook(self, code, path):
 
         nb = nbformat.v4.new_notebook()
-        for m in re.finditer(PATTERN, code, re.MULTILINE | re.DOTALL):
+        for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
             cell = {
                 'cell_type': m.group('cell_type'),
                 'source': m.group('source'),
