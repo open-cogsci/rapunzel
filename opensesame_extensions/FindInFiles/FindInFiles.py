@@ -109,7 +109,7 @@ class FindWidget(BaseWidget):
         self.ui.button_cancel.show()
         self.ui.button_find.hide()
         self.ui.treewidget_results.clear()
-        for path in self._ide.project_files():
+        for path in list(self._ide.project_files()):
             if self._canceled:
                 break
             if filter and not fnmatch.fnmatch(path, filter):
