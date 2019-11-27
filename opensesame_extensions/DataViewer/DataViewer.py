@@ -18,16 +18,13 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import importlib
 from libqtopensesame.extensions import BaseExtension
-from libqtopensesame.misc.config import cfg
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.translate import translation_context
-from datamatrix import DataMatrix, convert as cnv
-from qdatamatrix import QDataMatrix
-import json
-from qtpy.QtWidgets import QDockWidget, QLabel, QScrollArea
-from qtpy.QtGui import QFont
+from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
+from data_viewer_inspectors.inspect_str import inspect_str
 _ = translation_context(u'DataViewer', category=u'extension')
 
 
@@ -37,67 +34,31 @@ class DataViewer(BaseExtension):
 
         self.main_window.set_busy(True)
         cls = value.__class__.__name__
-        fnc = '_inspect_{}'.format(cls)
-        oslogger.debug('inspecting value of type {}'.format(cls))
+        fnc = self._inspect_fnc(cls)
         try:
-            widget = getattr(self, fnc)(value)
+            widget = fnc(value)
         except Exception as e:
             oslogger.debug('failed to inspect {}: {}'.format(name, e))
             widget = self._inspect_fallback(value)
         dw = QDockWidget(self.main_window)
         dw.setWidget(widget)
-        dw.setWindowTitle('Variable: {}'.format(name))
+        dw.setWindowTitle('Variable: {} ({})'.format(name, cls))
         self.main_window.addDockWidget(Qt.RightDockWidgetArea, dw)
         self.main_window.set_busy(False)
 
-    def _inspect_list(self, value):
+    def _inspect_fnc(self, cls):
 
-        dm = DataMatrix(length=len(value))
-        dm.values = value
-        return self._inspect_DataMatrix(dm)
-
-    def _inspect_tuple(self, value):
-
-        return self._inspect_list(value)
-
-    def _inspect_set(self, value):
-
-        return self._inspect_list(value)
-
-    def _inspect_DataFrame(self, value):
-
-        return self._inspect_DataMatrix(cnv.from_pandas(value))
-
-    def _inspect_DataMatrix(self, value):
-
-        return QDataMatrix(value, read_only=True)
-
-    def _inspect_ndarray(self, value):
-
-        if len(value.shape) == 1:
-            return self._inspect_list(value)
-        if len(value.shape) == 2:
-            rows, cols = value.shape
-            dm = DataMatrix(length=rows)
-            for col in range(cols):
-                dm['col{:05d}'.format(col)] = value[:, col]
-            return self._inspect_DataMatrix(dm)
-        raise ValueError('Can only inspect 1D and 2D arrays')
-
-    def _inspect_text(self, value):
-
-        widget = QScrollArea(self.main_window)
-        label = QLabel(widget)
-        label.setWordWrap(True)
-        label.setText(value)
-        label.setFont(QFont(cfg.pyqode_font_name, cfg.pyqode_font_size))
-        widget.setWidget(label)
-        return widget
-
-    def _inspect_dict(self, value):
-
-        return self._inspect_text(json.dumps(value, indent='  '))
+        try:
+            m = importlib.import_module(
+                'data_viewer_inspectors.inspect_{}'.format(cls)
+            )
+        except ModuleNotFoundError:
+            oslogger.debug('using fallback inspector for type {}'.format(cls))
+            return self._inspect_fallback
+        else:
+            oslogger.debug('using dedicated inspector for type {}'.format(cls))
+        return getattr(m, 'inspect_{}'.format(cls))
 
     def _inspect_fallback(self, value):
 
-        return self._inspect_text(repr(value))
+        return inspect_str(repr(value))
