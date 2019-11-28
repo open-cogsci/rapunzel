@@ -325,6 +325,11 @@ class MenuBar(QMenuBar):
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_change_working_directory)
         self.addMenu(self._menu_run)
+        # Online help menu
+        self._action_help = self._add_extension_action(
+            'help',
+            menu=self
+        )
 
     def _add_extension_action(self, ext, menu, separate=False):
 
