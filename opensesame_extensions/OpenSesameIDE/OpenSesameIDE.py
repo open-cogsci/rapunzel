@@ -22,6 +22,7 @@ import os
 import sys
 import mimetypes
 import textwrap
+from libopensesame import metadata
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
@@ -40,6 +41,7 @@ class OpenSesameIDE(BaseExtension):
 
         if self.main_window.mode != u'ide':
             return
+        metadata.identity = 'Rapunzel {}'.format(self.info['version'])
         os.path.splitunc = lambda path: ('', path)  # Backwards compatibility
         self._register_mimetypes()
         self._patch_behavior()

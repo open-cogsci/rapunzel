@@ -21,6 +21,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 import os
 import sys
 import fnmatch
+import json
 from setuptools import setup
 
 
@@ -112,13 +113,20 @@ def data_files():
     )
 
 
+def get_version():
+
+    with open('opensesame_extensions/OpenSesameIDE/info.json') as fd:
+        info = json.load(fd)
+    return info['version']
+
+
 setup(
     name='rapunzel',
-    version='0.3.11',
+    version=get_version(),
     description='Turns OpenSesame into a Python code editor',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
-    url='https://github.com/smathot/opensesame-extension-ide',
+    url='https://github.com/smathot/rapunzel',
     entry_points={
         'gui_scripts': [
             'rapunzel = rapunzel:rapunzel'
