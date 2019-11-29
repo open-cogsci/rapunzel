@@ -8,5 +8,9 @@
         "index": 3,
         "submenu": "View"
     },
+    "settings": {
+        "spellcheck_default_language": "en",
+        "spellcheck_mimetypes": "markdown"
+    },
     "modes": ["ide"]
 }

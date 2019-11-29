@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 from libqtopensesame.extensions import BaseExtension
 from libopensesame.oslogging import oslogger
+from libqtopensesame.misc.config import cfg
 from pyqode.core import modes
 
 
@@ -40,17 +41,39 @@ class SpellCheck(BaseExtension):
             placeholder_text=_(u'Set language for spell checking …')
         )
 
-    def _set_language(self, language):
+    def event_startup(self):
 
-        if 'OpenSesameIDE' not in self.extension_manager:
-            oslogger.warning('SpellCheck requires OpenSesameIDE')
+        try:
+            self._mimetypes = [
+                safe_decode(s)
+                for s in cfg.spellcheck_mimetypes.split(';')
+            ]
+        except Exception as e:
+            oslogger.debug('failed to parse mimetypes: {}'.format(e))
+            self._mimetypes = []
+        oslogger.debug('enabling spellcheck for {}'.format(self._mimetypes))
+
+    def _set_language(self, language, editor=None):
+
+        if language is None:
             return
-        editor = self.extension_manager['OpenSesameIDE']._current_editor()
+        # Getting the current editor if none was given
         if editor is None:
-            return
+            if 'OpenSesameIDE' not in self.extension_manager:
+                oslogger.warning('SpellCheck requires OpenSesameIDE')
+                return
+            editor = self.extension_manager['OpenSesameIDE']._current_editor()
+            if editor is None:
+                return
         if 'SpellCheckerMode' in editor.modes.keys():
             editor.modes.remove('SpellCheckerMode')
-        if language is not None:
-            spellchecker = modes.SpellCheckerMode()
-            spellchecker.set_ignore_rules(language)
-            editor.modes.append(spellchecker)
+        oslogger.debug('enabling spellcheck for {}'.format(editor))
+        spellchecker = modes.SpellCheckerMode()
+        spellchecker.set_ignore_rules(language)
+        editor.modes.append(spellchecker)
+
+    def event_register_editor(self, editor):
+
+        if editor.language not in self._mimetypes:
+            return
+        self._set_language(cfg.spellcheck_default_language, editor)
