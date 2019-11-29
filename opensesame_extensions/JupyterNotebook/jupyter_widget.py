@@ -42,7 +42,7 @@ class LaunchJupyterLabWidget(BaseWidget):
         self._jupyter = jupyter_notebook
         self._process = None
         self.ui.button_launch.clicked.connect(self._launch)
-        self.ui.button_kill.clicked.connect(self._kill)
+        self.ui.button_kill.clicked.connect(self.kill)
         self._update()
 
     def _launch(self):
@@ -63,15 +63,18 @@ class LaunchJupyterLabWidget(BaseWidget):
         else:
             time.sleep(1)
             self._update()
+            oslogger.debug(
+                'jupyterlab started (PID={})'.format(self._process.pid)
+            )
             self.main_window.set_busy(False)
 
-    def _kill(self):
+    def kill(self):
 
         self.main_window.set_busy(True)
         if self._running:
             oslogger.debug('killing jupyter-lab')
-        self._process.kill()
-        time.sleep(1)
+            self._process.kill()
+            time.sleep(1)
         self._update()
         self.main_window.set_busy(False)
 

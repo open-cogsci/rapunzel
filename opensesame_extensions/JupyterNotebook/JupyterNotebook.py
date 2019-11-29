@@ -55,6 +55,12 @@ class JupyterNotebook(BaseExtension):
         )
         self._widget = None
 
+    def event_close(self):
+
+        if self._widget is None:
+            return
+        self._widget.kill()
+
     def activate(self):
 
         self.tabwidget.add(self.widget(), self.icon(), self.label())
