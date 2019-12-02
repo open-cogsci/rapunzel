@@ -197,3 +197,7 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
     def set_workspace_globals(self, global_dict):
 
         self._kernel_manager.kernel.shell.push(global_dict)
+
+    def get_workspace_variable(self, name):
+
+        return self._kernel_manager.kernel.shell.user_global_ns.get(name, None)
