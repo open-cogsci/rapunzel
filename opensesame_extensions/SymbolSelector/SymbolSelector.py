@@ -58,7 +58,11 @@ class SymbolSelector(BaseExtension):
 
         return [
             (m.group('name'), code[:m.start()].count('\n') + 1)
-            for m in re.finditer(pattern, code, re.MULTILINE | re.ASCII)
+            for m in re.finditer(
+                pattern,
+                code,
+                re.MULTILINE | re.ASCII if py3 else re.MULTILINE
+            )
         ]
 
     def _get_python_symbols(self, code):

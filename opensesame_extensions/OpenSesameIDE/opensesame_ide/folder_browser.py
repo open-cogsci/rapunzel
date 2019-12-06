@@ -169,7 +169,11 @@ class FolderBrowser(FileSystemTreeView):
             self._path)
         )
         self._file_indexer.join()
-        self._file_indexer.close()
+        try:
+            self._file_indexer.close()
+        except AttributeError:
+            # Process.close() was introduced only in Python 3.7
+            pass
         QTimer.singleShot(300000, self._index_files)
 
 

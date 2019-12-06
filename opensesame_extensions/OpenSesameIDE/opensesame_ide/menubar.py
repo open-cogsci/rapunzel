@@ -380,7 +380,7 @@ class MenuBar(QMenuBar):
         if shortcut:
             action.setShortcut(shortcut)
             action.setToolTip(
-                '{} ({})'.format(title.replace('&', ''), shortcut)
+                u'{} ({})'.format(title.replace(u'&', u''), shortcut)
             )
         action.triggered.connect(target)
         if checkable:
