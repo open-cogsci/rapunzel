@@ -31,7 +31,7 @@ CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
 # Matches <codecell> ... </codecell> and <markdowncell> ... </markdowncell>
 NOTEBOOK_PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
 # Matches # %% .. # %%
-SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)\n((?=#[ \t]*%%[ \t]*\n)|\Z)'
+SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*\n)|\Z)'
 # To check whether there any Spyder cells in there
 SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*\n'
 
