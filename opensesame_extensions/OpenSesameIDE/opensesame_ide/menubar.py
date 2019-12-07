@@ -375,7 +375,7 @@ class MenuBar(QMenuBar):
         checked=False
     ):
 
-        action = QAction(title)
+        action = QAction(title, self)
         action.setIcon(self._ide.theme.qicon(icon))
         if shortcut:
             action.setShortcut(shortcut)
