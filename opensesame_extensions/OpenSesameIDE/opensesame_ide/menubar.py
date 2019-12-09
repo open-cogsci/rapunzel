@@ -449,7 +449,12 @@ class ToolBar(QToolBar):
         m = e.mimeData()
         if m.hasUrls() and all(url.isLocalFile() for url in m.urls()):
             for url in m.urls():
-                if os.path.isdir(url.path()):
-                    self._ide._open_folder(url.path())
+                path = url.path()
+                # On Windows, Qt for some reasons prefixes a slash to the path
+                # like so: /c:/folder/file. We strip this.
+                if path.startswith(u'/') and os.path.exists(path[1:]):
+                    path = path[1:]
+                if os.path.isdir(path):
+                    self._ide._open_folder(path)
                 else:
-                    self._ide.open_document(url.path())
+                    self._ide.open_document(path)
