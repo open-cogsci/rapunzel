@@ -49,6 +49,7 @@ class OpenSesameIDE(BaseExtension):
         self._scetw.main_tab_widget.cornerWidget().hide()
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
+        self._scetw.main_tab_widget.tab_closed.connect(self._on_editor_close)
         self._add_ide_tab()
         self._dock_widgets = {}
         self._set_ignore_patterns()
@@ -448,7 +449,10 @@ class OpenSesameIDE(BaseExtension):
         splitter = self._current_splitter()
         # If there are no child splitters, we use the regular split() method
         if not splitter.child_splitters:
-            splitter.split(editor, direction)
+            subsplitter = splitter.split(editor, direction)
+            subsplitter.main_tab_widget.tab_closed.connect(
+                self._on_editor_close
+            )
             self.extension_manager.fire(
                 u'register_editor',
                 editor=self._current_editor()
@@ -461,12 +465,16 @@ class OpenSesameIDE(BaseExtension):
         # pyqode.
         self.main_window.setUpdatesEnabled(False)
         subsplitter = splitter.split(editor, splitter.orientation(), index=1)
+        subsplitter.main_tab_widget.tab_closed.connect(self._on_editor_close)
         editor = self._current_editor()
         self.extension_manager.fire(
             u'register_editor',
             editor=editor
         )
-        subsplitter.split(editor, direction, index=1)
+        subsubsplitter = subsplitter.split(editor, direction, index=1)
+        subsubsplitter.main_tab_widget.tab_closed.connect(
+            self._on_editor_close
+        )
         editor = self._current_editor()
         self.extension_manager.fire(
             u'register_editor',
@@ -603,6 +611,10 @@ class OpenSesameIDE(BaseExtension):
             return
         if not self.main_window.ui.action_onetabmode.isChecked():
             self.main_window.ui.action_onetabmode.trigger()
+
+    def _on_editor_close(self, editor):
+
+        self.extension_manager.fire('unregister_editor', editor=editor)
 
     def _add_ide_tab(self):
 
