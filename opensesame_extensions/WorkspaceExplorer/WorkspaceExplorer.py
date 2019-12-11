@@ -22,6 +22,7 @@ from qdatamatrix import QDataMatrix
 from datamatrix import DataMatrix
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt, QTimer
+from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
@@ -117,10 +118,11 @@ class WorkspaceExplorer(BaseExtension):
             dm.value = ''
             dm.shape = ''
             dm.type = ''
-            for row, (var, (value, type_, shape)) in zip(
-                dm,
-                workspace.items()
-            ):
+            for row, (var, data) in zip(dm, workspace.items()):
+                if data is None:
+                    oslogger.warning(u'invalid workspace data: {}'.format(var))
+                    continue
+                value, type_, shape = data
                 row.value = value
                 row.name = var
                 if shape is not None:
