@@ -298,12 +298,21 @@ class MenuBar(QMenuBar):
             checkable=True,
             checked=cfg.pyqode_right_margin
         )
+        self._action_toggle_fixed_width = self._action(
+            _(u'Fixed editor width'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_fixed_width,
+            checkable=True,
+            checked=cfg.pyqode_fixed_width
+        )
         self._menu_editor.addAction(self._action_toggle_line_wrap)
         self._menu_editor.addAction(self._action_toggle_whitespaces)
         self._menu_editor.addAction(self._action_toggle_line_numbers)
         self._menu_editor.addAction(self._action_select_indentation_mode)
         self._menu_editor.addAction(self._action_toggle_code_folding)
         self._menu_editor.addAction(self._action_toggle_right_margin)
+        self._menu_editor.addAction(self._action_toggle_fixed_width)
         self._action_word_count = self._add_extension_action(
             'SpellCheck',
             menu=self._menu_editor,
@@ -388,6 +397,13 @@ class MenuBar(QMenuBar):
             action.setChecked(checked)
         action.setPriority(QAction.HighPriority)
         return action
+
+    def _toggle_fixed_width(self, fixed_width):
+
+        self._ide.extension_manager.fire(
+            'pyqode_set_fixed_width',
+            fixed_width=fixed_width
+        )
 
     def _toggle_line_wrap(self, line_wrap):
 
