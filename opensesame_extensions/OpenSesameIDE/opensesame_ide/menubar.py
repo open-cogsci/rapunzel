@@ -75,7 +75,7 @@ class MenuBar(QMenuBar):
             u'Alt+F4',
             ide.main_window.close
         )
-        self._menu_file = QMenu(_(u'&File'))
+        self._menu_file = self.addMenu(_(u'&File'))
         self._menu_file.addAction(self._action_new_file)
         self._menu_file.addAction(self._action_open_file)
         self._menu_file.addAction(self._action_save_file)
@@ -90,7 +90,6 @@ class MenuBar(QMenuBar):
             self._menu_file.addAction(jupyter_notebook.action_export_ipynb)
         self._menu_file.addSeparator()
         self._menu_file.addAction(self._action_quit)
-        self.addMenu(self._menu_file)
         # Tools menu
         self._action_preferences = self._action(
             _(u'&Preferences'),
@@ -104,7 +103,7 @@ class MenuBar(QMenuBar):
             None,
             ide.open_plugin_manager
         )
-        self._menu_tools = QMenu(_(u'&Tools'))
+        self._menu_tools = self.addMenu(_(u'&Tools'))
         self._menu_tools.addAction(self._action_preferences)
         self._menu_tools.addAction(self._action_plugins)
         self._menu_tools.addSeparator()
@@ -116,7 +115,6 @@ class MenuBar(QMenuBar):
             'GitGUI',
             menu=self._menu_tools
         )
-        self.addMenu(self._menu_tools)
         # View menu
         self._action_close_tab = self._action(
             _(u'&Close tab'),
@@ -180,7 +178,7 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_locate_active_file,
             ide.locate_file_in_folder
         )
-        self._menu_view = QMenu(_('&View'))
+        self._menu_view = self.addMenu(_('&View'))
         self._menu_view.addAction(self._action_close_tab)
         self._menu_view.addAction(self._action_close_other_tabs)
         self._menu_view.addAction(self._action_close_all_tabs)
@@ -218,7 +216,6 @@ class MenuBar(QMenuBar):
             menu=self._menu_view,
             separate=True
         )
-        self.addMenu(self._menu_view)
         # Run menu
         self._action_run_current_file = self._action(
             _(u'&Run project or file'),
@@ -251,7 +248,7 @@ class MenuBar(QMenuBar):
             ide.change_working_directory,
         )
         # Editor menu
-        self._menu_editor = QMenu(_('&Editor'))
+        self._menu_editor = self.addMenu(_('&Editor'))
         self._action_toggle_line_wrap = self._action(
             _(u'Wrap lines'),
             u'accessories-text-editor',
@@ -323,9 +320,8 @@ class MenuBar(QMenuBar):
             menu=self._menu_editor,
             separate=True
         )
-        self.addMenu(self._menu_editor)
         # Run menu
-        self._menu_run = QMenu(_('&Run'))
+        self._menu_run = self.addMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
         self._menu_run.addSeparator()
@@ -333,7 +329,6 @@ class MenuBar(QMenuBar):
         self._menu_run.addAction(self._action_run_restart)
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_change_working_directory)
-        self.addMenu(self._menu_run)
         # Online help menu
         self._action_help = self._add_extension_action(
             'help',
