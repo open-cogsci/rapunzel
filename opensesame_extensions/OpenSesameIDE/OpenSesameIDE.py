@@ -65,6 +65,11 @@ class OpenSesameIDE(BaseExtension):
         self.open_document(path)
         self.extension_manager.fire('ide_jump_to_line', lineno=line_number)
 
+    def event_ide_show_tab_bar(self, show_tab_bar):
+
+        cfg.openseame_ide_show_tab_bar = show_tab_bar
+        self._scetw.tab_bar_visible = show_tab_bar
+
     def event_ide_new_file(self, source=None):
 
         self.new_file()

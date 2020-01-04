@@ -9,6 +9,7 @@
         "opensesame_ide_recent_folders": "",
         "opensesame_ide_run_autosave": false,
         "opensesame_ide_auto_tabs_to_spaces": false,
+        "openseame_ide_show_tab_bar": true,
         "opensesame_ide_default_extension": ".py",
         "opensesame_ide_ignore_patterns": "*.pyc, *.pyo, *.coverage, .DS_Store, __pycache__, .git",
         "opensesame_ide_project_file": ".rapunzel.yaml",

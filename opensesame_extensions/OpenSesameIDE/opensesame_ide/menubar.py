@@ -273,6 +273,14 @@ class MenuBar(QMenuBar):
             checkable=True,
             checked=cfg.pyqode_show_line_numbers
         )
+        self._action_toggle_tab_bar = self._action(
+            _(u'Show editor tabs'),
+            u'accessories-text-editor',
+            None,
+            self._toggle_show_tab_bar,
+            checkable=True,
+            checked=cfg.openseame_ide_show_tab_bar
+        )
         self._action_select_indentation_mode = self._action(
             _(u'Select indentation mode'),
             u'accessories-text-editor',
@@ -314,6 +322,7 @@ class MenuBar(QMenuBar):
         self._menu_editor.addAction(self._action_toggle_line_wrap)
         self._menu_editor.addAction(self._action_toggle_whitespaces)
         self._menu_editor.addAction(self._action_toggle_line_numbers)
+        self._menu_editor.addAction(self._action_toggle_tab_bar)
         self._menu_editor.addAction(self._action_select_indentation_mode)
         self._menu_editor.addAction(self._action_toggle_code_folding)
         self._menu_editor.addAction(self._action_toggle_right_margin)
@@ -435,6 +444,13 @@ class MenuBar(QMenuBar):
         self._ide.extension_manager.fire(
             'pyqode_set_show_right_margin',
             show_right_margin=show_right_margin
+        )
+
+    def _toggle_show_tab_bar(self, show_tab_bar):
+
+        self._ide.extension_manager.fire(
+            'ide_show_tab_bar',
+            show_tab_bar=show_tab_bar
         )
 
     def _toggle_show_whitespaces(self, show_whitespaces):
