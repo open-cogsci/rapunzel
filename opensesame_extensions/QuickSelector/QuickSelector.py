@@ -26,8 +26,6 @@ from qtpy.QtWidgets import (
     QListWidget,
     QListWidgetItem
 )
-import Levenshtein
-from pygments import styles, token
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 from libqtopensesame.misc.config import cfg
@@ -89,6 +87,8 @@ class QuickSelectorDialog(QDialog):
 
     def __init__(self, parent, haystack, placeholder_text, default):
 
+        from pygments import styles, token
+
         super(QuickSelectorDialog, self).__init__(
             parent,
             Qt.FramelessWindowHint
@@ -137,6 +137,8 @@ class QuickSelectorDialog(QDialog):
         self._select(self._result_box.takeItem(0))
 
     def _search(self, needle):
+
+        import Levenshtein
 
         if not needle:
             haystack = self._haystack[:]

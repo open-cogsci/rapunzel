@@ -40,9 +40,6 @@ class JupyterNotebook(BaseExtension):
 
     def event_startup(self):
 
-        global nbformat
-        import nbformat
-
         self.action_import_ipynb = self.qaction(
             u'document-open',
             _('Import notebook'),
@@ -146,6 +143,8 @@ class JupyterNotebook(BaseExtension):
 
     def _notebook_to_code(self, path):
 
+        import nbformat
+
         try:
             nb = nbformat.read(path, as_version=4)
         except Exception as e:
@@ -164,6 +163,8 @@ class JupyterNotebook(BaseExtension):
         return u'\n'.join(py_cells)
 
     def _code_to_notebook(self, code, path):
+
+        import nbformat
 
         nb = nbformat.v4.new_notebook()
         for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
