@@ -134,7 +134,7 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
             except (pickle.PicklingError, TypeError):
                 pass
             else:
-                code.append('{} = loads({})'.format(var, blob))
+                code.append('{} = loads({})'.format(var, repr(blob)))
         self._kernel_client.execute(';'.join(code), silent=True)
 
     def get_workspace_variable(self, name):
