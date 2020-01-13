@@ -114,11 +114,7 @@ class FindWidget(BaseWidget):
                 break
             if filter and not fnmatch.fnmatch(path, filter):
                 continue
-            try:
-                with open(path) as fd:
-                    haystack = fd.read()
-            except UnicodeDecodeError:
-                continue
+            haystack = safe_read(path)
             lines = None
             for line_number in find_text(needle, haystack):
                 if lines is None:
