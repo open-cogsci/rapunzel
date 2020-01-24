@@ -22,7 +22,6 @@ import os
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
 from libopensesame.oslogging import oslogger
-from jupyter_tabwidget import ConsoleTabWidget
 from qtpy.QtWidgets import QDockWidget, QShortcut
 from qtpy.QtCore import Qt
 from qtpy.QtGui import QKeySequence
@@ -32,8 +31,12 @@ _ = translation_context(u'JupyterConsole', category=u'extension')
 
 class JupyterConsole(BaseExtension):
 
+    @BaseExtension.as_thread(wait=2000)
     def event_startup(self):
 
+        from jupyter_tabwidget import ConsoleTabWidget
+
+        self.set_busy(True)
         self._jupyter_console = ConsoleTabWidget(self.main_window)
         self._dock_widget = QDockWidget(u'Console', self.main_window)
         self._dock_widget.setObjectName(u'JupyterConsole')
@@ -50,6 +53,7 @@ class JupyterConsole(BaseExtension):
             self._focus,
             context=Qt.ApplicationShortcut
         )
+        self.set_busy(False)
 
     def activate(self):
 
