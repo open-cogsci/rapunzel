@@ -121,7 +121,8 @@ class OpenSesameIDE(BaseExtension):
         # Otherwise open it in a new tab in the current splitter
         editor = self._current_splitter().open_document(
             path,
-            replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces
+            replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces,
+            clean_trailing_whitespaces=cfg.opensesame_ide_strip_lines
         )
         self.extension_manager.fire(
             u'register_editor',
