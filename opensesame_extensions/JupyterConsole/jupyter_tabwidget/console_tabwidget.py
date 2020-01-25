@@ -73,6 +73,7 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
                 for ext in self.extension_manager.extensions
             }
             global_dict['opensesame'] = self.main_window
+            global_dict['event_durations'] = self._event_durations
             jupyter_console.set_workspace_globals(global_dict)
         self.setTabsClosable(self.count() > 1)
         self.setCurrentIndex(self.count() - 1)
@@ -113,3 +114,19 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
             name=self.widget(index).name,
             workspace_func=self.widget(index).get_workspace_globals
         )
+
+    def _event_durations(self):
+        
+        if not self.main_window.options.profile:
+            print('Start with --performance-profile to see event durations')
+            return
+        event_durations = []
+        for ext in self.extension_manager._extensions:
+            for event, durations in ext._event_durations.items():
+                event_durations.append(
+                    (ext, event, sum(durations) / len(durations))
+                )
+        for ext, event, duration in sorted(
+            event_durations, key=lambda e: -e[2]
+        ):
+            print('{}({}): {:.2f} ms'.format(event, ext.name(), duration))
