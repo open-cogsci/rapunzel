@@ -67,7 +67,7 @@ class OpenSesameIDE(BaseExtension):
 
     def event_ide_show_tab_bar(self, show_tab_bar):
 
-        cfg.openseame_ide_show_tab_bar = show_tab_bar
+        cfg.opensesame_ide_show_tab_bar = show_tab_bar
         self._scetw.tab_bar_visible = show_tab_bar
 
     def event_ide_new_file(self, source=None):

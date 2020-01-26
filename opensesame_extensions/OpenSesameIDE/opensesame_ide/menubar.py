@@ -279,7 +279,7 @@ class MenuBar(QMenuBar):
             None,
             self._toggle_show_tab_bar,
             checkable=True,
-            checked=cfg.openseame_ide_show_tab_bar
+            checked=cfg.opensesame_ide_show_tab_bar
         )
         self._action_select_indentation_mode = self._action(
             _(u'Select indentation mode'),
