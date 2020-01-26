@@ -54,9 +54,20 @@ class JupyterConsole(BaseExtension):
             context=Qt.ApplicationShortcut
         )
         self.set_busy(False)
+        
+    def fire(self, event, **kwdict):
+        
+        if event != 'startup':
+            oslogger.info('ignoring events until after startup')
+            return
+        JupyterConsole.fire = BaseExtension.fire
+        self.fire(event, **kwdict)
 
     def activate(self):
 
+        if not hasattr(self, '_jupyter_console'):
+            oslogger.info('ignoring activate until after startup')
+            return
         self._set_visible(not cfg.jupyter_visible)
 
     def event_run_experiment(self, fullscreen):
