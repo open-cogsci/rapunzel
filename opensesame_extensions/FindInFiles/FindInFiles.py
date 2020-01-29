@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import fnmatch
 from qtpy.QtWidgets import QTreeWidgetItem, QApplication, QDockWidget
 from qtpy.QtCore import Qt
+from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.widgets.base_widget import BaseWidget
 from libqtopensesame.misc.translate import translation_context
@@ -134,7 +135,11 @@ class FindWidget(BaseWidget):
                 )
                 line_item.result = path, line_number
                 path_item.addChild(line_item)
-            self.ui.treewidget_results.expandAll()
+            try:
+                self.ui.treewidget_results.expandAll()
+            except RuntimeError:
+                oslogger.debug('closed during search')
+                return
             QApplication.processEvents()
         self.ui.button_cancel.hide()
         self.ui.button_find.show()
