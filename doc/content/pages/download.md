@@ -8,7 +8,7 @@ next_url: %url:workflow%
 
 ## Anaconda (cross-platform)
 
-Rapunzel requires libraries from the `cogsci` and `conda-forge` channels. The recommended version of Python is 3.7.3.
+Rapunzel requires libraries from the `cogsci` and `conda-forge` channels.
 
 ```bash
 conda config --add channels cogsci --add channels conda-forge
@@ -21,7 +21,9 @@ Once Rapunzel has been installed, you can start it from the Anaconda prompt (`ra
 
 ## Windows
 
-You can download a pre-built Windows package from [here](https://github.com/smathot/OpenSesame/releases). Extract the `zip` archive somewhere, and double-click on `rapunzel.bat` to start Rapunzel.
+Rapunzel is included with OpenSesame, and you can download a pre-built Windows packages from the OpenSesame download page:
+
+- <https://osdoc.cogsci.nl/download>
 
 
 ## Ubuntu

@@ -3,7 +3,12 @@ next_title: Workspace
 next_url: %url:workspace%
 
 
-There are two main ways to run code. You can either run a project or file (`F5`); or you can run a selection, cell, or current line (`F9`). Rapunzel uses an intuitive logic to run code as you would expect it to. Code is executed in the currently active console, unless otherwise specified in a project file.
+There are two main ways to run code:
+
+`F5` runs a project or file
+`F9` runs a selection, the current cell, or the current line.
+
+Rapunzel uses an intuitive logic to run code as you would expect it to, as explained below. Code is executed in the currently active console, unless otherwise specified in a project file.
 
 
 [TOC]
@@ -18,7 +23,7 @@ There are two main ways to run code. You can either run a project or file (`F5`)
 ## Running a selection, cell, or line (`F9`)
 
 - If any code is selected, then this selection is executed.
-- Otherwise, if the cursor is inside a code cell (see below), then this code cell is executed.
+- Otherwise, if the cursor is inside a code cell (explained below), then this code cell is executed.
 - Otherwise, the currently active line of code is executed.
 
 
