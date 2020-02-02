@@ -29,3 +29,15 @@ Rapunzel is a modern code editor focused on numerical computing with Python and 
 
 
 Powered by [OpenSesame](https://osdoc.cogsci.nl/) and [Project Jupyter](https://jupyter.org/).
+
+
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: lRerVytOQLU
+ width: 640
+ height: 360
+ caption: |
+  Rapunzel in action.
+--%
