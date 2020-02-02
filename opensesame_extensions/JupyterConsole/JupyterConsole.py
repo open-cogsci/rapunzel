@@ -131,7 +131,10 @@ class JupyterConsole(BaseExtension):
 
     def provide_jupyter_workspace_name(self):
 
-        return self._jupyter_console.current.name
+        try:
+            return self._jupyter_console.current.name
+        except AttributeError:
+            return None
 
     def provide_jupyter_workspace_globals(self):
 
@@ -147,7 +150,10 @@ class JupyterConsole(BaseExtension):
 
     def get_workspace_globals(self):
 
-        return self._jupyter_console.current.get_workspace_globals()
+        try:
+            return self._jupyter_console.current.get_workspace_globals()
+        except AttributeError:
+            return {u'no reply': None}
 
     def event_close(self):
 

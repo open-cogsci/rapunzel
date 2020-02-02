@@ -39,6 +39,7 @@ class WorkspaceMatrix(QDataMatrix):
 
 class WorkspaceExplorer(BaseExtension):
 
+    @BaseExtension.as_thread(wait=2500)
     def event_startup(self):
 
         dm = DataMatrix(length=0)
@@ -76,6 +77,9 @@ class WorkspaceExplorer(BaseExtension):
 
     def activate(self):
 
+        if not hasattr(self, '_qdm'):
+            oslogger.info('ignoring activate until after startup')
+            return
         self._set_visible(not cfg.workspace_visible)
 
     def _on_visibility_changed(self, visible):
@@ -95,12 +99,15 @@ class WorkspaceExplorer(BaseExtension):
 
     def _update(self, name, workspace_func):
 
-        if not self._dock_widget.isVisible():
+        if (
+            not hasattr(self, '_dock_widget') or
+            not self._dock_widget.isVisible()
+        ):
             return
         self._dock_widget.setWindowTitle(_(u'Workspace ({})').format(name))
         workspace = workspace_func()
         # If the workspace didn't reply, we try again in a second
-        if workspace.get(u'no reply', False) is None:
+        if workspace is None or workspace.get(u'no reply', False) is None:
             QTimer.singleShot(
                 1000,
                 lambda: self._update(name, workspace_func)
