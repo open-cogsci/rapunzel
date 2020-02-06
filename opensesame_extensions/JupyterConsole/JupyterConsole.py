@@ -58,7 +58,7 @@ class JupyterConsole(BaseExtension):
     def fire(self, event, **kwdict):
         
         if event != 'startup':
-            oslogger.info('ignoring events until after startup')
+            oslogger.debug('ignoring events until after startup')
             return
         JupyterConsole.fire = BaseExtension.fire
         self.fire(event, **kwdict)
@@ -66,7 +66,7 @@ class JupyterConsole(BaseExtension):
     def activate(self):
 
         if not hasattr(self, '_jupyter_console'):
-            oslogger.info('ignoring activate until after startup')
+            oslogger.debug('ignoring activate until after startup')
             return
         self._set_visible(not cfg.jupyter_visible)
 
@@ -157,6 +157,9 @@ class JupyterConsole(BaseExtension):
 
     def event_close(self):
 
+        if not hasattr(self, '_jupyter_console'):
+            oslogger.debug('ignoring close all')
+            return
         self._jupyter_console.close_all()
 
     def _set_visible(self, visible):
