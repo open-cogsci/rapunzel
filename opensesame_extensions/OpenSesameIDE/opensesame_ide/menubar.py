@@ -32,6 +32,7 @@ class MenuBar(QMenuBar):
 
         super(MenuBar, self).__init__(parent)
         self._ide = ide
+        self._cfg_actions = {}
         # File menu
         self._action_new_file = self._action(
             _(u'&New'),
@@ -249,29 +250,20 @@ class MenuBar(QMenuBar):
         )
         # Editor menu
         self._menu_editor = self.addMenu(_('&Editor'))
-        self._action_toggle_line_wrap = self._action(
+        self._action_toggle_line_wrap = self._cfg_action(
+            self._menu_editor,
             _(u'Wrap lines'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_line_wrap,
-            checkable=True,
-            checked=cfg.pyqode_line_wrap
+            u'pyqode_line_wrap'
         )
-        self._action_toggle_whitespaces = self._action(
+        self._action_toggle_whitespaces = self._cfg_action(
+            self._menu_editor,
             _(u'Show whitespace'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_show_whitespaces,
-            checkable=True,
-            checked=cfg.pyqode_show_whitespaces
+            u'pyqode_show_whitespaces'
         )
-        self._action_toggle_line_numbers = self._action(
+        self._action_toggle_line_numbers = self._cfg_action(
+            self._menu_editor,
             _(u'Show line numbers'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_show_line_numbers,
-            checkable=True,
-            checked=cfg.pyqode_show_line_numbers
+            u'pyqode_show_line_numbers'
         )
         self._action_toggle_tab_bar = self._action(
             _(u'Show editor tabs'),
@@ -287,47 +279,28 @@ class MenuBar(QMenuBar):
             None,
             self._select_indentation_mode
         )
-        self._action_toggle_code_folding = self._action(
+        self._action_toggle_code_folding = self._cfg_action(
+            self._menu_editor,
             _(u'Code folding'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_code_folding,
-            checkable=True,
-            checked=cfg.pyqode_code_folding
+            u'pyqode_code_folding'
         )
-        self._action_toggle_right_margin = self._action(
+        self._action_toggle_right_margin = self._cfg_action(
+            self._menu_editor,
             _(u'Show right margin'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_show_right_margin,
-            checkable=True,
-            checked=cfg.pyqode_right_margin
+            u'pyqode_right_margin'
         )
-        self._action_toggle_fixed_width = self._action(
+        self._action_toggle_fixed_width = self._cfg_action(
+            self._menu_editor,
             _(u'Fixed editor width'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_fixed_width,
-            checkable=True,
-            checked=cfg.pyqode_fixed_width
+            u'pyqode_fixed_width'
         )
-        self._action_toggle_code_completion = self._action(
+        self._action_toggle_code_completion = self._cfg_action(
+            self._menu_editor,
             _(u'Code completion'),
-            u'accessories-text-editor',
-            None,
-            self._toggle_code_completion,
-            checkable=True,
-            checked=cfg.pyqode_code_completion
+            u'pyqode_code_completion'
         )
-        self._menu_editor.addAction(self._action_toggle_line_wrap)
-        self._menu_editor.addAction(self._action_toggle_whitespaces)
-        self._menu_editor.addAction(self._action_toggle_line_numbers)
         self._menu_editor.addAction(self._action_toggle_tab_bar)
         self._menu_editor.addAction(self._action_select_indentation_mode)
-        self._menu_editor.addAction(self._action_toggle_code_folding)
-        self._menu_editor.addAction(self._action_toggle_right_margin)
-        self._menu_editor.addAction(self._action_toggle_fixed_width)
-        self._menu_editor.addAction(self._action_toggle_code_completion)
         self._action_word_count = self._add_extension_action(
             'SpellCheck',
             menu=self._menu_editor,
@@ -381,6 +354,44 @@ class MenuBar(QMenuBar):
         tool_bar.setWindowTitle(u'IDE toolbar')
         tool_bar.setObjectName(u'OpenSesameIDE_Toolbar')
         return tool_bar
+    
+    def setting_changed(self, setting, value):
+        
+        if setting in self._cfg_actions:
+            self._cfg_actions[setting].setChecked(value)
+    
+    def _cfg_action(
+        self,
+        menu,
+        title,
+        setting,
+        icon=None,
+        shortcut=None
+    ):
+
+        action = QAction(title, self)
+        if icon:
+            action.setIcon(self._ide.theme.qicon(icon))
+        if shortcut:
+            action.setShortcut(shortcut)
+            action.setToolTip(
+                u'{} ({})'.format(title.replace(u'&', u''), shortcut)
+            )
+        
+        def change_setting(value):
+            self._ide.extension_manager.fire(
+                'setting_changed',
+                setting=setting,
+                value=value
+            )
+            
+        action.triggered.connect(change_setting)
+        action.setCheckable(True)
+        action.setChecked(cfg[setting])
+        action.setPriority(QAction.HighPriority)
+        menu.addAction(action)
+        self._cfg_actions[setting] = action
+        return action
 
     def _action(
         self,
@@ -393,7 +404,8 @@ class MenuBar(QMenuBar):
     ):
 
         action = QAction(title, self)
-        action.setIcon(self._ide.theme.qicon(icon))
+        if icon:
+            action.setIcon(self._ide.theme.qicon(icon))
         if shortcut:
             action.setShortcut(shortcut)
             action.setToolTip(
@@ -406,60 +418,11 @@ class MenuBar(QMenuBar):
         action.setPriority(QAction.HighPriority)
         return action
 
-    def _toggle_fixed_width(self, fixed_width):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_fixed_width',
-            fixed_width=fixed_width
-        )
-
-    def _toggle_code_completion(self, code_completion):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_code_completion',
-            code_completion=code_completion
-        )
-
-    def _toggle_line_wrap(self, line_wrap):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_line_wrap',
-            line_wrap=line_wrap
-        )
-
-    def _toggle_code_folding(self, code_folding):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_code_folding',
-            code_folding=code_folding
-        )
-
-    def _toggle_show_right_margin(self, show_right_margin):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_show_right_margin',
-            show_right_margin=show_right_margin
-        )
-
     def _toggle_show_tab_bar(self, show_tab_bar):
 
         self._ide.extension_manager.fire(
             'ide_show_tab_bar',
             show_tab_bar=show_tab_bar
-        )
-
-    def _toggle_show_whitespaces(self, show_whitespaces):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_show_whitespaces',
-            show_whitespaces=show_whitespaces
-        )
-
-    def _toggle_show_line_numbers(self, show_line_numbers):
-
-        self._ide.extension_manager.fire(
-            'pyqode_set_show_line_numbers',
-            show_line_numbers=show_line_numbers
         )
 
     def _select_indentation_mode(self):

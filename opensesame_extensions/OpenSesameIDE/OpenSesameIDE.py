@@ -60,6 +60,12 @@ class OpenSesameIDE(BaseExtension):
             self.theme.qicon(u'rapunzel')
         )
 
+    def event_setting_changed(self, setting, value):
+        
+        self.extension_manager.suspend()
+        self._menubar.setting_changed(setting, value)
+        self.extension_manager.resume()
+
     def event_ide_open_file(self, path, line_number=1):
 
         self.open_document(path)
