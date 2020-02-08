@@ -31,6 +31,8 @@ MARKDOWN_SYMBOLS = r'^#+[ \t]*(?P<name>.+)$'
 
 
 class SymbolSelector(BaseExtension):
+    
+    preferences_ui = 'extensions.SymbolSelector.preferences'
 
     def activate(self):
 

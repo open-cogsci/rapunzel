@@ -25,6 +25,8 @@ from pyqode.core import modes
 
 
 class SpellCheck(BaseExtension):
+    
+    preferences_ui = 'extensions.SpellCheck.preferences'
 
     def activate(self):
 

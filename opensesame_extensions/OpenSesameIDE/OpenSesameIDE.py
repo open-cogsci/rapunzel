@@ -36,6 +36,8 @@ _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
 
 class OpenSesameIDE(BaseExtension):
+    
+    preferences_ui = 'extensions.OpenSesameIDE.preferences'
 
     def event_startup(self):
 

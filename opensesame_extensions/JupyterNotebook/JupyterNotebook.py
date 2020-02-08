@@ -37,6 +37,8 @@ SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*\n'
 
 
 class JupyterNotebook(BaseExtension):
+    
+    preferences_ui = 'extensions.JupyterNotebook.preferences'
 
     def event_startup(self):
 

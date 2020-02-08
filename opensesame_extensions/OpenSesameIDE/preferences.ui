@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>575</width>
+    <height>741</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>18</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Rapunzel IDE: Appearance and behavior</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="labelAlignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="topMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <property name="bottomMargin">
+       <number>12</number>
+      </property>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="cfg_opensesame_ide_run_autosave">
+        <property name="text">
+         <string>Automatically save before running file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="cfg_opensesame_ide_default_extension"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Default file extension</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="cfg_opensesame_ide_run_selection_change_working_directory">
+        <property name="text">
+         <string>Change working directory before running selection</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="cfg_opensesame_ide_auto_tabs_to_spaces">
+        <property name="text">
+         <string>Automatically convert tabs to spaces</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="cfg_opensesame_ide_strip_lines">
+        <property name="text">
+         <string>Automatically strip trailing whitespace</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Rapunzel IDE: Keyboard shortcuts</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <property name="labelAlignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="horizontalSpacing">
+       <number>12</number>
+      </property>
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="topMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <property name="bottomMargin">
+       <number>12</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Run project or file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Run selection, cell, or current line</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Interrupt kernel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Change working directory to active file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Toggle fullscreen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Close tab</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Close other tabs</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Close all tabs</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Split vertical</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Split horizontal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Switch to previous panel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Switch to next panel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Toggle folder browsers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Locate active file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_run_file"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_run_selection"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_run_interrupt"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_change_working_directory"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_toggle_fullscreen"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_tab"/>
+      </item>
+      <item row="6" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_other_tabs"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_all_tabs"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_split_vertical"/>
+      </item>
+      <item row="9" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_split_horizontal"/>
+      </item>
+      <item row="10" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_switch_previous_panel"/>
+      </item>
+      <item row="11" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_switch_next_panel"/>
+      </item>
+      <item row="12" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_toggle_folder_browsers"/>
+      </item>
+      <item row="13" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_locate_active_file"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
