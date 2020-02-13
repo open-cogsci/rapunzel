@@ -25,40 +25,83 @@ from libqtopensesame.misc.translate import translation_context
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
 from data_viewer_inspectors.inspect_str import inspect_str
+from datadockwidget import DataDockWidget
 _ = translation_context(u'DataViewer', category=u'extension')
 
 
 class DataViewer(BaseExtension):
+    
+    def event_startup(self):
+        
+        self._dock_widgets = {}
 
-    def event_data_viewer_inspect(self, name, value):
+    def event_data_viewer_inspect(self, name, workspace):
 
+        if name in self._dock_widgets:
+            return
         self.main_window.set_busy(True)
-        cls = value.__class__.__name__
-        fnc = self._inspect_fnc(cls)
-        try:
-            widget = fnc(value)
-        except Exception as e:
-            oslogger.debug('failed to inspect {}: {}'.format(name, e))
-            widget = self._inspect_fallback(value)
-        dw = QDockWidget(self.main_window)
-        dw.setWidget(widget)
-        dw.setWindowTitle('Variable: {} ({})'.format(name, cls))
+        value = self.extension_manager.provide(
+            'jupyter_workspace_variable',
+            name=name
+        )        
+        dw = DataDockWidget(self, name, value, workspace)
         self.main_window.addDockWidget(Qt.RightDockWidgetArea, dw)
         self.main_window.set_busy(False)
+        self._dock_widgets[name] = dw
+        
+    def remove_dock_widget(self, name):
+        
+        if name in self._dock_widgets:
+            del self._dock_widgets[name]
+            
+    def _update(self, name):
 
-    def _inspect_fnc(self, cls):
-
-        try:
-            m = importlib.import_module(
-                'data_viewer_inspectors.inspect_{}'.format(cls)
+        # Only get the data for the current workspace
+        dock_widgets = {
+            name: dw
+            for name, dw in self._dock_widgets.items()
+            if dw.workspace != name
+        }
+        if not dock_widgets:
+            return
+        self.main_window.set_busy(True)
+        workspace_list = None
+        # Loop through all dockwidgets and get the current value of the
+        # variable
+        for name, dw in dock_widgets.items():
+            value = self.extension_manager.provide(
+                'jupyter_workspace_variable',
+                name=name
             )
-        except ModuleNotFoundError:
-            oslogger.debug('using fallback inspector for type {}'.format(cls))
-            return self._inspect_fallback
-        else:
-            oslogger.debug('using dedicated inspector for type {}'.format(cls))
-        return getattr(m, 'inspect_{}'.format(cls))
+            # If the value is None, this can either mean that it is really None
+            # or that the variable no longer exists. To check this, we get a
+            # list of all global variables. However, for performance, we do
+            # this only once, and only if it's necessary.
+            if value is None:
+                if workspace_list is None:
+                    workspace_list = self.extension_manager.provide(
+                        'jupyter_list_workspace_globals'
+                    )
+                # If the variable has been deleter, close the corresponding
+                # dockwidget
+                if name not in workspace_list:
+                    dw.close()
+                    continue
+            dw.refresh(value)
+        self.main_window.set_busy(False)
 
-    def _inspect_fallback(self, value):
+    def event_workspace_update(self, name, workspace_func):
 
-        return inspect_str(repr(value))
+        self._update(name)
+
+    def event_workspace_restart(self, name, workspace_func):
+
+        self._update(name)
+
+    def event_workspace_switch(self, name, workspace_func):
+
+        self._update(name)
+
+    def event_workspace_new(self, name, workspace_func):
+
+        self._update(name)

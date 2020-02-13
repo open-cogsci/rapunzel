@@ -65,14 +65,10 @@ class WorkspaceExplorer(BaseExtension):
         if not row:
             return
         name = self._qdm.dm.name[row - 1]
-        value = self.extension_manager.provide(
-            'jupyter_workspace_variable',
-            name=name
-        )
         self.extension_manager.fire(
             'data_viewer_inspect',
             name=name,
-            value=value
+            workspace=self.extension_manager.provide('jupyter_workspace_name')
         )
 
     def activate(self):

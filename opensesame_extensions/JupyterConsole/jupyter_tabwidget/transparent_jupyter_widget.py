@@ -47,6 +47,17 @@ not inspect.isclass(val) and
 not inspect.ismodule(val)
 }'''
 
+LIST_GLOBAL_EXPR = u'''[
+key
+for key, val in globals().items()
+if not key.startswith(u'_') and
+key not in ('In', 'Out') and
+not callable(val) and
+not inspect.isclass(val) and
+not inspect.ismodule(val)
+]
+'''
+
 
 class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
 
@@ -91,15 +102,15 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
             {}
         ).get(u'user_expressions', {})
         return super(OutprocessJupyterWidget, self)._handle_execute_reply(msg)
-
-    def get_workspace_globals(self):
-
+        
+    def _silent_execute(self, expr):
+        
         key = str(uuid.uuid4())
         self._kernel_client.execute(
-            u'import json; import inspect',
+            u'import inspect',
             silent=True,
             user_expressions={
-                key: GLOBAL_EXPR
+                key: expr
             }
         )
         for _ in range(100):
@@ -109,14 +120,22 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
             QApplication.processEvents()
         else:
             return {u'no reply': None}
-        reply = self._user_expressions[key].get(
-            u'data',
-            {}
-        ).get(u'text/plain', u'{"invalid reply": None}')
+        reply = self._user_expressions[key].get(u'data', {}).get(
+            u'text/plain',
+            u'{"invalid reply": None}'
+        )
         try:
             return ast.literal_eval(reply)
         except (ValueError, SyntaxError):
             return {u'cannot eval reply': None}
+
+    def get_workspace_globals(self):
+
+        return self._silent_execute(GLOBAL_EXPR)
+
+    def list_workspace_globals(self):
+
+        return self._silent_execute(LIST_GLOBAL_EXPR)
 
     def set_workspace_globals(self, global_dict):
 
@@ -193,6 +212,19 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
             not inspect.isclass(val) and
             not inspect.ismodule(val)
         }
+        
+    def list_workspace_globals(self):
+        
+        return [
+            key
+            for key, val
+            in self._kernel_manager.kernel.shell.user_global_ns.copy().items()
+            if not key.startswith(u'_') and
+            key not in ('In', 'Out') and
+            not callable(val) and
+            not inspect.isclass(val) and
+            not inspect.ismodule(val)
+        ]
 
     def set_workspace_globals(self, global_dict):
 

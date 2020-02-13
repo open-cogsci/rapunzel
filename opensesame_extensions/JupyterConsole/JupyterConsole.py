@@ -142,10 +142,14 @@ class JupyterConsole(BaseExtension):
 
         return self.get_workspace_globals()
 
+    def provide_jupyter_list_workspace_globals(self):
+
+        return self.list_workspace_globals()
+
     def provide_jupyter_workspace_variable(self, name):
 
         return self._jupyter_console.current.get_workspace_variable(name)
-
+        
     def provide_jupyter_check_syntax(self, code):
 
         return self._jupyter_console.current.check_syntax(code)
@@ -156,6 +160,14 @@ class JupyterConsole(BaseExtension):
             return self._jupyter_console.current.get_workspace_globals()
         except AttributeError:
             return {u'no reply': None}
+
+    def list_workspace_globals(self):
+
+        try:
+            return self._jupyter_console.current.list_workspace_globals()
+        except Exception as e:
+            print(e)
+            return []
 
     def event_close(self):
 
