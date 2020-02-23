@@ -108,15 +108,20 @@ class JupyterNotebook(BaseExtension):
                     'end': m.end()
                 })
         return cells
+    
+    def provide_open_file_extension_ipynb(self):
+        
+        return self._import_ipynb
+    
+    def _import_ipynb(self, path=None):
 
-    def _import_ipynb(self):
-
-        path = QFileDialog.getOpenFileName(
-            self.main_window,
-            _(u'Open Jupyter/ IPython Notebook'),
-            filter=u'Notebooks (*.ipynb)',
-            directory=cfg.file_dialog_path
-        )
+        if path is None:
+            path = QFileDialog.getOpenFileName(
+                self.main_window,
+                _(u'Open Jupyter/ IPython Notebook'),
+                filter=u'Notebooks (*.ipynb)',
+                directory=cfg.file_dialog_path
+            )
         if isinstance(path, tuple):
             path = path[0]
         if not path:
