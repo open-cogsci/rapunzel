@@ -33,6 +33,7 @@ class DataDockWidget(QDockWidget):
         self._data_viewer = data_viewer
         self._name = name
         self._workspace = workspace
+        self.setObjectName('DataDockWidget_{}'.format(name))
         self.refresh(value)
         
     @property

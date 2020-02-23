@@ -166,10 +166,10 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
                 key: u'pickle.dumps({})'.format(name)
             }
         )
-        for _ in range(100):
+        for _ in range(200):
             if key in self._user_expressions:
                 break
-            time.sleep(0.01)
+            time.sleep(0.05)
             QApplication.processEvents()
         else:
             return None

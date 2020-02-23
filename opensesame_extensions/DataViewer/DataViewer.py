@@ -34,6 +34,7 @@ class DataViewer(BaseExtension):
     def event_startup(self):
         
         self._dock_widgets = {}
+        self._queue = []
 
     def event_data_viewer_inspect(self, name, workspace):
 
@@ -49,11 +50,97 @@ class DataViewer(BaseExtension):
         self.main_window.set_busy(False)
         self._dock_widgets[name] = dw
         
+    def provide_open_file_extension_csv(self): return self._open_csv
+    def provide_open_file_extension_xlsx(self): return self._open_xlsx
+    def provide_open_file_extension_png(self): return self._open_image
+    def provide_open_file_extension_jpg(self): return self._open_image
+    def provide_open_file_extension_jpeg(self): return self._open_image
+    
     def remove_dock_widget(self, name):
         
         if name in self._dock_widgets:
             del self._dock_widgets[name]
             
+    def event_workspace_update(self, name, workspace_func):
+
+        self._update(name)
+        # The queue contains symbol names that should be shown after the next
+        # kernel command has been executed. This allows for loading files from
+        # disk with a command, and then subsequently showing them.
+        while self._queue:
+            symbol = self._queue.pop()
+            self.extension_manager.fire(
+                'data_viewer_inspect',
+                name=symbol,
+                workspace=self.extension_manager.provide(
+                    'jupyter_workspace_name'
+                )
+            )
+
+    def event_workspace_restart(self, name, workspace_func):
+
+        self._update(name)
+
+    def event_workspace_switch(self, name, workspace_func):
+
+        self._update(name)
+
+    def event_workspace_new(self, name, workspace_func):
+
+        self._update(name)            
+    
+    def _unique_symbol(self, tmpl):
+        
+        workspace_list = self.extension_manager.provide(
+            'jupyter_list_workspace_globals'
+        )
+        i = 0
+        while tmpl.format(i) in workspace_list:
+            i += 1
+        return tmpl.format(i)
+        
+    def _open_in_workspace(self, code, path, tmpl):
+        
+        symbol = self._unique_symbol(tmpl)
+        self.extension_manager.fire(
+            'jupyter_run_code',
+            code=code.format(path=path, symbol=symbol)
+        )
+        self._queue.append(symbol)
+
+    def _open_csv(self, path):
+        
+        self._open_in_workspace(
+            code=(
+                'from datamatrix import io\n'
+                '{symbol} = io.readtxt(r"{path}")'
+            ),
+            path=path,
+            tmpl='csv_{}'
+        )
+        
+    def _open_xlsx(self, path):
+        
+        self._open_in_workspace(
+            code=(
+                'from datamatrix import io\n'
+                '{symbol} = io.readxlsx(r"{path}")'
+            ),
+            path=path,
+            tmpl='xlsx_{}'
+        )
+        
+    def _open_image(self, path):
+        
+        self._open_in_workspace(
+            code=(
+                'from PIL import Image\n'
+                '{symbol} = Image.open(r"{path}")'
+            ),
+            path=path,
+            tmpl='img_{}'
+        )
+                    
     def _update(self, name):
 
         # Only get the data for the current workspace
@@ -89,19 +176,3 @@ class DataViewer(BaseExtension):
                     continue
             dw.refresh(value)
         self.main_window.set_busy(False)
-
-    def event_workspace_update(self, name, workspace_func):
-
-        self._update(name)
-
-    def event_workspace_restart(self, name, workspace_func):
-
-        self._update(name)
-
-    def event_workspace_switch(self, name, workspace_func):
-
-        self._update(name)
-
-    def event_workspace_new(self, name, workspace_func):
-
-        self._update(name)
