@@ -109,8 +109,17 @@ class OpenSesameIDE(BaseExtension):
 
     def open_document(self, path):
 
-        # If the file is already open, switch to it
+        # First normalize the path and check if there's a custom handler for it
         path = os.path.abspath(os.path.normcase(path))
+        ext = os.path.splitext(path)[1].lstrip('.').lower()
+        handler = self.extension_manager.provide(
+            'open_file_extension_{}'.format(ext)
+        )
+        if handler:
+            oslogger.debug('custom handler for .{} extension'.format(ext))
+            handler(path)
+            return
+        # If the file is already open, switch to it
         for editor in self._scetw.widgets():
             if editor.file.path is None:
                 continue
