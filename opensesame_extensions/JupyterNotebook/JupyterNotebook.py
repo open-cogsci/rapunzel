@@ -111,7 +111,7 @@ class JupyterNotebook(BaseExtension):
     
     def provide_open_file_extension_ipynb(self):
         
-        return self._import_ipynb
+        return self._import_ipynb, _('Import as Python script')
     
     def _import_ipynb(self, path=None):
 

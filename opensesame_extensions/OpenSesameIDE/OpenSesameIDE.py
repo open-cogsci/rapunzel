@@ -115,10 +115,22 @@ class OpenSesameIDE(BaseExtension):
         handler = self.extension_manager.provide(
             'open_file_extension_{}'.format(ext)
         )
-        if handler:
-            oslogger.debug('custom handler for .{} extension'.format(ext))
-            handler(path)
+        if not handler:
+            self._open_document_as_text(path)
             return
+        oslogger.debug('custom handler for .{} extension'.format(ext))
+        handler_fnc, handler_desc = handler
+        self.extension_manager.fire(
+            u'quick_select',
+            haystack=[
+                (handler_desc, path, handler_fnc),
+                (_('Open as text'), path, self._open_document_as_text)
+            ],
+            placeholder_text=_(u'How do you want to open this file?')
+        )
+        
+    def _open_document_as_text(self, path):
+        
         # If the file is already open, switch to it
         for editor in self._scetw.widgets():
             if editor.file.path is None:

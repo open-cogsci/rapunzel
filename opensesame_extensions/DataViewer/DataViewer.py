@@ -50,11 +50,25 @@ class DataViewer(BaseExtension):
         self.main_window.set_busy(False)
         self._dock_widgets[name] = dw
         
-    def provide_open_file_extension_csv(self): return self._open_csv
-    def provide_open_file_extension_xlsx(self): return self._open_xlsx
-    def provide_open_file_extension_png(self): return self._open_image
-    def provide_open_file_extension_jpg(self): return self._open_image
-    def provide_open_file_extension_jpeg(self): return self._open_image
+    def provide_open_file_extension_csv(self):
+        
+        return self._open_csv, _('Load into workspace (DataMatrix) and view')
+    
+    def provide_open_file_extension_xlsx(self):
+        
+        return self._open_xlsx, _('Load into workspace (DataMatrix) and view')
+    
+    def provide_open_file_extension_png(self):
+        
+        return self._open_image, _('Load into workspace (PIL image) and view')
+    
+    def provide_open_file_extension_jpg(self):
+        
+        return self._open_image, _('Load into workspace (PIL image) and view')
+    
+    def provide_open_file_extension_jpeg(self):
+        
+        return self._open_image, _('Load into workspace (PIL image) and view')
     
     def remove_dock_widget(self, name):
         
