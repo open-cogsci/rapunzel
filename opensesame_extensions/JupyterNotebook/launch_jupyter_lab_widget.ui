@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>JupyterNotebook_launch_widget</class>
+ <widget class="QWidget" name="JupyterNotebook_launch_widget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -38,7 +38,8 @@
       <string>Launch Jupyter Lab</string>
      </property>
      <property name="icon">
-      <iconset theme="system-run"/>
+      <iconset theme="system-run">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -54,7 +55,8 @@
       <string>Kill Jupyter Lab</string>
      </property>
      <property name="icon">
-      <iconset theme="process-stop"/>
+      <iconset theme="process-stop">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
