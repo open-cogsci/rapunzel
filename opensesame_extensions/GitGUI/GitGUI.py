@@ -33,7 +33,14 @@ class GitGUI(BaseExtension):
         current_path = self.extension_manager.provide('ide_current_path')
         if current_path is not None:
             current_path = os.path.dirname(current_path)
-        subprocess.Popen(
-            cfg.git_gui_executable.split(),
-            cwd=current_path
-        )
+        try:
+            subprocess.Popen(
+                cfg.git_gui_executable.split(),
+                cwd=current_path
+            )
+        except Exception as e:
+            self.notify(_(
+                u'Failed to launch Git GUI. '
+                u'See debug window for error message.'
+            ))
+            self.console.write(e)
