@@ -28,11 +28,12 @@ _ = translation_context(u'RapunzelLocale', category=u'extension')
 
 class RapunzelLocale(BaseExtension):
 
-    def event_startup(self):
+    def __init__(self, main_window, info={}):
 
+        BaseExtension.__init__(self, main_window, info=info)
         try:
-            qm_path = self.ext_resource(self.main_window.locale + u'.qm')
+            qm_path = self.ext_resource(main_window.locale + u'.qm')
         except Exception as e:
             return
-        oslogger.info('installing translator {}'.format(qm_path))
-        self.main_window.translator.load(qm_path)
+        oslogger.debug('installing translator {}'.format(qm_path))
+        main_window.translator.load(qm_path)
