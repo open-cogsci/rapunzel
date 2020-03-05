@@ -106,8 +106,6 @@ class LaunchJupyterLabWidget(BaseWidget):
                 cmd = u'jupyter-lab'
         else:
             cmd = cfg.jupyter_lab_executable
-        return [cmd] + shlex.split(
-            u'--notebook-dir={}'.format(os.path.expanduser(u'~'))
-            if not cfg.jupyter_lab_args
-            else cfg.jupyter_lab_args
-        )
+        if cfg.jupyter_lab_args:
+            return [cmd] + shlex.split(cfg.jupyter_lab_args)
+        return [cmd, u'--notebook-dir={}'.format(os.path.expanduser(u'~'))]
