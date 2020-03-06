@@ -36,4 +36,6 @@ class RapunzelLocale(BaseExtension):
         except Exception as e:
             return
         oslogger.debug('installing translator {}'.format(qm_path))
-        main_window.translator.load(qm_path)
+        self._rapunzel_translator = main_window.translators.pop()
+        self._rapunzel_translator.load(qm_path)
+        QCoreApplication.installTranslator(self._rapunzel_translator)
