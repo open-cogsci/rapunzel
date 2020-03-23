@@ -408,12 +408,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="36"/>
         <source>&amp;Tools</source>
-        <translation>&amp;Araçlar</translation>
+        <translation>Araçla&amp;r</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="62"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Çıkış yap</translation>
+        <translation>Çıkış ya&amp;p</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="35"/>
@@ -438,7 +438,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="45"/>
         <source>Split &amp;vertical</source>
-        <translation>&amp;Dikey böl</translation>
+        <translation>D&amp;ikey böl</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="43"/>
@@ -473,7 +473,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="52"/>
         <source>&amp;Locate active file</source>
-        <translation>&amp;Aktif dosyaların yerini tespit et</translation>
+        <translation>Aktif dosya&amp;ların yerini tespit et</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="78"/>
@@ -513,12 +513,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="66"/>
         <source>&amp;Preferences</source>
-        <translation>&amp;Seçenekler</translation>
+        <translation>S&amp;eçenekler</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="68"/>
         <source>&amp;File</source>
-        <translation>&amp;Dosya</translation>
+        <translation>D&amp;osya</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="67"/>
@@ -534,12 +534,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="26"/>
         <source>Open &amp;folder…</source>
-        <translation>&amp;klasörü aç…</translation>
+        <translation>Klas&amp;örü aç…</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="51"/>
         <source>P&amp;lugins</source>
-        <translation>P&amp;lugins</translation>
+        <translation>Ekle&amp;ntiler</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="54"/>
@@ -559,7 +559,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="50"/>
         <source>&amp;Run</source>
-        <translation>Ç&amp;alıştır</translation>
+        <translation>&amp;Çalıştır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="55"/>
@@ -569,12 +569,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="31"/>
         <source>&amp;Close tab</source>
-        <translation>&amp;Sekmeleri kapat</translation>
+        <translation>Sek&amp;meyi kapat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="38"/>
         <source>Restart &amp;kernel</source>
-        <translation>&amp;Kerneli tekrar başlat</translation>
+        <translation>Kerneli &amp;tekrar başlat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="61"/>
@@ -599,7 +599,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="70"/>
         <source>Split &amp;horizontal</source>
-        <translation>&amp;Yatay böl</translation>
+        <translation>Yatay &amp;böl</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="47"/>
@@ -624,7 +624,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="56"/>
         <source>&amp;Close all folders</source>
-        <translation>&amp;Dosyaları kapat</translation>
+        <translation>T&amp;üm Dosyaları kapat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="28"/>
@@ -644,22 +644,22 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="42"/>
         <source>&amp;Editor</source>
-        <translation>&amp;Editör</translation>
+        <translation>Edit&amp;ör</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="37"/>
         <source>&amp;Run project or file</source>
-        <translation>&amp;Çalıştır proje ya da dosyayı</translation>
+        <translation>Çalıştır pro&amp;je ya da dosyayı</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="73"/>
         <source>Change &amp;working directory to active file</source>
-        <translation>&amp;Çalışma dizinini aktif dosyanınkine değiştir</translation>
+        <translation>Çalışma dizinini akti&amp;f dosyanınkine değiştir</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="72"/>
         <source>Toggle &amp;folder browsers</source>
-        <translation>&amp;klasör arama araçlarını çalıştır</translation>
+        <translation type="unfinished">Klasör arama araçlar&amp;ını çalıştır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="76"/>
