@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>741</height>
+    <height>799</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,6 +88,23 @@
        <widget class="QCheckBox" name="cfg_opensesame_ide_strip_lines">
         <property name="text">
          <string>Automatically strip trailing whitespace</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QCheckBox" name="cfg_opensesame_ide_use_system_default_encoding">
+        <property name="text">
+         <string>Use system default file encoding</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="cfg_opensesame_ide_default_encoding"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Default file encoding</string>
         </property>
        </widget>
       </item>
@@ -264,5 +281,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cfg_opensesame_ide_use_system_default_encoding</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cfg_opensesame_ide_default_encoding</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>368</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

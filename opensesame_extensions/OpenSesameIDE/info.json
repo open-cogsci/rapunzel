@@ -12,6 +12,8 @@
         "opensesame_ide_strip_lines": false,
         "opensesame_ide_show_tab_bar": true,
         "opensesame_ide_default_extension": ".py",
+        "opensesame_ide_use_system_default_encoding": false,
+        "opensesame_ide_default_encoding": "utf-8",
         "opensesame_ide_ignore_patterns": "*.pyc, *.pyo, *.coverage, .DS_Store, __pycache__, .git",
         "opensesame_ide_project_file": ".rapunzel.yaml",
         "opensesame_ide_max_index_files": 5000,

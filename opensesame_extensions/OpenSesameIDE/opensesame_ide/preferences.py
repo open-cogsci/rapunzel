@@ -17,6 +17,24 @@ You should have received a copy of the GNU General Public License
 along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from opensesame_ide.folder_browser import FolderBrowserDockWidget
-from opensesame_ide.menubar import MenuBar
-from opensesame_ide.preferences import Preferences
+from libopensesame.py3compat import *
+from libqtopensesame.widgets.base_preferences_widget import (
+    BasePreferencesWidget
+)
+from libqtopensesame.misc.config import cfg
+
+
+class Preferences(BasePreferencesWidget):
+    
+    def __init__(self, main_window):
+
+        super(Preferences, self).__init__(
+            main_window,
+            ui=u'extensions.OpenSesameIDE.preferences'
+        )
+        
+    def _before_init_widgets(self):
+        
+        self.ui.cfg_opensesame_ide_default_encoding.setDisabled(
+            cfg.opensesame_ide_use_system_default_encoding
+        )

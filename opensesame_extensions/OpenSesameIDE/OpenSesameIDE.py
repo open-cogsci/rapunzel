@@ -150,6 +150,7 @@ class OpenSesameIDE(BaseExtension):
         # Otherwise open it in a new tab in the current splitter
         editor = self._current_splitter().open_document(
             path,
+            encoding=self._default_encoding,
             replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces,
             clean_trailing_whitespaces=cfg.opensesame_ide_strip_lines
         )
@@ -475,6 +476,11 @@ class OpenSesameIDE(BaseExtension):
         for dock_widget in self._dock_widgets.values():
             for path in dock_widget.file_list:
                 yield path
+                
+    def settings_widget(self):
+        
+        from opensesame_ide import Preferences
+        return Preferences(self.main_window)
 
     def _split(self, direction):
 
@@ -862,3 +868,10 @@ class OpenSesameIDE(BaseExtension):
             return
         for ext, mimetype in custom_mimetypes.items():
             mimetypes.add_type(mimetype, ext)
+
+    @property
+    def _default_encoding(self):
+        
+        if cfg.opensesame_ide_use_system_default_encoding:
+            return None
+        return cfg.opensesame_ide_default_encoding
