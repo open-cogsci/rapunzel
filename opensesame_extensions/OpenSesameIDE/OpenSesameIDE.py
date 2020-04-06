@@ -238,6 +238,19 @@ class OpenSesameIDE(BaseExtension):
         editor = self._current_original_editor()
         if not editor:
             return
+        # PyQode gives a very confusing error message when an encoding error
+        # during saving. So here we catch that and give the user the chance to
+        # select a different encoding when this happens.
+        try:
+            editor.toPlainText().encode(editor.file.encoding)
+        except UnicodeEncodeError:
+            self.extension_manager.fire(
+                'notify',
+                message=_('Cannot save file with this encoding'),
+                category='warning',
+                always_show=True
+            )
+            return
         if not editor.file.path:
             self.save_file_as()
         else:
