@@ -25,6 +25,7 @@ from libqtopensesame.misc.translate import translation_context
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
 from data_viewer_inspectors.inspect_str import inspect_str
+import data_viewer_file_handlers as file_handlers
 from datadockwidget import DataDockWidget
 _ = translation_context(u'DataViewer', category=u'extension')
 
@@ -34,7 +35,7 @@ class DataViewer(BaseExtension):
     def event_startup(self):
         
         self._dock_widgets = {}
-        self._queue = []
+        self.queue = []
 
     def event_data_viewer_inspect(self, name, workspace):
 
@@ -50,26 +51,54 @@ class DataViewer(BaseExtension):
         self.main_window.set_busy(False)
         self._dock_widgets[name] = dw
         
-    def provide_open_file_extension_csv(self):
+    def _provide_ext(self, ext):
         
-        return self._open_csv, _('Load into workspace (DataMatrix) and view')
-    
-    def provide_open_file_extension_xlsx(self):
+        """Returns a provider function to handle an extension."""
         
-        return self._open_xlsx, _('Load into workspace (DataMatrix) and view')
-    
-    def provide_open_file_extension_png(self):
+        def inner():
+
+            # Get the [Kernel]FileHandler class based on the kernel of the
+            # active workspace
+            cls_name = '{}FileHandler'.format(
+                self.extension_manager.provide('workspace_kernel').capitalize()
+            )
+            oslogger.debug('looking for {}'.format(cls_name))
+            try:
+                cls = getattr(file_handlers, cls_name)
+            except AttributeError:
+                oslogger.debug('no file handler for kernel')
+                return None
+            obj = cls(self)
+            try:
+                # Call the extension provider function, which should return
+                # a tuple of a function that actually opens a file, and a
+                # descriptive str.
+                return getattr(obj, ext)()
+            except AttributeError:
+                oslogger.debug('no file handler for extension')
+                return None
+            
+        return inner
         
-        return self._open_image, _('Load into workspace (PIL image) and view')
-    
-    def provide_open_file_extension_jpg(self):
+    def supported_provides(self):
         
-        return self._open_image, _('Load into workspace (PIL image) and view')
-    
-    def provide_open_file_extension_jpeg(self):
+        """BaseFileHandler has a list of extensions that can be handled, all
+        though not all kernel-specific file handlers can handle all extensions.
+        For these extensions, a provider function is created.
+        """
         
-        return self._open_image, _('Load into workspace (PIL image) and view')
-    
+        provides = []
+        for ext in file_handlers.BaseFileHandler.supported_extensions:
+            # Dynamically set a provider function
+            setattr(
+                self,
+                'provide_open_file_extension_{}'.format(ext),
+                self._provide_ext(ext)
+            )
+            # Create a list of provides
+            provides.append('open_file_extension_{}'.format(ext))
+        return provides
+
     def remove_dock_widget(self, name):
         
         if name in self._dock_widgets:
@@ -81,8 +110,8 @@ class DataViewer(BaseExtension):
         # The queue contains symbol names that should be shown after the next
         # kernel command has been executed. This allows for loading files from
         # disk with a command, and then subsequently showing them.
-        while self._queue:
-            symbol = self._queue.pop()
+        while self.queue:
+            symbol = self.queue.pop()
             self.extension_manager.fire(
                 'data_viewer_inspect',
                 name=symbol,
@@ -101,60 +130,8 @@ class DataViewer(BaseExtension):
 
     def event_workspace_new(self, name, workspace_func):
 
-        self._update(name)            
-    
-    def _unique_symbol(self, tmpl):
-        
-        workspace_list = self.extension_manager.provide(
-            'jupyter_list_workspace_globals'
-        )
-        i = 0
-        while tmpl.format(i) in workspace_list:
-            i += 1
-        return tmpl.format(i)
-        
-    def _open_in_workspace(self, code, path, tmpl):
-        
-        symbol = self._unique_symbol(tmpl)
-        self.extension_manager.fire(
-            'jupyter_run_code',
-            code=code.format(path=path, symbol=symbol)
-        )
-        self._queue.append(symbol)
-
-    def _open_csv(self, path):
-        
-        self._open_in_workspace(
-            code=(
-                'from datamatrix import io\n'
-                '{symbol} = io.readtxt(r"{path}")'
-            ),
-            path=path,
-            tmpl='csv_{}'
-        )
-        
-    def _open_xlsx(self, path):
-        
-        self._open_in_workspace(
-            code=(
-                'from datamatrix import io\n'
-                '{symbol} = io.readxlsx(r"{path}")'
-            ),
-            path=path,
-            tmpl='xlsx_{}'
-        )
-        
-    def _open_image(self, path):
-        
-        self._open_in_workspace(
-            code=(
-                'from PIL import Image\n'
-                '{symbol} = Image.open(r"{path}")'
-            ),
-            path=path,
-            tmpl='img_{}'
-        )
-                    
+        self._update(name)
+               
     def _update(self, name):
 
         # Only get the data for the current workspace
