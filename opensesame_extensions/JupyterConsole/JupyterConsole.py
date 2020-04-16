@@ -137,6 +137,13 @@ class JupyterConsole(BaseExtension):
             return self._jupyter_console.current.name
         except AttributeError:
             return None
+        
+    def provide_workspace_kernel(self):
+        
+        try:
+            return self._jupyter_console.current._kernel
+        except AttributeError:
+            return None
 
     def provide_jupyter_workspace_globals(self):
 
