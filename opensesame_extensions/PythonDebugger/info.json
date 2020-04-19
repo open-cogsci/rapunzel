@@ -1,0 +1,5 @@
+{
+    "label": "Python Debugger",
+    "description": "Connects to the Rapunzel PDB",
+    "modes": ["ide"]
+}

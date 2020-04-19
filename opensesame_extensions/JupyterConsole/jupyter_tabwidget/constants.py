@@ -25,13 +25,14 @@ KERNEL_NAMES = {
     u'bash': u'Bash'
 }
 CHANGE_DIR_CMD = {
-    u'ir': 'setwd("{}")',
-    u'bash': 'cd "{}"'
+    u'ir': 'setwd("{path}")',
+    u'bash': 'cd "{path}"'
 }
-DEFAULT_CHANGE_DIR_CMD = u'%cd "{}"'
+DEFAULT_CHANGE_DIR_CMD = u'%cd "{path}"'
 RUN_FILE_CMD = {
-    u'ir': 'source("{}")',
-    u'bash': '"{}"'
+    u'ir': 'source("{path}")',
+    u'bash': '"{path}"'
 }
-DEFAULT_RUN_FILE_CMD = u'%run "{}"'
+DEFAULT_RUN_FILE_CMD = u'%run "{path}"'
+DEFAULT_RUN_DEBUG_CMD = None
 TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']

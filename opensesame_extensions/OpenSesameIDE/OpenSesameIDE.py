@@ -99,6 +99,13 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return u''
         return editor.toPlainText()
+        
+    def toggle_breakpoint(self):
+
+        editor = self._current_editor()
+        if editor is None or 'BreakpointMode' not in editor.modes.keys():
+            return
+        editor.modes.get('BreakpointMode').toggle_breakpoint()
 
     def provide_ide_current_language(self):
 
@@ -354,7 +361,7 @@ class OpenSesameIDE(BaseExtension):
         )
         return
 
-    def run_current_file(self):
+    def run_current_file(self, debug=False):
 
         editor = self._current_editor()
         if editor is None:
@@ -367,18 +374,31 @@ class OpenSesameIDE(BaseExtension):
                 if retval == 1:  # Save and run
                     cfg.opensesame_ide_run_autosave = True
             self.save_file()
-        project_file = self._current_project_file()
-        if project_file:
-            self._run_notify(_(u'Running project'))
-            self._run_project_file(project_file)
-            return
+        if not debug:
+            project_file = self._current_project_file()
+            if project_file:
+                self._run_notify(_(u'Running project'))
+                self._run_project_file(project_file)
+                return
         if (
             editor is None or
             not os.path.exists(editor.file.path)
         ):
             return
         self._run_notify(_(u'Running file'))
-        self.extension_manager.fire(u'jupyter_run_file', path=editor.file.path)
+        self.extension_manager.fire(
+            u'jupyter_run_file',
+            path=editor.file.path,
+            debug=debug
+        )
+        
+    def run_debug(self):
+        
+        self.run_current_file(debug=True)
+        
+    def clear_breakpoints(self):
+        
+        self.extension_manager.fire('pyqode_clear_breakpoints')
 
     def change_working_directory(self):
 

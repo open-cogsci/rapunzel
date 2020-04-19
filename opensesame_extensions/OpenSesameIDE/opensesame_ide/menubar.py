@@ -230,6 +230,24 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_run_selection,
             ide.run_current_selection,
         )
+        self._action_run_debug = self._action(
+            _(u'Run file in &debugger'),
+            u'os-run',
+            cfg.opensesame_ide_shortcut_run_debug,
+            ide.run_debug,
+        )
+        self._action_toggle_breakpoint = self._action(
+            _(u'&Toggle breakpoint'),
+            u'list-add',
+            cfg.opensesame_ide_shortcut_toggle_breakpoint,
+            ide.toggle_breakpoint,
+        )
+        self._action_clear_breakpoints = self._action(
+            _(u'Clear &breakpoints'),
+            u'list-remove',
+            cfg.opensesame_ide_shortcut_clear_breakpoints,
+            ide.clear_breakpoints,
+        )
         self._action_run_interrupt = self._action(
             _(u'&Interrupt kernel'),
             u'os-kill',
@@ -248,6 +266,19 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_change_working_directory,
             ide.change_working_directory,
         )
+        # Run menu
+        self._menu_run = self.addMenu(_('&Run'))
+        self._menu_run.addAction(self._action_run_current_file)
+        self._menu_run.addAction(self._action_run_current_selection)
+        self._menu_run.addSeparator()
+        self._menu_run.addAction(self._action_run_interrupt)
+        self._menu_run.addAction(self._action_run_restart)
+        self._menu_run.addSeparator()
+        self._menu_run.addAction(self._action_change_working_directory)
+        self._menu_run.addSeparator()
+        self._menu_run.addAction(self._action_run_debug)
+        self._menu_run.addAction(self._action_toggle_breakpoint)
+        self._menu_run.addAction(self._action_clear_breakpoints)
         # Editor menu
         self._menu_editor = self.addMenu(_('&Editor'))
         self._action_toggle_line_wrap = self._cfg_action(
@@ -311,15 +342,6 @@ class MenuBar(QMenuBar):
             menu=self._menu_editor,
             separate=True
         )
-        # Run menu
-        self._menu_run = self.addMenu(_('&Run'))
-        self._menu_run.addAction(self._action_run_current_file)
-        self._menu_run.addAction(self._action_run_current_selection)
-        self._menu_run.addSeparator()
-        self._menu_run.addAction(self._action_run_interrupt)
-        self._menu_run.addAction(self._action_run_restart)
-        self._menu_run.addSeparator()
-        self._menu_run.addAction(self._action_change_working_directory)
 
     def _add_extension_action(self, ext, menu, separate=False):
 

@@ -18,6 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import os
 import sys
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
@@ -32,6 +33,8 @@ from jupyter_tabwidget.constants import (
     DEFAULT_RUN_FILE_CMD,
     TRANSPARENT_KERNELS
 )
+from libqtopensesame.misc.translate import translation_context
+_ = translation_context(u'JupyterConsole', category=u'extension')
 
 
 class JupyterConsole(BaseWidget):
@@ -194,7 +197,7 @@ class JupyterConsole(BaseWidget):
             CHANGE_DIR_CMD.get(
                 self._kernel,
                 DEFAULT_CHANGE_DIR_CMD
-            ).format(path)
+            ).format(path=path)
         )
 
     def run_file(self, path):
@@ -203,8 +206,34 @@ class JupyterConsole(BaseWidget):
             RUN_FILE_CMD.get(
                 self._kernel,
                 DEFAULT_RUN_FILE_CMD
-            ).format(path)
+            ).format(path=path)
         )
+
+    def run_debug(self, path, breakpoints):
+
+        # This should be changed into a kernel-agnostic implementation
+        if (
+            self._kernel not in ('python', 'python2', 'python3') or
+            self._inprocess
+        ):
+            self.extension_manager.fire(
+                'notify',
+                message=_(u'The {} (inprocess={}) kernel does not support debugging').format(
+                    self._kernel,
+                    self._inprocess
+                )
+            )
+            return
+        # RapunzelPDB and debugfile() are silently loaded into the workspace
+        self._jupyter_widget._kernel_client.execute(
+            self.extension_manager.provide('rapunzel_pdb'),
+            silent=True
+        )
+        # Next, execute it!
+        self.execute(
+            'debugfile("{}", breakpoints={})'.format(path, breakpoints)
+        )
+
 
     def check_syntax(self, code):
 

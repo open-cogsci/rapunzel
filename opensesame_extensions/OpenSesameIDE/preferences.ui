@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>799</height>
+    <height>898</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -163,70 +163,70 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>Toggle fullscreen</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Close tab</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="9" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>Close other tabs</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="10" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
          <string>Close all tabs</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="11" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Split vertical</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="0">
+      <item row="12" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
          <string>Split horizontal</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="0">
+      <item row="13" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
          <string>Switch to previous panel</string>
         </property>
        </widget>
       </item>
-      <item row="11" column="0">
+      <item row="14" column="0">
        <widget class="QLabel" name="label_12">
         <property name="text">
          <string>Switch to next panel</string>
         </property>
        </widget>
       </item>
-      <item row="12" column="0">
+      <item row="15" column="0">
        <widget class="QLabel" name="label_13">
         <property name="text">
          <string>Toggle folder browsers</string>
         </property>
        </widget>
       </item>
-      <item row="13" column="0">
+      <item row="16" column="0">
        <widget class="QLabel" name="label_14">
         <property name="text">
          <string>Locate active file</string>
@@ -245,35 +245,65 @@
       <item row="3" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_change_working_directory"/>
       </item>
-      <item row="4" column="1">
+      <item row="7" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_toggle_fullscreen"/>
       </item>
-      <item row="5" column="1">
+      <item row="8" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_tab"/>
       </item>
-      <item row="6" column="1">
+      <item row="9" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_other_tabs"/>
       </item>
-      <item row="7" column="1">
+      <item row="10" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_close_all_tabs"/>
       </item>
-      <item row="8" column="1">
+      <item row="11" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_split_vertical"/>
       </item>
-      <item row="9" column="1">
+      <item row="12" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_split_horizontal"/>
       </item>
-      <item row="10" column="1">
+      <item row="13" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_switch_previous_panel"/>
       </item>
-      <item row="11" column="1">
+      <item row="14" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_switch_next_panel"/>
       </item>
-      <item row="12" column="1">
+      <item row="15" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_toggle_folder_browsers"/>
       </item>
-      <item row="13" column="1">
+      <item row="16" column="1">
        <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_locate_active_file"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Run file in debugger</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Toggle breakpoint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Clear breakpoints</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_run_debug"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_toggle_breakpoint"/>
+      </item>
+      <item row="6" column="1">
+       <widget class="QKeySequenceEdit" name="cfg_opensesame_ide_shortcut_clear_breakpoints"/>
       </item>
      </layout>
     </widget>

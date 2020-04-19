@@ -87,13 +87,21 @@ class JupyterConsole(BaseExtension):
 
         self._jupyter_console.add(kernel=kernel)
 
-    def event_jupyter_run_file(self, path):
+    def event_jupyter_run_file(self, path, debug=False):
 
         self._set_visible(True)
         if not os.path.isfile(path):
             return
         self._jupyter_console.current.change_dir(os.path.dirname(path))
-        self._jupyter_console.current.run_file(path)
+        if debug:
+            self._jupyter_console.current.run_debug(
+                path,
+                breakpoints=self.extension_manager.provide(
+                    'pyqode_breakpoints'
+                )
+            )
+        else:
+            self._jupyter_console.current.run_file(path)
 
     def event_jupyter_change_dir(self, path):
 
