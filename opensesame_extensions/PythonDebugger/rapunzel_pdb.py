@@ -99,7 +99,7 @@ def runfile(path):
     with open(path) as f:
         code = f.read()
     bytecode = compile(code, path, 'exec')
-    exec(bytecode)
+    exec(bytecode, {})
 
 
 def rpdb(path, port=5555, breakpoints=None):
