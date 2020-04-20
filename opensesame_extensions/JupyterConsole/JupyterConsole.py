@@ -165,6 +165,13 @@ class JupyterConsole(BaseExtension):
 
         return self._jupyter_console.current.get_workspace_variable(name)
         
+    def provide_jupyter_kernel_running(self):
+        
+        try:
+            return self._jupyter_console.current.running()
+        except AttributeError:
+            return False
+
     def provide_jupyter_check_syntax(self, code):
 
         return self._jupyter_console.current.check_syntax(code)

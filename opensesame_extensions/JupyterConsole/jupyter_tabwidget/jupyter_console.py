@@ -186,6 +186,10 @@ class JupyterConsole(BaseWidget):
         if self._kernel in TRANSPARENT_KERNELS:
             return self._jupyter_widget.get_workspace_variable(name)
         return None
+    
+    def running(self):
+        
+        return self._jupyter_widget.running()
 
     def set_workspace_globals(self, global_dict):
 
@@ -224,16 +228,19 @@ class JupyterConsole(BaseWidget):
                 )
             )
             return
-        # RapunzelPDB and debugfile() are silently loaded into the workspace
-        self._jupyter_widget._kernel_client.execute(
-            self.extension_manager.provide('rapunzel_pdb'),
-            silent=True
+        code = self.extension_manager.provide(
+            'python_debugger_code',
+            path=path,
+            breakpoints=breakpoints
         )
-        # Next, execute it!
-        self.execute(
-            'debugfile("{}", breakpoints={})'.format(path, breakpoints)
-        )
-
+        if not code:
+            oslogger.warning('no Python debugger code received')
+            return
+        silent_code, nonsilent_code = code
+        # RapunzelPDB and debugfile() are silently loaded into the workspace,
+        # and then the debugger is callend in a nonsilent way.`
+        self._jupyter_widget._kernel_client.execute(silent_code, silent=True)
+        self.execute(nonsilent_code)
 
     def check_syntax(self, code):
 

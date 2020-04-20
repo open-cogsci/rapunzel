@@ -44,6 +44,7 @@ class WorkspaceExplorer(BaseExtension):
 
         dm = DataMatrix(length=0)
         dm.initializing = -1
+        self._workspace_cache = {}
         self._qdm = WorkspaceMatrix(dm, read_only=True)
         self._qdm.cell_double_clicked.connect(self._inspect_variable)
         self._dock_widget = QDockWidget(self.main_window)
@@ -62,6 +63,12 @@ class WorkspaceExplorer(BaseExtension):
 
     def _inspect_variable(self, row, column):
 
+        if self.extension_manager.provide('jupyter_kernel_running'):
+            self.extension_manager.fire(
+                'notify',
+                message=_(u'Cannot inspect variables in running kernel')
+            )
+            return
         if not row:
             return
         name = self._qdm.dm.name[row - 1]
@@ -102,6 +109,7 @@ class WorkspaceExplorer(BaseExtension):
             return
         self._dock_widget.setWindowTitle(_(u'Workspace ({})').format(name))
         workspace = workspace_func()
+        self._workspace_cache[name] = workspace
         # If the workspace didn't reply, we try again in a second
         if workspace is None or workspace.get(u'no reply', False) is None:
             QTimer.singleShot(
@@ -153,6 +161,12 @@ class WorkspaceExplorer(BaseExtension):
 
     def event_workspace_switch(self, name, workspace_func):
 
+        # When a kernel is running (which includes being a debugging session)
+        # it doesn't respond to silent requests for the workspace. Therefore
+        # we use cached copy of the last update.
+        if self.extension_manager.provide('jupyter_kernel_running'):
+            self._update(name, lambda: self._workspace_cache.get(name, {}))
+            return
         self._update(name, workspace_func)
 
     def event_workspace_new(self, name, workspace_func):

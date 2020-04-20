@@ -11,14 +11,15 @@ from IPython.core.getipython import get_ipython
 
 class RapunzelPdb(IPdb, object):
 
-    def __init__(self, breakpoints=None):
+    def __init__(self, port=5555, breakpoints=None):
 
         super(RapunzelPdb, self).__init__()
         self.clear_all_breaks()
         self._set_breakpoints(breakpoints)
         self._zmq_context = zmq.Context()
         self._zmq_socket = self._zmq_context.socket(zmq.REQ)
-        self._zmq_socket.connect("tcp://localhost:5555")
+        self._zmq_socket.connect('tcp://localhost:{}'.format(port))
+        self._zmq_socket.send_pyobj({'type': 'pdb_start'})
         self.post_mortem = False
         
     def clear_all_breaks(self):
@@ -65,12 +66,13 @@ class RapunzelPdb(IPdb, object):
         })
         try:
             self._zmq_socket.send_pyobj({
+                'type': 'pdb_frame',
                 'path': frame.f_code.co_filename,
                 'line': frame.f_lineno,
                 'workspace': workspace_variables
             })
         except zmq.error.ZMQError:
-            print('failed to transmit')
+            pass
         try:
             self._zmq_socket.recv()
         except zmq.error.ZMQError:
@@ -78,6 +80,7 @@ class RapunzelPdb(IPdb, object):
         
     def close(self):
         
+        self._zmq_socket.send_pyobj({'type': 'pdb_stop'})
         self._zmq_socket.close()
 
     def interaction(self, frame, traceback):
@@ -87,8 +90,7 @@ class RapunzelPdb(IPdb, object):
 
     def postcmd(self, stop, line):
         
-        if self.post_mortem:
-            self._transmit_workspace(self.curframe)
+        self._transmit_workspace(self.curframe)
         return super(RapunzelPdb, self).postcmd(stop, line)
 
 
@@ -100,16 +102,16 @@ def runfile(path):
     exec(bytecode)
 
 
-def debugfile(path, breakpoints=None):
+def rpdb(path, port=5555, breakpoints=None):
 
     print('''
-The Rapunzel debugger is based on the IPython debugger
 * Enter `c` (continue) to start execution
-* When execution is finished, enter `%debug` for post-mortem debugging
+* Enter `q` (quit) to quit
+* Enter `?` for help
 ''')
     if not breakpoints:
         breakpoints = {path: [1]}
-    pdb = RapunzelPdb(breakpoints)
+    pdb = RapunzelPdb(port, breakpoints)
     try:
         pdb.run('runfile("{}")'.format(path))
     except Exception as e:

@@ -69,19 +69,33 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
         self.setup(jupyter_console)
         self.executed.connect(self._on_executed)
         self.executing.connect(self._on_executing)
+        # It is possible for _on_executing() to be called again, before
+        # _on_executed() is called. We therefore keep track of how many times
+        # _on_executing() has been called, and only release the busy status 
+        # when this counter is set back to 0.
+        self._executing_counter = 0
 
     def _on_executing(self):
 
+        self._executing_counter += 1
         self._jupyter_console.set_busy(True)
 
     def _on_executed(self):
 
+        if self._executing_counter:
+            self._executing_counter -= 1
+        if self._executing_counter:
+            return
         self._jupyter_console.set_busy(False)
         self.extension_manager.fire(
             u'workspace_update',
             name=self._name,
             workspace_func=self.get_workspace_globals
         )
+        
+    def running(self):
+        
+        return self._executing_counter > 0
 
 
 class OutprocessJupyterWidget(TransparentJupyterWidget):

@@ -117,6 +117,10 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
 
     def _event_durations(self):
         
+        """Registered as a global function in the Python workspace to get an
+        overview of event durations for development purposes.
+        """
+        
         if not self.main_window.options.profile:
             print('Start with --performance-profile to see event durations')
             return
