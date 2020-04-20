@@ -159,7 +159,8 @@ class OpenSesameIDE(BaseExtension):
             path,
             encoding=self._default_encoding,
             replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces,
-            clean_trailing_whitespaces=cfg.opensesame_ide_strip_lines
+            clean_trailing_whitespaces=cfg.opensesame_ide_strip_lines,
+            show_whitespaces=None
         )
         self.extension_manager.fire(
             u'register_editor',
