@@ -46,7 +46,8 @@ EXTENSIONS = [
     u'SpellCheck',
     u'DataViewer',
     u'GitGUI',
-    u'RapunzelLocale'
+    u'RapunzelLocale',
+    u'PythonDebugger'
 ]
 
 
