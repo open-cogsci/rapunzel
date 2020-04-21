@@ -62,6 +62,7 @@ class FolderBrowserDockWidget(QDockWidget):
 
     def closeEvent(self, e):
 
+        self._folder_browser.active = False
         self._ide.remove_folder_browser_dock_widget(self)
         self.close()
 
@@ -90,6 +91,7 @@ class FolderBrowser(FileSystemTreeView):
         self._watcher.directoryChanged.connect(self._index_files)
         self._indexing = False
         self._file_list = []
+        self.active = True
         self._index_files()
 
     def currentChanged(self, current_index, previous_index):
@@ -125,6 +127,9 @@ class FolderBrowser(FileSystemTreeView):
 
     def _index_files(self, _=None):
 
+        if not self.active:
+            oslogger.debug(u'shutting down indexing for {}'.format(self._path))
+            return
         if self._indexing:
             oslogger.debug(u'indexing in progress for {}'.format(self._path))
             return
