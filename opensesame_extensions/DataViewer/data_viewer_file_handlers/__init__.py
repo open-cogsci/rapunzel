@@ -20,3 +20,5 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from data_viewer_file_handlers._base_file_handler import BaseFileHandler
 from data_viewer_file_handlers._python_file_handler import PythonFileHandler
 from data_viewer_file_handlers._ir_file_handler import IrFileHandler
+# The Python kernel has different names
+Python3FileHandler = Python2FileHandler = PythonFileHandler
