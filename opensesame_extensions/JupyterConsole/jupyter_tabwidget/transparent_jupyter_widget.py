@@ -96,6 +96,12 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
     def running(self):
         
         return self._executing_counter > 0
+    
+    def reset(self, clear=False):
+        
+        super(TransparentJupyterWidget, self).reset(clear=clear)
+        self._executing_counter = 0
+        self._jupyter_console.set_busy(False)
 
 
 class OutprocessJupyterWidget(TransparentJupyterWidget):
