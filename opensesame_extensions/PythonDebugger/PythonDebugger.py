@@ -109,8 +109,8 @@ class PythonDebugger(BaseExtension):
             os.path.join(os.path.dirname(__file__), u'rapunzel_pdb.py')
         ) as f:
             silent_code = f.read()
-        code = 'rpdb("{}", port={}, breakpoints={})'.format(
-            path,
+        code = 'rpdb({}, port={}, breakpoints={})'.format(
+            repr(path),
             self._zmq_port,
             breakpoints
         )

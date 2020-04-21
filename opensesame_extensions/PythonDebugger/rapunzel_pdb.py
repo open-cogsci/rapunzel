@@ -21,7 +21,7 @@ class RapunzelPdb(IPdb, object):
         self._zmq_socket.connect('tcp://localhost:{}'.format(port))
         self._zmq_socket.send_pyobj({'type': 'pdb_start'})
         self.post_mortem = False
-        
+       
     def clear_all_breaks(self):
         
         # Adapted from SpyderPDB.set_spyder_break_points. For some reason you
@@ -109,14 +109,17 @@ def rpdb(path, port=5555, breakpoints=None):
 * Enter `q` (quit) to quit
 * Enter `?` for help
 ''')
-    if not breakpoints:
-        breakpoints = {path: [1]}
+    # Ideally we'd set the first breakpoint to line 1 and then execute until
+    # there. However, this is tricky to accomplish.
+    # if not breakpoints or all(not lines for lines in breakpoints.values()):
+    #     print('Settig first breakpoint at line 1')
+    #     breakpoints = {path: [0]}
     pdb = RapunzelPdb(port, breakpoints)
     try:
-        pdb.run('runfile("{}")'.format(path))
+        pdb.run('runfile({})'.format(repr(path)))
     except Exception as e:
         tb = sys.exc_info()[2]
-        traceback.print_tb(tb)
+        traceback.print_exception(type(e), e, tb)
         pdb.reset()
         pdb.post_mortem = True
         while tb.tb_next:  # Get the highest frame (where the error occurred)
