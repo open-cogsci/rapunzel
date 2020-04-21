@@ -112,79 +112,104 @@
         <translation>自动删除句尾空格</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="100"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="117"/>
         <source>Rapunzel IDE: Keyboard shortcuts</source>
         <translation>Rapunzel IDE：快捷键设置</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="124"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="141"/>
         <source>Run project or file</source>
         <translation>运行项目或文件</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="131"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="148"/>
         <source>Run selection, cell, or current line</source>
         <translation>运行选择，单元格或当前行</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="138"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="155"/>
         <source>Interrupt kernel</source>
         <translation>中断kernel 程序</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="145"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="162"/>
         <source>Change working directory to active file</source>
         <translation>将工作目录变更到现用文件</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="152"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="169"/>
         <source>Toggle fullscreen</source>
         <translation>切换到全屏</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="159"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="176"/>
         <source>Close tab</source>
         <translation>关闭选项卡</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="166"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="183"/>
         <source>Close other tabs</source>
         <translation>关闭其他选项卡</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="173"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="190"/>
         <source>Close all tabs</source>
         <translation>关闭所有选项卡</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="180"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="197"/>
         <source>Split vertical</source>
         <translation>垂直拆分</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="187"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="204"/>
         <source>Split horizontal</source>
         <translation>横向拆分</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="194"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="211"/>
         <source>Switch to previous panel</source>
         <translation>切换到上一个面板</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="201"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="218"/>
         <source>Switch to next panel</source>
         <translation>切换到下一个面板</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="208"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="225"/>
         <source>Toggle folder browsers</source>
         <translation>切换文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../OpenSesameIDE/preferences.ui" line="215"/>
+        <location filename="../OpenSesameIDE/preferences.ui" line="232"/>
         <source>Locate active file</source>
         <translation>定位现用文件</translation>
+    </message>
+    <message>
+        <location filename="../OpenSesameIDE/preferences.ui" line="97"/>
+        <source>Use system default file encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenSesameIDE/preferences.ui" line="107"/>
+        <source>Default file encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenSesameIDE/preferences.ui" line="281"/>
+        <source>Run file in debugger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenSesameIDE/preferences.ui" line="288"/>
+        <source>Toggle breakpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OpenSesameIDE/preferences.ui" line="295"/>
+        <source>Clear breakpoints</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -256,12 +281,12 @@
 <context>
     <name>extension_CommandPalette</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="94"/>
+        <location filename="../../translation_tools/translatables.py" line="98"/>
         <source>Trigger menu actions</source>
         <translation>激活菜单操作</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="93"/>
+        <location filename="../../translation_tools/translatables.py" line="97"/>
         <source>Command palette</source>
         <translation>指令选项板</translation>
     </message>
@@ -269,7 +294,7 @@
 <context>
     <name>extension_DataViewer</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="5"/>
+        <location filename="../../translation_tools/translatables.py" line="3"/>
         <source>Load into workspace (DataMatrix) and view</source>
         <translation>加载到工作区(DataMatrix) 并查看</translation>
     </message>
@@ -279,7 +304,7 @@
         <translation>数据浏览器</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="3"/>
+        <location filename="../../translation_tools/translatables.py" line="5"/>
         <source>Load into workspace (PIL image) and view</source>
         <translation>加载到工作区(PIL image) 并查看</translation>
     </message>
@@ -287,7 +312,7 @@
 <context>
     <name>extension_FindInFiles</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="8"/>
+        <location filename="../../translation_tools/translatables.py" line="10"/>
         <source>Find in project files</source>
         <translation>在项目文件中查找</translation>
     </message>
@@ -297,12 +322,12 @@
         <translation>在项目文件中查找文本</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="10"/>
+        <location filename="../../translation_tools/translatables.py" line="11"/>
         <source>FindInFiles requires the OpenSesameIDE extension</source>
         <translation>FindInFiles 需要OpenSesameIDE 扩展名</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="11"/>
+        <location filename="../../translation_tools/translatables.py" line="8"/>
         <source>Find in projects</source>
         <translation>在项目中查找</translation>
     </message>
@@ -310,17 +335,17 @@
 <context>
     <name>extension_GitGUI</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="117"/>
+        <location filename="../../translation_tools/translatables.py" line="125"/>
         <source>Start Git GUI</source>
         <translation>启动Git GUI</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="116"/>
+        <location filename="../../translation_tools/translatables.py" line="126"/>
         <source>Starts Git GUI</source>
         <translation>启动Git GUI</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="115"/>
+        <location filename="../../translation_tools/translatables.py" line="124"/>
         <source>Launch Git GUI</source>
         <translation>运行Git GUI</translation>
     </message>
@@ -328,60 +353,65 @@
 <context>
     <name>extension_JupyterConsole</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="123"/>
+        <location filename="../../translation_tools/translatables.py" line="133"/>
         <source>Show Jupyter/ IPython console</source>
         <translation>显示Jupyter/ IPython 控制台</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="120"/>
+        <location filename="../../translation_tools/translatables.py" line="129"/>
         <source>Restart kernel</source>
         <translation>重启kernel</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="122"/>
+        <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>Start new console</source>
         <translation>开启新的控制台</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="121"/>
+        <location filename="../../translation_tools/translatables.py" line="131"/>
         <source>Show console</source>
         <translation>显示控制台</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="132"/>
+        <source>The {} (inprocess={}) kernel does not support debugging</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>extension_JupyterNotebook</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="87"/>
+        <location filename="../../translation_tools/translatables.py" line="93"/>
         <source>Open Jupyter/ IPython Notebook</source>
         <translation>打开 Jupyter/ IPython Notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="86"/>
+        <location filename="../../translation_tools/translatables.py" line="90"/>
         <source>Import notebook</source>
         <translation>导入notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="88"/>
+        <location filename="../../translation_tools/translatables.py" line="92"/>
         <source>Failed to read notebook. See console for details.</source>
         <translation>无法读取notebook。请在控制台中查看更多细节。</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="89"/>
+        <location filename="../../translation_tools/translatables.py" line="94"/>
         <source>Launch Jupyter Lab</source>
         <translation>启动 Jupyter Lab</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="90"/>
+        <location filename="../../translation_tools/translatables.py" line="89"/>
         <source>Export notebook</source>
         <translation>导出notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="84"/>
+        <location filename="../../translation_tools/translatables.py" line="88"/>
         <source>Import and export Jupyter Notebook (.ipynb) files</source>
         <translation>导入和导出Jupyter Notebook (.ipynb) 文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="85"/>
+        <location filename="../../translation_tools/translatables.py" line="91"/>
         <source>Import as Python script</source>
         <translation>导入为Python脚本</translation>
     </message>
@@ -389,37 +419,37 @@
 <context>
     <name>extension_OpenSesameIDE</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="45"/>
+        <location filename="../../translation_tools/translatables.py" line="54"/>
         <source>Open file</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="73"/>
+        <location filename="../../translation_tools/translatables.py" line="80"/>
         <source>&amp;Save</source>
         <translation>&amp;保存</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="50"/>
+        <location filename="../../translation_tools/translatables.py" line="61"/>
         <source>Search recent folders or browse disk …</source>
         <translation>查找最近文件夹或浏览磁盘 ...</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="63"/>
+        <location filename="../../translation_tools/translatables.py" line="34"/>
         <source>&amp;Tools</source>
         <translation>&amp;工具</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="33"/>
+        <location filename="../../translation_tools/translatables.py" line="51"/>
         <source>&amp;Quit</source>
         <translation>&amp;退出</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="27"/>
+        <location filename="../../translation_tools/translatables.py" line="25"/>
         <source>&amp;View</source>
         <translation>&amp;查看</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="26"/>
+        <location filename="../../translation_tools/translatables.py" line="76"/>
         <source>&amp;Interrupt kernel</source>
         <translation>&amp;中断kernel 进程</translation>
     </message>
@@ -429,250 +459,283 @@
         <translation>没有索引{}（太多文件）</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="41"/>
+        <location filename="../../translation_tools/translatables.py" line="55"/>
         <source>Running notebook cell</source>
         <translation>运行notebook 单元格</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="42"/>
+        <location filename="../../translation_tools/translatables.py" line="49"/>
         <source>Split &amp;vertical</source>
         <translation>垂直&amp;拆分</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="57"/>
+        <location filename="../../translation_tools/translatables.py" line="71"/>
         <source>Fixed editor width</source>
         <translation>固定编辑器宽度</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="55"/>
+        <location filename="../../translation_tools/translatables.py" line="82"/>
         <source>Run &amp;selection, cell, or current line</source>
         <translation>运行&amp;选择，单元格或当前行</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="46"/>
+        <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Running current line</source>
         <translation>运行当前行</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="28"/>
+        <location filename="../../translation_tools/translatables.py" line="59"/>
         <source>How do you want to open this file?</source>
         <translation>如何打开文件？</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="69"/>
+        <location filename="../../translation_tools/translatables.py" line="79"/>
         <source>Close &amp;all tabs</source>
         <translation>关闭&amp;所有选项卡</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="61"/>
+        <location filename="../../translation_tools/translatables.py" line="53"/>
         <source>Code completion</source>
         <translation>代码自动完成功能</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="70"/>
+        <location filename="../../translation_tools/translatables.py" line="36"/>
         <source>&amp;Locate active file</source>
         <translation>&amp;定位现用文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="48"/>
+        <location filename="../../translation_tools/translatables.py" line="58"/>
         <source>Select indentation mode</source>
         <translation>选择缩进模式</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="30"/>
+        <location filename="../../translation_tools/translatables.py" line="57"/>
         <source>Save &amp;as…</source>
         <translation>保存&amp;为...</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="56"/>
+        <location filename="../../translation_tools/translatables.py" line="30"/>
         <source>Wrap lines</source>
         <translation>换行</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="62"/>
+        <location filename="../../translation_tools/translatables.py" line="64"/>
         <source>Open as text</source>
         <translation>以文本格式打开</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="54"/>
+        <location filename="../../translation_tools/translatables.py" line="28"/>
         <source>&amp;New</source>
         <translation>&amp;新的</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="36"/>
+        <location filename="../../translation_tools/translatables.py" line="72"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="53"/>
+        <location filename="../../translation_tools/translatables.py" line="45"/>
         <source>Switch to previous panel</source>
         <translation>切换到上一个面板</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="68"/>
+        <location filename="../../translation_tools/translatables.py" line="41"/>
         <source>&amp;Preferences</source>
         <translation>&amp;偏好选择</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="75"/>
+        <location filename="../../translation_tools/translatables.py" line="66"/>
         <source>&amp;File</source>
         <translation>&amp;文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="59"/>
+        <location filename="../../translation_tools/translatables.py" line="31"/>
         <source>Code folding</source>
         <translation>代码折叠</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="66"/>
+        <location filename="../../translation_tools/translatables.py" line="48"/>
         <source>Turn OpenSesame into an IDE</source>
         <translation>将OpenSesame转换为IDE</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="39"/>
+        <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>Open &amp;folder…</source>
         <translation>打开&amp;文件夹</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="64"/>
+        <location filename="../../translation_tools/translatables.py" line="42"/>
         <source>P&amp;lugins</source>
         <translation>&amp;插件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="40"/>
+        <location filename="../../translation_tools/translatables.py" line="39"/>
         <source>Switch to next panel</source>
         <translation>切换到下一个面板</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="25"/>
+        <location filename="../../translation_tools/translatables.py" line="60"/>
         <source>Running project</source>
         <translation>运行项目</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="37"/>
+        <location filename="../../translation_tools/translatables.py" line="52"/>
         <source>Close &amp;other tabs</source>
         <translation>关闭&amp;其他选项卡</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="38"/>
+        <location filename="../../translation_tools/translatables.py" line="74"/>
         <source>&amp;Run</source>
         <translation>&amp;运行</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="47"/>
+        <location filename="../../translation_tools/translatables.py" line="24"/>
         <source>&amp;Open…</source>
         <translation>&amp;打开...</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="24"/>
+        <location filename="../../translation_tools/translatables.py" line="70"/>
         <source>&amp;Close tab</source>
         <translation>&amp;关闭选项卡</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="43"/>
+        <location filename="../../translation_tools/translatables.py" line="47"/>
         <source>Restart &amp;kernel</source>
         <translation>重启&amp;kernel</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="77"/>
+        <location filename="../../translation_tools/translatables.py" line="68"/>
         <source>Save and run</source>
         <translation>保存并运行</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="34"/>
+        <location filename="../../translation_tools/translatables.py" line="73"/>
         <source>Search project files or browse disk …</source>
         <translation>查找项目文件或浏览磁盘</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="67"/>
+        <location filename="../../translation_tools/translatables.py" line="38"/>
         <source>Show right margin</source>
         <translation>显示右边距</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="51"/>
+        <location filename="../../translation_tools/translatables.py" line="77"/>
         <source>Running file</source>
         <translation>运行文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="60"/>
+        <location filename="../../translation_tools/translatables.py" line="81"/>
         <source>Split &amp;horizontal</source>
         <translation>横向&amp;拆分</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="49"/>
+        <location filename="../../translation_tools/translatables.py" line="69"/>
         <source>Show editor tabs</source>
         <translation>显示编辑器选项卡</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="52"/>
+        <location filename="../../translation_tools/translatables.py" line="65"/>
         <source>Unsaved changes</source>
         <translation>未保存变更</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="29"/>
+        <location filename="../../translation_tools/translatables.py" line="78"/>
         <source>Running selection</source>
         <translation>运行选择</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="44"/>
+        <location filename="../../translation_tools/translatables.py" line="26"/>
         <source>Show whitespace</source>
         <translation>显示空格</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="78"/>
+        <location filename="../../translation_tools/translatables.py" line="50"/>
         <source>&amp;Close all folders</source>
         <translation>&amp;关闭所有文件夹</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="72"/>
+        <location filename="../../translation_tools/translatables.py" line="35"/>
         <source>Show line numbers</source>
         <translation>显示行数</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="74"/>
+        <location filename="../../translation_tools/translatables.py" line="29"/>
         <source>Toggle fullscreen</source>
         <translation>切换到全屏</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="76"/>
+        <location filename="../../translation_tools/translatables.py" line="44"/>
         <source>Browse disk …</source>
         <translation>浏览磁盘 ...</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="31"/>
+        <location filename="../../translation_tools/translatables.py" line="67"/>
         <source>&amp;Editor</source>
         <translation>&amp;编辑器</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="58"/>
+        <location filename="../../translation_tools/translatables.py" line="43"/>
         <source>&amp;Run project or file</source>
         <translation>&amp;运行项目或文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="71"/>
+        <location filename="../../translation_tools/translatables.py" line="56"/>
         <source>Change &amp;working directory to active file</source>
         <translation>变更&amp;工作目录到现用文件</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="65"/>
+        <location filename="../../translation_tools/translatables.py" line="75"/>
         <source>Toggle &amp;folder browsers</source>
         <translation>切换&amp;文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="35"/>
+        <location filename="../../translation_tools/translatables.py" line="63"/>
         <source>Save, run, and don&apos;t ask again</source>
         <translation>保存，运行，并不再询问</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="46"/>
+        <source>Cannot save file with this encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="62"/>
+        <source>Run file in &amp;debugger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="40"/>
+        <source>Clear &amp;breakpoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="37"/>
+        <source>&amp;Toggle breakpoint</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>extension_PythonDebugger</name>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="106"/>
+        <source>Connects to the Rapunzel PDB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="105"/>
+        <source>Python Debugger</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>extension_QuickSelector</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="15"/>
+        <location filename="../../translation_tools/translatables.py" line="14"/>
         <source>A general-purpose quick-select dialog</source>
         <translation>通用快速选择对话框</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="14"/>
+        <location filename="../../translation_tools/translatables.py" line="15"/>
         <source>Select stuff quickly</source>
         <translation>快速选择</translation>
     </message>
@@ -680,7 +743,7 @@
 <context>
     <name>extension_RapunzelLocale</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="101"/>
+        <location filename="../../translation_tools/translatables.py" line="109"/>
         <source>Installs translation for Rapunzel extensions</source>
         <translation>为Rapanzel 扩展件安装翻译</translation>
     </message>
@@ -688,12 +751,12 @@
 <context>
     <name>extension_RapunzelWelcome</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="97"/>
+        <location filename="../../translation_tools/translatables.py" line="102"/>
         <source>Get started!</source>
         <translation>开始吧！</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="98"/>
+        <location filename="../../translation_tools/translatables.py" line="101"/>
         <source>A welcome tab for Rapunzel</source>
         <translation>Rapunzel 欢迎标签</translation>
     </message>
@@ -701,7 +764,7 @@
 <context>
     <name>extension_SpellCheck</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="81"/>
+        <location filename="../../translation_tools/translatables.py" line="85"/>
         <source>Check spelling</source>
         <translation>拼写检查</translation>
     </message>
@@ -709,17 +772,17 @@
 <context>
     <name>extension_SymbolSelector</name>
     <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="110"/>
+        <location filename="../../translation_tools/translatables.py" line="119"/>
         <source>Search symbols in current file …</source>
         <translation>在当前文件搜寻符号</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="111"/>
+        <location filename="../../translation_tools/translatables.py" line="121"/>
         <source>Symbol selector</source>
         <translation>符号选择器</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="112"/>
+        <location filename="../../translation_tools/translatables.py" line="120"/>
         <source>Quickly jump to functions, classes, and other symbol definitions</source>
         <translation>快速跳转到功能，分类，和其他符号定义</translation>
     </message>
@@ -727,22 +790,22 @@
 <context>
     <name>extension_WordCount</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="20"/>
+        <location filename="../../translation_tools/translatables.py" line="18"/>
         <source>Word count</source>
         <translation>字数统计</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="21"/>
+        <location filename="../../translation_tools/translatables.py" line="19"/>
         <source>{} lines, {} words, {} characters</source>
         <translation>{} 行, {} 字, {} 字符</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="18"/>
+        <location filename="../../translation_tools/translatables.py" line="20"/>
         <source>Nothing to count</source>
         <translation>无可统计项</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="19"/>
+        <location filename="../../translation_tools/translatables.py" line="21"/>
         <source>Counts the number of lines, words, and characters</source>
         <translation>统计行数，字数，和字符数</translation>
     </message>
@@ -750,24 +813,29 @@
 <context>
     <name>extension_WorkspaceExplorer</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="106"/>
+        <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Workspace ({})</source>
         <translation>Workspace ({})</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="107"/>
+        <location filename="../../translation_tools/translatables.py" line="114"/>
         <source>Show Python workspace explorer</source>
         <translation>显示Python workspace explorer</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="104"/>
+        <location filename="../../translation_tools/translatables.py" line="113"/>
         <source>Show workspace</source>
         <translation>显示workspace</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="105"/>
+        <location filename="../../translation_tools/translatables.py" line="116"/>
         <source>Workspace</source>
         <translation>Workspace</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="115"/>
+        <source>Cannot inspect variables in running kernel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
