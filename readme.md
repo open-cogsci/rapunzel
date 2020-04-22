@@ -2,7 +2,7 @@
 
 A modern code editor, focused on numerical computing with Python and R
 
-Copyright 2019 Sebastiaan Mathôt (@smathot)
+Copyright 2019-2020 Sebastiaan Mathôt (@smathot)
 
 
 ## About
