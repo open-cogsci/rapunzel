@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr" sourcelanguage="">
+<!DOCTYPE TS><TS version="2.0" language="tr" sourcelanguage="">
 <context>
     <name>JupyterConsole_preferences</name>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="35"/>
         <source>Jupyter Console</source>
-        <translation>Jupyter Console</translation>
+        <translation>Jupiter konsolu</translation>
     </message>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="59"/>
         <source>Default kernel</source>
-        <translation>Noyau par défaut</translation>
+        <translation>Varsayılan kernel</translation>
     </message>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="66"/>
         <source>Focus shortcut</source>
-        <translation>Raccourci d&apos;activation</translation>
+        <translation>Odaklanmış kısayol</translation>
     </message>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="76"/>
         <source>Start inprocess kernel (for developers)</source>
-        <translation>Démarrer le noyau inprocess (pour développeurs)</translation>
+        <translation>İşlem içi kerneli çalıştır</translation>
     </message>
 </context>
 <context>
@@ -33,17 +33,17 @@
     <message>
         <location filename="../JupyterNotebook/launch_jupyter_lab_widget.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../JupyterNotebook/launch_jupyter_lab_widget.ui" line="38"/>
         <source>Launch Jupyter Lab</source>
-        <translation>Démarrer Jupyter Lab</translation>
+        <translation>Jupyter Lab&apos;ı çalıştır</translation>
     </message>
     <message>
         <location filename="../JupyterNotebook/launch_jupyter_lab_widget.ui" line="55"/>
         <source>Kill Jupyter Lab</source>
-        <translation>Tuer Jupyter Lab</translation>
+        <translation>Jupyter Lab&apos;ı kapat</translation>
     </message>
 </context>
 <context>
@@ -51,7 +51,7 @@
     <message>
         <location filename="../JupyterNotebook/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../JupyterNotebook/preferences.ui" line="35"/>
@@ -61,17 +61,17 @@
     <message>
         <location filename="../JupyterNotebook/preferences.ui" line="59"/>
         <source>Executable</source>
-        <translation>Fichier exécutable</translation>
+        <translation>Çalıştırılabilir</translation>
     </message>
     <message>
         <location filename="../JupyterNotebook/preferences.ui" line="69"/>
         <source>Arguments</source>
-        <translation>Arguments</translation>
+        <translation>Argüman</translation>
     </message>
     <message>
         <location filename="../JupyterNotebook/preferences.ui" line="79"/>
         <source>If left empty, the jupyter-lab executable is autodetected and started with the home folder as the notebook folder.</source>
-        <translation>Par défaut, le fichier exécutable de jupyter-lab est détecté automatiquement et lancé avec le dossier de départ en tant que dossier de notebook.</translation>
+        <translation>Boş bırakıldığı takdirde jupyter lab executable otomatik olarak seçilecektir ve notebook klasörü home klasörü olarak başlatılacaktır.</translation>
     </message>
 </context>
 <context>
@@ -79,137 +79,137 @@
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="35"/>
         <source>Rapunzel IDE: Appearance and behavior</source>
-        <translation>Rapunzel IDE : Apparence et comportement</translation>
+        <translation>Rapunzel IDE: Görünüş ve davranışlar</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="59"/>
         <source>Automatically save before running file</source>
-        <translation>Enregistrer automatiquement avant l&apos;exécution d&apos;un fichier</translation>
+        <translation>Dosyayı çalılştırmadan önce otomatik kaydet</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="69"/>
         <source>Default file extension</source>
-        <translation>Extension de fichier par défaut</translation>
+        <translation>Varsayılan dosya uzantısı</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="76"/>
         <source>Change working directory before running selection</source>
-        <translation>Changer le répertoire de travail avant l&apos;exécution d&apos;une sélection</translation>
+        <translation>Seçtiğiniz bölümü çalıştırmadan önce çalışma dizinini değiştir</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="83"/>
         <source>Automatically convert tabs to spaces</source>
-        <translation>Convertir des tabulations en espaces automatiquement</translation>
+        <translation>Bütün tabları boşluğa otomatik dönüştür</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="90"/>
         <source>Automatically strip trailing whitespace</source>
-        <translation>Supprimer les espaces de fin automatiquement</translation>
+        <translation>Devam eden alfabe dışı harfleri otomatik olarak ayır</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="117"/>
         <source>Rapunzel IDE: Keyboard shortcuts</source>
-        <translation>Rapunzel IDE : Raccourcis clavier</translation>
+        <translation>Rapunzel IDE: Klavye kısayolları</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="141"/>
         <source>Run project or file</source>
-        <translation>Exécuter projet ou fichier</translation>
+        <translation>Bir projeyi ya da dosyayı çalılştır</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="148"/>
         <source>Run selection, cell, or current line</source>
-        <translation>Exécuter la sélection, la cellule ou la ligne actuelle</translation>
+        <translation>Seçili alanı, hücreyi ya da bulunduğun satırı çalıştır</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="155"/>
         <source>Interrupt kernel</source>
-        <translation>Interrompre le noyau</translation>
+        <translation>Kerneli durdur</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="162"/>
         <source>Change working directory to active file</source>
-        <translation>Changer le répertoire de travail vers le fichier actuel</translation>
+        <translation>Çalışma dizinini aktif olarak kullandığınız dosyanın dizinine değiştir</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="169"/>
         <source>Toggle fullscreen</source>
-        <translation>Basculer mode plein écran</translation>
+        <translation>Ekranı kapla</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="176"/>
         <source>Close tab</source>
-        <translation>Fermer l&apos;onglet</translation>
+        <translation>Sekmeyi kapat</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="183"/>
         <source>Close other tabs</source>
-        <translation>Fermer les autres onglets</translation>
+        <translation>Diğer sekmeleri kapat</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="190"/>
         <source>Close all tabs</source>
-        <translation>Fermer tous les onglets</translation>
+        <translation>Bütün sekmeleri kapat</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="197"/>
         <source>Split vertical</source>
-        <translation>Division vertical</translation>
+        <translation>Dikey böl</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="204"/>
         <source>Split horizontal</source>
-        <translation>Division horizontal</translation>
+        <translation>Yatay böl</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="211"/>
         <source>Switch to previous panel</source>
-        <translation>Passer au panneau précedent</translation>
+        <translation>Bir önceki panele geç</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="218"/>
         <source>Switch to next panel</source>
-        <translation>Passer au panneau précedent</translation>
+        <translation>Bir sonraki panele geç</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="225"/>
         <source>Toggle folder browsers</source>
-        <translation>Basculer les navigateurs de dossiers</translation>
+        <translation>Klasör arayıcıları değiştir</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="232"/>
         <source>Locate active file</source>
-        <translation>Localiser le fichier actuel</translation>
+        <translation>Altif dosyanın yerini bul</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="97"/>
         <source>Use system default file encoding</source>
-        <translation>Utiliser l&apos;encodage des fichiers par défaut du système</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="107"/>
         <source>Default file encoding</source>
-        <translation>Encodage des fichiers par défaut</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="281"/>
         <source>Run file in debugger</source>
-        <translation>Exécuter le fichier dans le débogueur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="288"/>
         <source>Toggle breakpoint</source>
-        <translation>Basculer un point d&apos;arrêt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="295"/>
         <source>Clear breakpoints</source>
-        <translation>Enlever les points d&apos;arret</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -217,17 +217,17 @@
     <message>
         <location filename="../SpellCheck/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../SpellCheck/preferences.ui" line="35"/>
         <source>Spell checker</source>
-        <translation>Vérificateur orthographique</translation>
+        <translation>Yazım denetleyicisi</translation>
     </message>
     <message>
         <location filename="../SpellCheck/preferences.ui" line="59"/>
         <source>Default language</source>
-        <translation>Langue par défaut</translation>
+        <translation>Varsayılan dil</translation>
     </message>
     <message>
         <location filename="../SpellCheck/preferences.ui" line="67"/>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../SpellCheck/preferences.ui" line="95"/>
         <source>Enabled mimetypes</source>
-        <translation>Mimetypes activés</translation>
+        <translation>İzin verilen mme türleri</translation>
     </message>
 </context>
 <context>
@@ -265,17 +265,17 @@
     <message>
         <location filename="../SymbolSelector/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulaire</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../SymbolSelector/preferences.ui" line="35"/>
         <source>Symbol selector</source>
-        <translation>Sélecteur de symboles</translation>
+        <translation>Sembol seçici</translation>
     </message>
     <message>
         <location filename="../SymbolSelector/preferences.ui" line="59"/>
         <source>Keyboard shortcut</source>
-        <translation>Raccourci clavier</translation>
+        <translation>Klavye kısayolu</translation>
     </message>
 </context>
 <context>
@@ -283,12 +283,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="98"/>
         <source>Trigger menu actions</source>
-        <translation>Activer les actions du menu</translation>
+        <translation>Menü aksiyonlarını harekete geçir</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="97"/>
         <source>Command palette</source>
-        <translation>Palette de commandes</translation>
+        <translation>Komut paleti</translation>
     </message>
 </context>
 <context>
@@ -296,17 +296,17 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="5"/>
         <source>Load into workspace (DataMatrix) and view</source>
-        <translation>Charger dans l&apos;espace de travail (DataMatrix) et afficher</translation>
+        <translation>Çalışma dizinine yükle (DataMatrix) ve göster</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="4"/>
         <source>DataViewer</source>
-        <translation>DataViewer</translation>
+        <translation>VeriGörüntüleyici</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="3"/>
         <source>Load into workspace (PIL image) and view</source>
-        <translation>Charger dans l&apos;espace de travail (image PIL) et afficher</translation>
+        <translation>Çalışma dizinine yükle (PIL image) ve göster</translation>
     </message>
 </context>
 <context>
@@ -314,22 +314,22 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="8"/>
         <source>Find in project files</source>
-        <translation>Rechercher dans les fichiers des projets</translation>
+        <translation>Proje dosyalarında ara</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="9"/>
         <source>Find text in project files</source>
-        <translation>Trouver du text dans les fichiers des projets</translation>
+        <translation>Proje dosyalarında metin ara</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="11"/>
         <source>FindInFiles requires the OpenSesameIDE extension</source>
-        <translation>FindInFiles à besoin de l&apos;extension OpenSesameIDE</translation>
+        <translation>FindInFiles OpenSesameIDE uzantısına gerek duymaktadır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="10"/>
         <source>Find in projects</source>
-        <translation>Recherchers dans les projets</translation>
+        <translation>Proje klasörlerinde ara</translation>
     </message>
 </context>
 <context>
@@ -337,17 +337,17 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="124"/>
         <source>Start Git GUI</source>
-        <translation>Démarrer Git GUI</translation>
+        <translation>Git GUI yi başlat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="126"/>
         <source>Starts Git GUI</source>
-        <translation>Démarre Git GUI</translation>
+        <translation>Git GUI yi çalıştırır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="125"/>
         <source>Launch Git GUI</source>
-        <translation>Lancer Git GUI</translation>
+        <translation>Git GUI yi çalıştır</translation>
     </message>
 </context>
 <context>
@@ -355,27 +355,27 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="132"/>
         <source>Show Jupyter/ IPython console</source>
-        <translation>Montrer la console Jupyter/ IPython</translation>
+        <translation>Jupyter/ IPython konsolunu göster</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="133"/>
         <source>Restart kernel</source>
-        <translation>Redémarrer le noyau</translation>
+        <translation>Kerneli tekrar başlat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="129"/>
         <source>Start new console</source>
-        <translation>Lancer une nouvelle console</translation>
+        <translation>Yeni konsol başlat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>Show console</source>
-        <translation>Montrer la console</translation>
+        <translation>Konsolu göster</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="131"/>
         <source>The {} (inprocess={}) kernel does not support debugging</source>
-        <translation>Le noyau {} (inprocess={}) ne prend pas en charge le débogage</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -383,37 +383,37 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="94"/>
         <source>Open Jupyter/ IPython Notebook</source>
-        <translation>Ouvrir Notebook Jupyter/ IPython</translation>
+        <translation>Jupyter/ IPython Not defterini aç</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="88"/>
         <source>Import notebook</source>
-        <translation>Importer notebook</translation>
+        <translation>Not defterini yükle</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="93"/>
         <source>Failed to read notebook. See console for details.</source>
-        <translation>Le chargement du notebook à échoué. Voir la console pour plus de details.</translation>
+        <translation>Not defteri okunamadı. Detaylar için konsola bakınız.</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="91"/>
         <source>Launch Jupyter Lab</source>
-        <translation>Démarrer Jupyter Lab</translation>
+        <translation>Jupyter Labı başlat</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="92"/>
         <source>Export notebook</source>
-        <translation>Exporter notebook</translation>
+        <translation>Not defterini dışa aktar</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="90"/>
         <source>Import and export Jupyter Notebook (.ipynb) files</source>
-        <translation>Importer et exporter des fichiers Jupyter Notebook (.ipynb)</translation>
+        <translation>Jupyter not defteri (.ipynb) dosylarını içe ve dışa aktar</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="89"/>
         <source>Import as Python script</source>
-        <translation>Importer en tant que script de Python</translation>
+        <translation>Python kodu olarak yükle</translation>
     </message>
 </context>
 <context>
@@ -421,340 +421,310 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="34"/>
         <source>Open file</source>
-        <translation>Ouvrir un fichier</translation>
+        <translation>Bir dosyayı aç</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="61"/>
         <source>&amp;Save</source>
-        <translation>&amp;Enregistrer</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="62"/>
-        <source>&amp;Tools</source>
-        <translation>&amp;Outils</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="73"/>
-        <source>&amp;Quit</source>
-        <translation>&amp;Quitter</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="26"/>
-        <source>&amp;View</source>
-        <translation>&amp;Vue</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="63"/>
-        <source>&amp;Interrupt kernel</source>
-        <translation>&amp;Interrompre le noyau</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="30"/>
-        <source>Not indexing {} (too many files)</source>
-        <translation>Pas d&apos;indexation de {} (trop de fichiers)</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="80"/>
-        <source>Running notebook cell</source>
-        <translation>Exécuter cellule de notebook</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="28"/>
-        <source>Split &amp;vertical</source>
-        <translation>Division &amp;vertical</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="32"/>
-        <source>Fixed editor width</source>
-        <translation>Largeur de l&apos;éditeur fixée</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="44"/>
-        <source>Run &amp;selection, cell, or current line</source>
-        <translation>Exécuter la &amp;sélection, la cellule ou la ligne actuelle</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="69"/>
-        <source>Running current line</source>
-        <translation>En train d&apos;exécuter la ligne actuelle</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="40"/>
-        <source>How do you want to open this file?</source>
-        <translation>Comment voulez-vous ouvrir ce fichier ?</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="48"/>
-        <source>Close &amp;all tabs</source>
-        <translation>Fermer &amp;tous les onglets</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="47"/>
-        <source>Code completion</source>
-        <translation>Complétion de code</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="42"/>
-        <source>&amp;Locate active file</source>
-        <translation>&amp;Localiser le fichier actuel</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="31"/>
-        <source>Select indentation mode</source>
-        <translation>Sélectionner le mode d&apos;indentation</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="29"/>
-        <source>Wrap lines</source>
-        <translation>Retour à ligne</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="49"/>
-        <source>Open as text</source>
-        <translation>Ouvrir comme texte</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="38"/>
-        <source>&amp;New</source>
-        <translation>&amp;Nouveau</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="56"/>
-        <source>Cancel</source>
-        <translation>Annuler</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="82"/>
-        <source>Switch to previous panel</source>
-        <translation>Passer au panneau précedent</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="35"/>
-        <source>&amp;Preferences</source>
-        <translation>&amp;Préférences</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="37"/>
-        <source>&amp;File</source>
-        <translation>&amp;Fichier</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="45"/>
-        <source>Code folding</source>
-        <translation>Pliage de code</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="70"/>
-        <source>Turn OpenSesame into an IDE</source>
-        <translation>Changer OpenSesame en IDE</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="81"/>
-        <source>P&amp;lugins</source>
-        <translation>P&amp;lugins</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="74"/>
-        <source>Switch to next panel</source>
-        <translation>Passer au panneau suivant</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="59"/>
-        <source>Running project</source>
-        <translation>En train d&apos;exécuter le projet</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="60"/>
-        <source>Close &amp;other tabs</source>
-        <translation>Fermer les &amp;autres onglets</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="36"/>
-        <source>&amp;Run</source>
-        <translation>&amp;Exécuter</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="52"/>
-        <source>&amp;Close tab</source>
-        <translation>&amp;Fermer l&apos;onglet</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="64"/>
-        <source>Restart &amp;kernel</source>
-        <translation>Redémarrer le &amp;noyau</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="41"/>
-        <source>Save and run</source>
-        <translation>Enregistrer et exécuter</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="79"/>
-        <source>Show right margin</source>
-        <translation>Montrer la marge droite</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="54"/>
-        <source>Running file</source>
-        <translation>En train d&apos;exécuter le fichier</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="25"/>
-        <source>Split &amp;horizontal</source>
-        <translation>Division &amp;horizontal</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="72"/>
-        <source>Show editor tabs</source>
-        <translation>Montrer les onglets de l&apos;éditeur</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="46"/>
-        <source>Unsaved changes</source>
-        <translation>Modifications non enregistrées</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="66"/>
-        <source>Running selection</source>
-        <translation>En train d&apos;exécuter la sélection</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="53"/>
-        <source>Show whitespace</source>
-        <translation>Montrer les espaces</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="78"/>
-        <source>&amp;Close all folders</source>
-        <translation>&amp;Fermer tous les navigateurs de dossiers</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="77"/>
-        <source>Show line numbers</source>
-        <translation>Montrer les numéros des lignes</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="24"/>
-        <source>Toggle fullscreen</source>
-        <translation>Basculer mode plein écran</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="65"/>
-        <source>&amp;Editor</source>
-        <translation>&amp;Éditeur</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="57"/>
-        <source>&amp;Run project or file</source>
-        <translation>&amp;Exécuter projet ou fichier</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="67"/>
-        <source>Change &amp;working directory to active file</source>
-        <translation>Changer le &amp;répertoire de travail vers le fichier actuel</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="75"/>
-        <source>Toggle &amp;folder browsers</source>
-        <translation>Basculer les &amp;navigateurs de dossiers</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="36"/>
-        <source>Search project files or browse disk ?</source>
-        <translation type="obsolete">Rechercher dans les fichiers des projets ou parcourir le disque …</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="62"/>
-        <source>Open &amp;folder?</source>
-        <translation type="obsolete">Ouvrir un &amp;dossier…</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="28"/>
-        <source>Browse disk ?</source>
-        <translation type="obsolete">Parcourir le disque …</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="55"/>
-        <source>&amp;Open?</source>
-        <translation type="obsolete">&amp;Ouvrir…</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="75"/>
-        <source>Search recent folders or browse disk ?</source>
-        <translation type="obsolete">Rechercher dans les fichiers récents ou parcourir le disque …</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="29"/>
-        <source>Save &amp;as?</source>
-        <translation type="obsolete">Enregistrer &amp;sous…</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="43"/>
-        <source>Save, run, and don&apos;t ask again</source>
-        <translation>Enregistrer, exécuter, et ne plus demander</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="55"/>
-        <source>Search project files or browse disk …</source>
-        <translation>Rechercher dans les fichiers des projets ou parcourir le disque …</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="68"/>
-        <source>Save &amp;as…</source>
-        <translation>Enregistrer &amp;sous…</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="76"/>
-        <source>Browse disk …</source>
-        <translation>Parcourir le disque …</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="71"/>
-        <source>Open &amp;folder…</source>
-        <translation>Ouvrir un &amp;dossier…</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="50"/>
-        <source>&amp;Open…</source>
-        <translation>&amp;Ouvrir…</translation>
+        <translation>&amp;Kaydet</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../../translation_tools/translatables.py" line="51"/>
         <source>Search recent folders or browse disk …</source>
-        <translation>Parcourir</translation>
+        <translation>Yakın zmaanda kullandığın klasörleri ara ya da diske göz at ...</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="58"/>
-        <source>Cannot save file with this encoding</source>
-        <translation>Ne peut pas enregistrer le fichier avec cet encodage</translation>
+        <location filename="../../translation_tools/translatables.py" line="62"/>
+        <source>&amp;Tools</source>
+        <translation>Araçla&amp;r</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="73"/>
+        <source>&amp;Quit</source>
+        <translation>Çıkış ya&amp;p</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="26"/>
+        <source>&amp;View</source>
+        <translation>&amp;Göster</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="63"/>
+        <source>&amp;Interrupt kernel</source>
+        <translation>Kerneli &amp;durdur</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="30"/>
+        <source>Not indexing {} (too many files)</source>
+        <translation>Dizinlenemiyor{} (çok fazla dosya)</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="80"/>
+        <source>Running notebook cell</source>
+        <translation>Notebook hücresini çalıştır</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="28"/>
+        <source>Split &amp;vertical</source>
+        <translation>D&amp;ikey böl</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="32"/>
+        <source>Fixed editor width</source>
+        <translation>Sabit editör genişliği</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="44"/>
+        <source>Run &amp;selection, cell, or current line</source>
+        <translation>Çalıştır&amp;Seçilialanı, hücreyil, ya da kullanılan satırı</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="69"/>
+        <source>Running current line</source>
+        <translation>Seçili satırı çalıştırıyor</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="40"/>
+        <source>How do you want to open this file?</source>
+        <translation>Bu dosyayı nasıl açmak istersiniz?</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="48"/>
+        <source>Close &amp;all tabs</source>
+        <translation>&amp;Tüm sekmeleri kapat</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="47"/>
+        <source>Code completion</source>
+        <translation>Kod bitirme</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="42"/>
+        <source>&amp;Locate active file</source>
+        <translation>Aktif dosya&amp;ların yerini tespit et</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="31"/>
+        <source>Select indentation mode</source>
+        <translation>Girinti modunu seç</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="68"/>
+        <source>Save &amp;as…</source>
+        <translation>Kaydet &amp;farklı…</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="29"/>
+        <source>Wrap lines</source>
+        <translation>Satırları grupla</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="49"/>
+        <source>Open as text</source>
+        <translation>Metin olarak aç</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="38"/>
+        <source>&amp;New</source>
+        <translation>&amp;Yeni</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="56"/>
+        <source>Cancel</source>
+        <translation>İptal et</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="82"/>
+        <source>Switch to previous panel</source>
+        <translation>Önceki panele geç</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="35"/>
+        <source>&amp;Preferences</source>
+        <translation>S&amp;eçenekler</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="37"/>
+        <source>&amp;File</source>
+        <translation>D&amp;osya</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="45"/>
+        <source>Code folding</source>
+        <translation>Kod klasörleme</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="70"/>
+        <source>Turn OpenSesame into an IDE</source>
+        <translation>OpenSesameyi IDEye dönüştür</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="71"/>
+        <source>Open &amp;folder…</source>
+        <translation>Klas&amp;örü aç…</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="81"/>
+        <source>P&amp;lugins</source>
+        <translation>Ekle&amp;ntiler</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="74"/>
+        <source>Switch to next panel</source>
+        <translation>Sonraki panele geç</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="59"/>
+        <source>Running project</source>
+        <translation>Projeyi çalıştır</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="60"/>
+        <source>Close &amp;other tabs</source>
+        <translation>&amp;Diğer sekmeleri kapat</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="36"/>
+        <source>&amp;Run</source>
+        <translation>&amp;Çalıştır</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="50"/>
+        <source>&amp;Open…</source>
+        <translation>&amp;Aç…</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="52"/>
+        <source>&amp;Close tab</source>
+        <translation>Sek&amp;meyi kapat</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="64"/>
+        <source>Restart &amp;kernel</source>
+        <translation>Kerneli &amp;tekrar başlat</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="41"/>
+        <source>Save and run</source>
+        <translation>Kaydet ve çalıştır</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="55"/>
+        <source>Search project files or browse disk …</source>
+        <translation>Proje dosyalarını ara ya da diske göz at ...</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="79"/>
+        <source>Show right margin</source>
+        <translation>Sağ margini göster</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="54"/>
+        <source>Running file</source>
+        <translation>Dosyayı çalıştırıyor</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="25"/>
+        <source>Split &amp;horizontal</source>
+        <translation>Yatay &amp;böl</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="72"/>
+        <source>Show editor tabs</source>
+        <translation>Editör sekmelerini göster</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="46"/>
+        <source>Unsaved changes</source>
+        <translation>Kaydedilmeyen değişiklikler</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="66"/>
+        <source>Running selection</source>
+        <translation>Seçili alanı çalıştır</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="53"/>
+        <source>Show whitespace</source>
+        <translation>Alfabe dışı karakterleri göster</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="78"/>
+        <source>&amp;Close all folders</source>
+        <translation>T&amp;üm Dosyaları kapat</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="77"/>
+        <source>Show line numbers</source>
+        <translation>Satır numaralarını göster</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="24"/>
+        <source>Toggle fullscreen</source>
+        <translation>Ekranı kapla</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="76"/>
+        <source>Browse disk …</source>
+        <translation>Diske göz at ...</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="65"/>
+        <source>&amp;Editor</source>
+        <translation>Edit&amp;ör</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="57"/>
+        <source>&amp;Run project or file</source>
+        <translation>Çalıştır pro&amp;je ya da dosyayı</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="67"/>
+        <source>Change &amp;working directory to active file</source>
+        <translation>Çalışma dizinini akti&amp;f dosyanınkine değiştir</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="75"/>
+        <source>Toggle &amp;folder browsers</source>
+        <translation type="unfinished">Klasör arama araçlar&amp;ını çalıştır</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="43"/>
+        <source>Save, run, and don&apos;t ask again</source>
+        <translation>Kaydet, çalıştır ya da tekrar sorma</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Run file in &amp;debugger</source>
-        <translation>Exécuter le fichier dans le &amp;débogueur</translation>
-    </message>
-    <message>
-        <location filename="../../translation_tools/translatables.py" line="39"/>
-        <source>Clear &amp;breakpoints</source>
-        <translation>Enlever les &amp;points d&apos;arret</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>&amp;Toggle breakpoint</source>
-        <translation>&amp;Basculer un point d&apos;arrêt</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="39"/>
+        <source>Clear &amp;breakpoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="58"/>
+        <source>Cannot save file with this encoding</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>extension_PythonDebugger</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="106"/>
-        <source>Connects to the Rapunzel PDB</source>
-        <translation>Se connecte avec le débogueur Rapunzel</translation>
-    </message>
-    <message>
         <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>Python Debugger</source>
-        <translation>Débogueur Python</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="106"/>
+        <source>Connects to the Rapunzel PDB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -762,12 +732,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="15"/>
         <source>A general-purpose quick-select dialog</source>
-        <translation>Une boîte de dialogue de sélection rapide à usage général</translation>
+        <translation>Genel bir hızlı seç dialoğu</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="14"/>
         <source>Select stuff quickly</source>
-        <translation>Sélectionner des choses rapidement</translation>
+        <translation>Ögeleri hızlıca seç</translation>
     </message>
 </context>
 <context>
@@ -775,7 +745,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="109"/>
         <source>Installs translation for Rapunzel extensions</source>
-        <translation>Installe la traduction des extensions Rapunzel</translation>
+        <translation>Rapunzel eki için çevirileri yükle</translation>
     </message>
 </context>
 <context>
@@ -783,12 +753,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="101"/>
         <source>Get started!</source>
-        <translation>Lancez-vous !</translation>
+        <translation>Başla!</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="102"/>
         <source>A welcome tab for Rapunzel</source>
-        <translation>Un onglet de bienvenue pour Rapunzel</translation>
+        <translation>Rapunzel için hoşgeldin sekmesi</translation>
     </message>
 </context>
 <context>
@@ -796,25 +766,25 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="85"/>
         <source>Check spelling</source>
-        <translation>Vérifier l&apos;ortographe</translation>
+        <translation>Yazımı denetle</translation>
     </message>
 </context>
 <context>
     <name>extension_SymbolSelector</name>
+    <message encoding="UTF-8">
+        <location filename="../../translation_tools/translatables.py" line="121"/>
+        <source>Search symbols in current file …</source>
+        <translation>Dosyadaki sembolleri ara ...</translation>
+    </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="120"/>
         <source>Symbol selector</source>
-        <translation>Sélecteur de symboles</translation>
+        <translation>Sembol seçici</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="119"/>
         <source>Quickly jump to functions, classes, and other symbol definitions</source>
-        <translation>Accédez rapidement aux fonctions, classes et autres définitions de symboles</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="121"/>
-        <source>Search symbols in current file …</source>
-        <translation>Rechercher des symboles dans le fichier actuel …</translation>
+        <translation>Fonksiyonlara, sınıflara ve diğer sembol tanımlarına hızlıca geç</translation>
     </message>
 </context>
 <context>
@@ -822,22 +792,22 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="21"/>
         <source>Word count</source>
-        <translation>Nombre de mot</translation>
+        <translation>Kelime sayısı</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="20"/>
         <source>{} lines, {} words, {} characters</source>
-        <translation>{} lignes, {} mots, {} caractères</translation>
+        <translation>{} satır, {}kelime, {} karakter</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="19"/>
         <source>Nothing to count</source>
-        <translation>Rien à compter</translation>
+        <translation>Sayacak hiçbir şey yok</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="18"/>
         <source>Counts the number of lines, words, and characters</source>
-        <translation>Compte le nombre de lignes, de mots et de caractères</translation>
+        <translation>Satır, kelime ve karakter sayısını sayar</translation>
     </message>
 </context>
 <context>
@@ -845,27 +815,27 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="116"/>
         <source>Workspace ({})</source>
-        <translation>Espace de travail ({})</translation>
+        <translation>Çalışma dizini({})</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Show Python workspace explorer</source>
-        <translation>Afficher l&apos;explorateur d&apos;espace de travail Python</translation>
+        <translation>Python workspace gezginini göster</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="113"/>
         <source>Show workspace</source>
-        <translation>Afficher l&apos;espace de travail</translation>
+        <translation>Çalışma dizinini göster</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="114"/>
         <source>Workspace</source>
-        <translation>Espace de travail</translation>
+        <translation>Çalışma dizini</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="115"/>
         <source>Cannot inspect variables in running kernel</source>
-        <translation>Ne peut pas visualiser des variables à partir d&apos;un noyau en cours d&apos;exécution</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -873,27 +843,27 @@
     <message>
         <location filename="../FindInFiles/find_in_files.ui" line="14"/>
         <source>Find in files</source>
-        <translation>Rechercher dans les fichiers</translation>
+        <translation>Dosyalarda bul</translation>
     </message>
     <message>
         <location filename="../FindInFiles/find_in_files.ui" line="69"/>
         <source>Text to find</source>
-        <translation>Texte à trouver</translation>
+        <translation>Bulunacak metin</translation>
     </message>
     <message>
         <location filename="../FindInFiles/find_in_files.ui" line="94"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <location filename="../FindInFiles/find_in_files.ui" line="105"/>
         <source>Find</source>
-        <translation>Rechercher</translation>
+        <translation>Bul</translation>
     </message>
     <message>
         <location filename="../FindInFiles/find_in_files.ui" line="122"/>
         <source>File/ directory pattern, e.g. *.py</source>
-        <translation>Modèle de fichier/ répertoire, par exemple *.py</translation>
+        <translation>Dosya/Dizin deseni, örneğin*.py</translation>
     </message>
 </context>
 </TS>
