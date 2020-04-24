@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="zh" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="zh" sourcelanguage="en">
 <context>
     <name>JupyterConsole_preferences</name>
     <message>
@@ -20,12 +21,12 @@
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="66"/>
         <source>Focus shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>焦点快捷方式</translation>
     </message>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="76"/>
         <source>Start inprocess kernel (for developers)</source>
-        <translation>启动进程内kernel（针对开发者）</translation>
+        <translation>启动进程内kernel （针对开发者）</translation>
     </message>
 </context>
 <context>
@@ -189,27 +190,27 @@
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="97"/>
         <source>Use system default file encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系统默认文件编码</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="107"/>
         <source>Default file encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>默认文件编码</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="281"/>
         <source>Run file in debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>在调试器中运行文件</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="288"/>
         <source>Toggle breakpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>切换断点</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="295"/>
         <source>Clear breakpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>清除断点</translation>
     </message>
 </context>
 <context>
@@ -375,7 +376,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="131"/>
         <source>The {} (inprocess={}) kernel does not support debugging</source>
-        <translation type="unfinished"></translation>
+        <translation>{}（进程内={}）kernel 不支持调试</translation>
     </message>
 </context>
 <context>
@@ -428,7 +429,7 @@
         <source>&amp;Save</source>
         <translation>&amp;保存</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="51"/>
         <source>Search recent folders or browse disk …</source>
         <translation>查找最近文件夹或浏览磁盘 ...</translation>
@@ -508,7 +509,7 @@
         <source>Select indentation mode</source>
         <translation>选择缩进模式</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="68"/>
         <source>Save &amp;as…</source>
         <translation>保存&amp;为...</translation>
@@ -558,7 +559,7 @@
         <source>Turn OpenSesame into an IDE</source>
         <translation>将OpenSesame转换为IDE</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="71"/>
         <source>Open &amp;folder…</source>
         <translation>打开&amp;文件夹</translation>
@@ -588,7 +589,7 @@
         <source>&amp;Run</source>
         <translation>&amp;运行</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="50"/>
         <source>&amp;Open…</source>
         <translation>&amp;打开...</translation>
@@ -608,7 +609,7 @@
         <source>Save and run</source>
         <translation>保存并运行</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="55"/>
         <source>Search project files or browse disk …</source>
         <translation>查找项目文件或浏览磁盘</translation>
@@ -663,7 +664,7 @@
         <source>Toggle fullscreen</source>
         <translation>切换到全屏</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="76"/>
         <source>Browse disk …</source>
         <translation>浏览磁盘 ...</translation>
@@ -696,22 +697,22 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="58"/>
         <source>Cannot save file with this encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>无法用此编码保存文件</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Run file in &amp;debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>在&amp;调试器中运行文件</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="39"/>
         <source>Clear &amp;breakpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>清除&amp;断点</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>&amp;Toggle breakpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;切换断点</translation>
     </message>
 </context>
 <context>
@@ -719,12 +720,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="106"/>
         <source>Connects to the Rapunzel PDB</source>
-        <translation type="unfinished"></translation>
+        <translation>连接到Rapunzel PDB</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>Python Debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Python调试器</translation>
     </message>
 </context>
 <context>
@@ -771,7 +772,7 @@
 </context>
 <context>
     <name>extension_SymbolSelector</name>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="121"/>
         <source>Search symbols in current file …</source>
         <translation>在当前文件搜寻符号</translation>
@@ -835,7 +836,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="115"/>
         <source>Cannot inspect variables in running kernel</source>
-        <translation type="unfinished"></translation>
+        <translation>无法检查正在运行的kernel中的变量</translation>
     </message>
 </context>
 <context>
