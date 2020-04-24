@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="tr" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="tr">
 <context>
     <name>JupyterConsole_preferences</name>
     <message>
@@ -189,27 +190,27 @@
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="97"/>
         <source>Use system default file encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasayılan sistem dosya kodlamasını kullan</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="107"/>
         <source>Default file encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan sistem dosya kodlaması</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="281"/>
         <source>Run file in debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı hata ayıklayıcıda çalıştır</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="288"/>
         <source>Toggle breakpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Durma noktalarını değiştir</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="295"/>
         <source>Clear breakpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Durma noktalarını temizle</translation>
     </message>
 </context>
 <context>
@@ -375,7 +376,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>The {} (inprocess={}) kernel does not support debugging</source>
-        <translation type="unfinished"></translation>
+        <translation>Kernel {} (inprocess={}) hata ayıklayıcıyı desteklemiyor</translation>
     </message>
 </context>
 <context>
@@ -428,7 +429,7 @@
         <source>&amp;Save</source>
         <translation>&amp;Kaydet</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Search recent folders or browse disk …</source>
         <translation>Yakın zmaanda kullandığın klasörleri ara ya da diske göz at ...</translation>
@@ -508,7 +509,7 @@
         <source>Select indentation mode</source>
         <translation>Girinti modunu seç</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="34"/>
         <source>Save &amp;as…</source>
         <translation>Kaydet &amp;farklı…</translation>
@@ -558,7 +559,7 @@
         <source>Turn OpenSesame into an IDE</source>
         <translation>OpenSesameyi IDEye dönüştür</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="60"/>
         <source>Open &amp;folder…</source>
         <translation>Klas&amp;örü aç…</translation>
@@ -588,7 +589,7 @@
         <source>&amp;Run</source>
         <translation>&amp;Çalıştır</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="48"/>
         <source>&amp;Open…</source>
         <translation>&amp;Aç…</translation>
@@ -608,7 +609,7 @@
         <source>Save and run</source>
         <translation>Kaydet ve çalıştır</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="53"/>
         <source>Search project files or browse disk …</source>
         <translation>Proje dosyalarını ara ya da diske göz at ...</translation>
@@ -663,7 +664,7 @@
         <source>Toggle fullscreen</source>
         <translation>Ekranı kapla</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="31"/>
         <source>Browse disk …</source>
         <translation>Diske göz at ...</translation>
@@ -686,7 +687,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="26"/>
         <source>Toggle &amp;folder browsers</source>
-        <translation type="unfinished">Klasör arama araçlar&amp;ını çalıştır</translation>
+        <translation>Klasör arama araçlar&amp;ını çalıştır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="46"/>
@@ -696,22 +697,22 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="79"/>
         <source>Run file in &amp;debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı &amp;hata ayıklayıcıda çalıştır</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="49"/>
         <source>&amp;Toggle breakpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>D&amp;urma noktasını değiştir</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="77"/>
         <source>Clear &amp;breakpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Durma noktasını te&amp;mizle</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="52"/>
         <source>Cannot save file with this encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya bu kodlama ile kaydedilememektedir</translation>
     </message>
 </context>
 <context>
@@ -719,12 +720,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="106"/>
         <source>Python Debugger</source>
-        <translation type="unfinished"></translation>
+        <translation>Python Hata Ayıklayıcısı</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>Connects to the Rapunzel PDB</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapunzel PDBye bağlanır</translation>
     </message>
 </context>
 <context>
@@ -771,7 +772,7 @@
 </context>
 <context>
     <name>extension_SymbolSelector</name>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="121"/>
         <source>Search symbols in current file …</source>
         <translation>Dosyadaki sembolleri ara ...</translation>
@@ -835,7 +836,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Cannot inspect variables in running kernel</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalışan kerneldeki değişkenler incelenemez</translation>
     </message>
 </context>
 <context>
