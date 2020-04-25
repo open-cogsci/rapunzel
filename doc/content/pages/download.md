@@ -6,6 +6,18 @@ next_url: %url:workflow%
 [TOC]
 
 
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: ZPysys3Ew-w
+ width: 640
+ height: 360
+ caption: |
+  Installing Rapunzel in Anaconda
+--%
+
+
 ## Anaconda (cross-platform)
 
 Rapunzel requires libraries from the `cogsci` and `conda-forge` channels.

@@ -6,6 +6,18 @@ next_url: %url:running%
 [TOC]
 
 
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: qQY1-xwjkxE
+ width: 640
+ height: 360
+ caption: |
+  Working with files and folders
+--%
+
+
 ## Opening project folders
 
 A *project folder* is a folder that contains files and subfolders related to a project. If you want, you can also define a project file (see [Running code](%url:running%)), but this is only necessary if you want to customize how your project is executed/ compiled.

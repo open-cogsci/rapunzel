@@ -2,5 +2,5 @@ Download: download
 Manual:
     Workflow: manual/workflow
     Running code: manual/running
-    Exploring the workspace: manual/workspace
+    Debugging and exploring the workspace: manual/debugging
     Working with Jupyter notebooks: manual/notebooks

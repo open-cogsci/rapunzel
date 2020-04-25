@@ -1,6 +1,6 @@
 title: Running code
-next_title: Workspace
-next_url: %url:workspace%
+next_title: Debugging
+next_url: %url:debugging%
 
 
 There are two main ways to run code:
@@ -12,6 +12,18 @@ Rapunzel uses an intuitive logic to run code as you would expect it to, as expla
 
 
 [TOC]
+
+
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: UYKIIsyex1g
+ width: 640
+ height: 360
+ caption: |
+  Running code with Rapunzel
+--%
 
 
 ## Running a project or file (`F5`)
