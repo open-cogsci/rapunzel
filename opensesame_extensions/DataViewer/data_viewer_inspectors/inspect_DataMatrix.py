@@ -19,8 +19,12 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 from qdatamatrix import QDataMatrix
+from qtpy.QtGui import QFont
+from libqtopensesame.misc.config import cfg
 
 
 def inspect_DataMatrix(value):
 
-    return QDataMatrix(value, read_only=True)
+    qdm = QDataMatrix(value, read_only=True)
+    qdm.setFont(QFont(cfg.pyqode_font_name, cfg.pyqode_font_size))
+    return qdm

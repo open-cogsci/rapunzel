@@ -18,12 +18,15 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
-from qdatamatrix import QDataMatrix
+
+from libqtopensesame.misc.config import cfg
+import qdatamatrix
 from datamatrix import DataMatrix
+from qdatamatrix import QDataMatrix
 from qtpy.QtWidgets import QDockWidget
+from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, QTimer
 from libopensesame.oslogging import oslogger
-from libqtopensesame.misc.config import cfg
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'WorkspaceExplorer', category=u'extension')
@@ -46,6 +49,7 @@ class WorkspaceExplorer(BaseExtension):
         dm.initializing = -1
         self._workspace_cache = {}
         self._qdm = WorkspaceMatrix(dm, read_only=True)
+        self._qdm.setFont(QFont(cfg.pyqode_font_name, cfg.pyqode_font_size))
         self._qdm.cell_double_clicked.connect(self._inspect_variable)
         self._dock_widget = QDockWidget(self.main_window)
         self._dock_widget.setWidget(self._qdm)
