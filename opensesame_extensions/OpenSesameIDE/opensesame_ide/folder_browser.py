@@ -62,7 +62,7 @@ class FolderBrowserDockWidget(QDockWidget):
 
     def closeEvent(self, e):
 
-        self._folder_browser.active = False
+        self._folder_browser.shutdown()
         self._ide.remove_folder_browser_dock_widget(self)
         self.close()
 
@@ -87,11 +87,11 @@ class FolderBrowser(FileSystemTreeView):
         self.set_context_menu(FileSystemContextMenu())
         self._watcher = QFileSystemWatcher()
         self._watcher.addPath(path)
-        self._watcher.fileChanged.connect(self._index_files)
-        self._watcher.directoryChanged.connect(self._index_files)
+        self._watcher.fileChanged.connect(self._on_file_changed)
+        self._watcher.directoryChanged.connect(self._on_folder_changed)
         self._indexing = False
         self._file_list = []
-        self.active = True
+        self._active = True
         self._index_files()
 
     def currentChanged(self, current_index, previous_index):
@@ -109,6 +109,12 @@ class FolderBrowser(FileSystemTreeView):
 
         path = self.fileInfo(self.indexAt(event.pos())).filePath()
         self.open_file(path)
+        
+    def shutdown(self):
+        
+        self._active = False
+        self._watcher.fileChanged.disconnect()
+        self._watcher.directoryChanged.disconnect()
 
     def open_file(self, path):
 
@@ -124,10 +130,20 @@ class FolderBrowser(FileSystemTreeView):
             time.sleep(.1)
             QApplication.processEvents()
         return self._file_list
+    
+    def _on_file_changed(self, _=None):
+        
+        oslogger.debug(u'file changed in {}'.format(self._path))
+        self._index_files()
+
+    def _on_folder_changed(self, _=None):
+        
+        oslogger.debug(u'folder changed in {}'.format(self._path))
+        self._index_files()
 
     def _index_files(self, _=None):
 
-        if not self.active:
+        if not self._active:
             oslogger.debug(u'shutting down indexing for {}'.format(self._path))
             return
         if self._indexing:
