@@ -22,6 +22,8 @@ from libqtopensesame.extensions import BaseExtension
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
 from pyqode.core import modes
+from libqtopensesame.misc.translate import translation_context
+_ = translation_context('SpellCheck', category='extension')
 
 
 class SpellCheck(BaseExtension):
@@ -69,6 +71,15 @@ class SpellCheck(BaseExtension):
                 return
         if 'SpellCheckerMode' in editor.modes.keys():
             editor.modes.remove('SpellCheckerMode')
+        try:
+            import spellchecker
+        except ImportError:
+            oslogger.warning('failed to import spellchecker')
+            self.extension_manager.fire(
+                'notify',
+                message=_('Please install pyspellchecker for spell checking')
+            )
+            return
         oslogger.debug('enabling spellcheck for {}'.format(editor))
         spellchecker = modes.SpellCheckerMode()
         spellchecker.set_ignore_rules(language)
