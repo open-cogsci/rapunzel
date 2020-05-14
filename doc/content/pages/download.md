@@ -33,9 +33,15 @@ Once Rapunzel has been installed, you can start it from the Anaconda prompt (`ra
 
 ## Windows
 
-Rapunzel is included with OpenSesame, and you can download a pre-built Windows packages from the OpenSesame download page:
+The standard download is based on Python 3.8 for 64 bit systems. The installer and `.zip` packages are identical, except for the installation.
 
-- <https://osdoc.cogsci.nl/download>
+<a role="button" class="btn btn-success btn-align-left" href="https://github.com/smathot/rapunzel/releases/download/release%2F0.4.5/rapunzel_0.4.5-py38-win64-1.exe">
+	<b>Standard</b> Windows installer (.exe)
+</a>
+
+<a role="button" class="btn btn-default btn-align-left" href="https://github.com/smathot/rapunzel/releases/download/release%2F0.4.5/rapunzel_0.4.5-py38-win64-1.zip">
+	<b>Standard</b> Windows no installation required (.zip)
+</a>
 
 
 ## Ubuntu
