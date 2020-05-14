@@ -198,7 +198,11 @@ class FindWidget(BaseWidget):
     def _cancel(self):
 
         self._canceled = True
-        if self._finder is not None and self._finder.is_alive():
+        try:
+            alive = self._finder is not None and self._finder.is_alive()
+        except ValueError:  # process is closed
+            return
+        if alive:
             oslogger.debug(
                 u'terminating finder (PID={})'.format(self._finder.pid)
             )
