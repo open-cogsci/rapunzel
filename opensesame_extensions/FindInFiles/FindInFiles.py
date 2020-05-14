@@ -19,13 +19,16 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import fnmatch
+import multiprocessing
 from qtpy.QtWidgets import QTreeWidgetItem, QApplication, QDockWidget
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt, QTimer
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.widgets.base_widget import BaseWidget
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'FindInFiles', category=u'extension')
+
+MAX_LINE_LENGTH = 40  # Maximum length of lines in search results
 
 
 def find_text(needle, haystack, case_sensitive=False):
@@ -60,6 +63,33 @@ def find_text(needle, haystack, case_sensitive=False):
         start = pos + len(needle)
 
 
+def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False):
+    
+    for path in file_list:
+        if filter and not fnmatch.fnmatch(path, filter):
+            continue
+        haystack = safe_read(path)
+        lines = haystack.split(u'\n')
+        for line_number in find_text(
+            needle,
+            haystack,
+            case_sensitive=case_sensitive
+        ):
+            line = lines[line_number - 1].strip()
+            if len(line) > MAX_LINE_LENGTH:
+                index = (
+                    line.find(needle)
+                    if not case_sensitive
+                    else line.lower().find(needle)
+                )
+                line = line[
+                    index - MAX_LINE_LENGTH // 2
+                    :index + MAX_LINE_LENGTH // 2
+                ]
+            queue.put((path, line_number, line))
+    queue.put((None, None, None))
+
+
 class FindWidget(BaseWidget):
 
     def __init__(self, main_window):
@@ -84,6 +114,7 @@ class FindWidget(BaseWidget):
         self.ui.button_cancel.clicked.connect(self._cancel)
         self.ui.button_cancel.hide()
         self.ui.treewidget_results.itemActivated.connect(self._open_result)
+        self._finder = None
 
     def setFocus(self):
 
@@ -110,43 +141,68 @@ class FindWidget(BaseWidget):
         self.ui.button_cancel.show()
         self.ui.button_find.hide()
         self.ui.treewidget_results.clear()
-        for path in list(self._ide.project_files()):
-            if self._canceled:
-                break
-            if filter and not fnmatch.fnmatch(path, filter):
-                continue
-            haystack = safe_read(path)
-            lines = None
-            for line_number in find_text(needle, haystack):
-                if lines is None:
-                    lines = haystack.split(u'\n')
-                    path_item = QTreeWidgetItem(
-                        self.ui.treewidget_results,
-                        [path]
-                    )
-                    path_item.result = path, 1
-                    self.ui.treewidget_results.addTopLevelItem(path_item)
-                line_item = QTreeWidgetItem(
-                    path_item, [
-                        u'{}: {}'.format(
-                            line_number, lines[line_number - 1].strip()
-                        )
-                    ]
-                )
-                line_item.result = path, line_number
-                path_item.addChild(line_item)
+        self._last_path = None
+        self._queue = multiprocessing.Queue()
+        self._finder = multiprocessing.Process(
+            target=find_text_in_files,
+            args=(
+                self._queue,
+                needle,
+                list(self._ide.project_files()),
+                filter
+            )
+        )
+        self._finder.start()
+        oslogger.debug(u'finding {} (PID={})'.format(
+            needle,
+            self._finder.pid
+        ))
+        QTimer.singleShot(1000, self._check_finder)
+        
+    def _check_finder(self):
+        
+        if self._queue.empty():
+            oslogger.debug(
+                u'no results yet for finder (PID={})'.format(self._finder.pid)
+            )
+            QTimer.singleShot(1000, self._check_finder)
+            return
+        path, line_number, matching_line = self._queue.get()
+        if path is None or self._canceled:
+            self.ui.button_cancel.hide()
+            self.ui.button_find.show()
+            self._finder.join()
+            oslogger.debug(u'finder done (PID={})'.format(self._finder.pid))
             try:
-                self.ui.treewidget_results.expandAll()
-            except RuntimeError:
-                oslogger.debug('closed during search')
-                return
-            QApplication.processEvents()
-        self.ui.button_cancel.hide()
-        self.ui.button_find.show()
+                self._finder.close()
+            except AttributeError:
+                # Process.close() was introduced only in Python 3.7
+                pass
+            return
+        if path != self._last_path:
+            self._path_item = QTreeWidgetItem(
+                self.ui.treewidget_results,
+                [path]
+            )
+            self._path_item.result = path, 1
+            self.ui.treewidget_results.addTopLevelItem(self._path_item)
+            self._last_path = path
+        line_item = QTreeWidgetItem(
+            self._path_item,
+            [u'{}: {}'.format(line_number, matching_line)]
+        )
+        line_item.result = path, line_number
+        self._path_item.addChild(line_item)
+        QTimer.singleShot(10, self._check_finder)
 
     def _cancel(self):
 
         self._canceled = True
+        if self._finder is not None and self._finder.is_alive():
+            oslogger.debug(
+                u'terminating finder (PID={})'.format(self._finder.pid)
+            )
+            self._finder.terminate()
 
 
 class FindDockWidget(QDockWidget):
@@ -164,6 +220,7 @@ class FindDockWidget(QDockWidget):
 
         self._main_window.removeDockWidget(self)
         e.accept()
+        self._find_widget._cancel()
 
 
 class FindInFiles(BaseExtension):
