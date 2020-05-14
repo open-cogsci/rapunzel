@@ -298,7 +298,7 @@ class MenuBar(QMenuBar):
         )
         self._action_toggle_tab_bar = self._action(
             _(u'Show editor tabs'),
-            u'accessories-text-editor',
+            None,
             None,
             self._toggle_show_tab_bar,
             checkable=True,

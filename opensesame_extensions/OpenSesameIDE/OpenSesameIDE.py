@@ -52,6 +52,7 @@ class OpenSesameIDE(BaseExtension):
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
         self._scetw.main_tab_widget.tab_closed.connect(self._on_editor_close)
+        self._scetw.tab_bar_visible = cfg.opensesame_ide_show_tab_bar
         self._add_ide_tab()
         self._dock_widgets = {}
         self._set_ignore_patterns()
