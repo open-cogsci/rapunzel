@@ -749,14 +749,24 @@ class OpenSesameIDE(BaseExtension):
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
+    
+    @BaseExtension.as_thread(wait=750)
+    def _open_from_command_line(self, path):
+
+        """This function is run with a timer so that the other extensions have
+        a chance to initialize first.
+        """
+
+        if os.path.isfile(path):
+            self.open_document(path)
+        elif os.path.isdir(path):
+            self._open_folder(path)
 
     def _parse_command_line(self):
 
         for arg in sys.argv[1:]:
-            if os.path.isfile(arg):
-                self.open_document(arg)
-            elif os.path.isdir(arg):
-                self._open_folder(arg)
+            if os.path.exists(arg):
+                self._open_from_command_line(arg)
 
     def _current_project_file(self):
 

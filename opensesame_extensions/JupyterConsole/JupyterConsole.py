@@ -33,7 +33,7 @@ class JupyterConsole(BaseExtension):
     
     preferences_ui = 'extensions.JupyterConsole.preferences'
 
-    @BaseExtension.as_thread(wait=2000)
+    @BaseExtension.as_thread(wait=500)
     def event_startup(self):
 
         from jupyter_tabwidget import ConsoleTabWidget
