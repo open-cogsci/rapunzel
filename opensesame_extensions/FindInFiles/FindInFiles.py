@@ -28,7 +28,7 @@ from libqtopensesame.widgets.base_widget import BaseWidget
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'FindInFiles', category=u'extension')
 
-MAX_LINE_LENGTH = 40  # Maximum length of lines in search results
+MAX_LINE_LENGTH = 80  # Maximum length of lines in search results
 
 
 def find_text(needle, haystack, case_sensitive=False):
@@ -55,11 +55,15 @@ def find_text(needle, haystack, case_sensitive=False):
         haystack = haystack.lower()
     start = 0
     end = len(haystack)
+    prev_line = None
     while needle in haystack[start:]:
         pos = haystack.find(needle, start, end)
         if pos < 0:
             break
-        yield haystack.count(u'\n', 0, pos) + 1
+        line = haystack.count(u'\n', 0, pos) + 1
+        if line != prev_line:
+            yield line
+        prev_line = line
         start = pos + len(needle)
 
 
@@ -79,13 +83,15 @@ def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False):
             if len(line) > MAX_LINE_LENGTH:
                 index = (
                     line.find(needle)
-                    if not case_sensitive
+                    if case_sensitive
                     else line.lower().find(needle)
                 )
-                line = line[
-                    index - MAX_LINE_LENGTH // 2
-                    :index + MAX_LINE_LENGTH // 2
-                ]
+                full_length = len(line)
+                line = line[index: index + MAX_LINE_LENGTH]
+                if index > 0:
+                    line = u'(…) ' + line
+                if index + MAX_LINE_LENGTH < full_length:
+                    line = line + u' (…)'
             queue.put((path, line_number, line))
     queue.put((None, None, None))
 
