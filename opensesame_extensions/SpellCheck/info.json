@@ -10,7 +10,8 @@
     },
     "settings": {
         "spellcheck_default_language": "en",
-        "spellcheck_mimetypes": "markdown"
+        "spellcheck_mimetypes": "markdown",
+        "spellcheck_ignore": ""
     },
     "modes": ["ide"]
 }

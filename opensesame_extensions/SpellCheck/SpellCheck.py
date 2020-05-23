@@ -22,6 +22,8 @@ from libqtopensesame.extensions import BaseExtension
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
 from pyqode.core import modes
+from pyqode.core.api.utils import TextHelper
+from qtpy.QtWidgets import QAction
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context('SpellCheck', category='extension')
 
@@ -56,11 +58,16 @@ class SpellCheck(BaseExtension):
             oslogger.debug('failed to parse mimetypes: {}'.format(e))
             self._mimetypes = []
         oslogger.debug('enabling spellcheck for {}'.format(self._mimetypes))
+        
+    def _ignore_list(self):
+        
+        ignore = cfg.spellcheck_ignore
+        if not isinstance(ignore, str):
+            return []
+        return ignore.split(u';')
 
     def _set_language(self, language, editor=None):
 
-        if language is None:
-            return
         # Getting the current editor if none was given
         if editor is None:
             if 'OpenSesameIDE' not in self.extension_manager:
@@ -71,6 +78,23 @@ class SpellCheck(BaseExtension):
                 return
         if 'SpellCheckerMode' in editor.modes.keys():
             editor.modes.remove('SpellCheckerMode')
+            if hasattr(editor, 'action_ignore_word'):
+                editor.action_ignore_word.triggered.disconnect(
+                    self._ignore_current
+                )
+                editor.remove_action(
+                    editor.action_ignore_word,
+                    sub_menu=_('Spell checking')
+                )
+                editor.action_clear_ignore.triggered.disconnect(
+                    self._clear_ignore
+                )
+                editor.remove_action(
+                    editor.action_clear_ignore,
+                    sub_menu=_('Spell checking')
+                )
+        if language is None:
+            return  # disable spell checker
         try:
             import spellchecker
         except ImportError:
@@ -82,8 +106,56 @@ class SpellCheck(BaseExtension):
             return
         oslogger.debug('enabling spellcheck for {}'.format(editor))
         spellchecker = modes.SpellCheckerMode()
-        spellchecker.set_ignore_rules(language)
+        spellchecker.add_extra_info('language', language)
+        spellchecker.add_extra_info('ignore', self._ignore_list())
         editor.modes.append(spellchecker)
+        # Add context menu actions
+        editor.action_ignore_word = QAction(
+            _('Add word to custom dictionary'),
+            editor
+        )
+        editor.action_ignore_word.triggered.connect(self._ignore_current)
+        editor.add_action(
+            editor.action_ignore_word,
+            sub_menu=_('Spell checking')
+        )
+        editor.action_clear_ignore = QAction(
+            _('Clear custom dictionary'),
+            editor
+        )
+        editor.action_clear_ignore.triggered.connect(self._clear_ignore)
+        editor.add_action(
+            editor.action_clear_ignore,
+            sub_menu=_('Spell checking')
+        )
+        
+    def _refresh_ignore(self):
+        
+        if 'pyqode_manager' not in self.extension_manager:
+            oslogger.warning('SpellCheck requires pyqode_manager')
+            return
+        for editor in self.extension_manager['pyqode_manager']._editors:
+            if 'SpellCheckerMode' not in editor.modes.keys():
+                continue
+            spellchecker_mode = editor.modes.get('SpellCheckerMode')
+            spellchecker_mode.add_extra_info(
+                'ignore',
+                self._ignore_list()
+            )
+            spellchecker_mode.request_analysis()
+            
+    def _ignore_current(self):
+        
+        word = self.extension_manager.provide('ide_current_word')
+        if not word:
+            return
+        cfg.spellcheck_ignore = u';'.join(self._ignore_list() + [word])
+        self._refresh_ignore()
+            
+    def _clear_ignore(self):
+        
+        cfg.spellcheck_ignore = u''
+        self._refresh_ignore()
 
     def event_register_editor(self, editor):
 
