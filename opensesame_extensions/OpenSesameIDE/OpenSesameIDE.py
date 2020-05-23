@@ -31,6 +31,7 @@ from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
+from pyqode.core.api.utils import TextHelper
 from pyqode_extras.widgets import FallbackCodeEdit
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
 
@@ -100,6 +101,15 @@ class OpenSesameIDE(BaseExtension):
         if editor is None:
             return u''
         return editor.toPlainText()
+        
+    def provide_ide_current_word(self):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return u''
+        return TextHelper(editor).word_under_cursor(
+            select_whole_word=True
+        ).selectedText()
         
     def toggle_breakpoint(self):
 
