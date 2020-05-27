@@ -63,6 +63,13 @@ class OpenSesameIDE(BaseExtension):
         self.main_window.setWindowIcon(
             self.theme.qicon(u'rapunzel')
         )
+        
+    @property
+    def dock_widgets(self):
+        
+        # Turn it into a list so that we don't get race conditions when the
+        # dict changes during an iteration
+        return list(self._dock_widgets.values())
 
     def event_setting_changed(self, setting, value):
         
@@ -310,7 +317,7 @@ class OpenSesameIDE(BaseExtension):
 
         return all(
             dockwidget.isVisible()
-            for dockwidget in self._dock_widgets.values()
+            for dockwidget in self.dock_widgets
         )
 
     def toggle_folder_browsers(self):
@@ -319,7 +326,7 @@ class OpenSesameIDE(BaseExtension):
         oslogger.debug(
             'setting folder-browser visibility to {}'.format(hidden)
         )
-        for dockwidget in self._dock_widgets.values():
+        for dockwidget in self.dock_widgets:
             dockwidget.setVisible(hidden)
 
     def _select_logical_line(self, editor, scan_width=8):
@@ -489,7 +496,7 @@ class OpenSesameIDE(BaseExtension):
     def quick_select_files(self):
 
         haystack = []
-        for dock_widget in self._dock_widgets.values():
+        for dock_widget in self.dock_widgets:
             strip_first = len(os.path.split(dock_widget.path)[0])
             for path in dock_widget.file_list:
                 label = path[strip_first + 1:]
@@ -518,7 +525,7 @@ class OpenSesameIDE(BaseExtension):
 
     def project_files(self, extra_ignore_pattern=None):
 
-        for dock_widget in self._dock_widgets.values():
+        for dock_widget in self.dock_widgets:
             for path in dock_widget.file_list:
                 yield path
                 
@@ -580,7 +587,7 @@ class OpenSesameIDE(BaseExtension):
     def _open_folder(self, path):
 
         path = os.path.abspath(path)
-        if path in self._dock_widgets:
+        if path in list(self._dock_widgets):
             return
         oslogger.debug(u'adding folder browser: {}'.format(path))
         dock_widget = FolderBrowserDockWidget(self.main_window, self, path)
@@ -596,17 +603,17 @@ class OpenSesameIDE(BaseExtension):
 
     def close_all_folders(self):
 
-        for dockwidget in list(self._dock_widgets.values()):
+        for dockwidget in self.dock_widgets:
             dockwidget.close()
 
     def locate_file_in_folder(self):
 
-        for dockwidget in self._dock_widgets.values():
+        for dockwidget in self.dock_widgets:
             dockwidget.setVisible(True)
         editor = self._current_editor()
         if editor is None:
             return
-        for dock_widget in self._dock_widgets.values():
+        for dock_widget in self.dock_widgets:
             dock_widget.select_path(editor.file.path)
         if not self.folder_browsers_visible():
             self.toggle_folder_browsers()
@@ -724,7 +731,7 @@ class OpenSesameIDE(BaseExtension):
             self.main_window.removeToolBar(self.main_window.ui.toolbar_main)
             # Always start with the folder browsers visible. This avoids
             # inconsistencies in their visibility.
-            for dockwidget in self._dock_widgets.values():
+            for dockwidget in self.dock_widgets:
                 dockwidget.setVisible(True)
 
         return inner
@@ -745,7 +752,7 @@ class OpenSesameIDE(BaseExtension):
 
     def _remember_open_folders(self):
 
-        folders = [d.path for d in self._dock_widgets.values()]
+        folders = [d.path for d in self.dock_widgets]
         cfg.opensesame_ide_last_folder = u';'.join(folders)
 
     def _restore_open_folders(self):
@@ -783,7 +790,7 @@ class OpenSesameIDE(BaseExtension):
         editor = self._current_editor()
         if editor is None:
             return None
-        for d in self._dock_widgets.values():
+        for d in self.dock_widgets:
             if not editor.file.path.startswith(d.path):
                 continue
             project_file_path = os.path.join(
