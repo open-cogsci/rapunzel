@@ -165,6 +165,11 @@ class FolderBrowser(FileSystemTreeView):
             self._path,
             self._file_indexer.pid
         ))
+        self._ide.extension_manager.fire(
+            'register_subprocess',
+            pid=self._file_indexer.pid,
+            description='file_indexer:{}'.format(self._path)
+        )
         QTimer.singleShot(1000, self._check_file_indexer)
 
     def _check_file_indexer(self):

@@ -47,7 +47,8 @@ EXTENSIONS = [
     u'DataViewer',
     u'GitGUI',
     u'RapunzelLocale',
-    u'PythonDebugger'
+    u'PythonDebugger',
+    u'SubprocessManager'
 ]
 
 

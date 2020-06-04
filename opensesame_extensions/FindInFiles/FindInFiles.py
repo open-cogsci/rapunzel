@@ -163,6 +163,11 @@ class FindWidget(BaseWidget):
             needle,
             self._finder.pid
         ))
+        self.extension_manager.fire(
+            'register_subprocess',
+            pid=self._finder.pid,
+            description='find_text_in_files:{}'.format(needle)
+        )
         QTimer.singleShot(1000, self._check_finder)
         
     def _check_finder(self):
