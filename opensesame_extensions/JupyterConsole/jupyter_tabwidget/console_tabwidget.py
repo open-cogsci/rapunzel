@@ -75,6 +75,12 @@ class ConsoleTabWidget(QTabWidget, BaseSubcomponent):
             global_dict['opensesame'] = self.main_window
             global_dict['event_durations'] = self._event_durations
             jupyter_console.set_workspace_globals(global_dict)
+        else:
+            self.extension_manager.fire(
+                'register_subprocess',
+                pid=jupyter_console.pid,
+                description='jupyter_console:{}'.format(name)
+            )
         self.setTabsClosable(self.count() > 1)
         self.setCurrentIndex(self.count() - 1)
         self._console_count += 1

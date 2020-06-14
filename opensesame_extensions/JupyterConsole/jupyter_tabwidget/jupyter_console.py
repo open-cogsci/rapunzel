@@ -108,6 +108,11 @@ class JupyterConsole(BaseWidget):
     def isatty(self):
 
         return False
+    
+    @property
+    def pid(self):
+        
+        return self._jupyter_widget.pid
 
     def flush(self):
 

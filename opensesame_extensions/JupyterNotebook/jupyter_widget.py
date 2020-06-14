@@ -66,6 +66,11 @@ class LaunchJupyterLabWidget(BaseWidget):
             oslogger.debug(
                 'jupyterlab started (PID={})'.format(self._process.pid)
             )
+            self._jupyter.extension_manager.fire(
+                'register_subprocess',
+                pid=self._process.pid,
+                description='jupyterlab'
+            )
             self.main_window.set_busy(False)
 
     def kill(self):
