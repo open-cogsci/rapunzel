@@ -20,11 +20,12 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import multiprocessing
+from queue import Empty
 import psutil
+from qtpy.QtCore import Qt, QTimer
 from qtpy.QtWidgets import QDockWidget
 from datamatrix import DataMatrix
 from qdatamatrix import QDataMatrix
-from qtpy.QtCore import Qt, QTimer
 from libqtopensesame.misc.config import cfg
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -43,10 +44,7 @@ def parachute(queue, main_pid):
     heartbeat. If no heartbeat comes in, then all subprocesses are killed to
     make sure that no runaway processes are left on shutdown.
     """
-    
-    from queue import Empty
-    from libopensesame.oslogging import oslogger
-    
+
     oslogger.start('parachute')
     pids = [main_pid]
     oslogger.debug('main-process PID: {}'.format(main_pid))
@@ -54,6 +52,13 @@ def parachute(queue, main_pid):
         try:
             pid = queue.get(True, 2 * PARACHUTE_HEARTBEAT_INTERVAL)
         except (Empty, ValueError, OSError):
+            # If something is blocking the main process, the heartbeat stops.
+            # This can happen for example if something is executed in an
+            # in-process console. In that case we don't want to kill everything
+            # off.
+            if psutil.pid_exists(main_pid):
+                oslogger.warning('main process is alive but unresponsive')
+                continue
             oslogger.warning('main process appears to have died')
             break
         if pid == PARACHUTE_STOP:
@@ -63,12 +68,7 @@ def parachute(queue, main_pid):
             continue
         oslogger.debug('subprocess PID: {}'.format(pid))
         pids.append(pid)
-    
-    import psutil
-    
-    for pid in pids:
-        if not psutil.pid_exists(pid):
-            continue
+    for pid in filter(psutil.pid_exists, pids):
         oslogger.warning('parachute killing PID: {}'.format(pid))
         p = psutil.Process(pid)
         p.kill()
@@ -147,9 +147,7 @@ class SubprocessManager(BaseExtension):
     def event_close(self):
         
         
-        for pid in self._processes:
-            if not psutil.pid_exists(pid):
-                continue
+        for pid in self._active_processes:
             oslogger.debug('killing process {}'.format(pid))
             p = psutil.Process(pid)
             p.kill()
@@ -170,15 +168,18 @@ class SubprocessManager(BaseExtension):
             args=(self._queue, os.getpid())
         )
         self._parachute.start()
-        for pid in self._processes:
-            if not psutil.pid_exists(pid):
-                continue
+        for pid in self._active_processes:
             self._queue.put(pid)
         self._processes[self._parachute.pid] = 'parachute'
         QTimer.singleShot(
             1000 * PARACHUTE_HEARTBEAT_INTERVAL,
             self._pararchute_heartbeat
         )
+        
+    @property
+    def _active_processes(self):
+        
+        return filter(psutil.pid_exists, self._processes)
         
     def _parachute_stop(self):
         
