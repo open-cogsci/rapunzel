@@ -194,21 +194,27 @@ class OpenSesameIDE(BaseExtension):
 
     def close_tab(self):
 
+        self.extension_manager.fire('pyqode_suspend_auto_backend_restart')
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
             tab_widget.close()
+        self.extension_manager.fire('pyqode_resume_auto_backend_restart')
 
     def close_all_tabs(self):
 
+        self.extension_manager.fire('pyqode_suspend_auto_backend_restart')
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
             tab_widget.close_all()
+        self.extension_manager.fire('pyqode_resume_auto_backend_restart')
 
     def close_other_tabs(self):
 
+        self.extension_manager.fire('pyqode_suspend_auto_backend_restart')
         tab_widget = self._current_tabwidget()
         if tab_widget is not None:
             tab_widget.close_others()
+        self.extension_manager.fire('pyqode_resume_auto_backend_restart')
 
     def switch_tab_next(self):
 
@@ -623,7 +629,9 @@ class OpenSesameIDE(BaseExtension):
         def inner(e):
 
             self.main_window.setUpdatesEnabled(False)
+            self.extension_manager.fire('pyqode_suspend_auto_backend_restart')
             self._scetw.closeEvent(e)
+            self.extension_manager.fire('pyqode_resume_auto_backend_restart')
             self.main_window.setUpdatesEnabled(True)
             if e.isAccepted():
                 fnc(e)
