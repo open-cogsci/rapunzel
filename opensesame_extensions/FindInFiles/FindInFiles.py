@@ -173,9 +173,13 @@ class FindWidget(BaseWidget):
     def _check_finder(self):
         
         if self._queue.empty():
-            oslogger.debug(
-                u'no results yet for finder (PID={})'.format(self._finder.pid)
-            )
+            try:
+                oslogger.debug(u'no results yet for finder (PID={})'.format(
+                        self._finder.pid
+                ))
+            except ValueError:
+                # Is raised when getting the pid of a closed process
+                return
             QTimer.singleShot(1000, self._check_finder)
             return
         path, line_number, matching_line = self._queue.get()
