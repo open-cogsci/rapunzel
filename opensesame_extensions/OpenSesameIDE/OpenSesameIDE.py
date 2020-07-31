@@ -109,6 +109,16 @@ class OpenSesameIDE(BaseExtension):
             return u''
         return editor.toPlainText()
         
+    def provide_ide_current_selection(self):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return u''
+        cursor = editor.textCursor()
+        if not cursor.hasSelection():
+            return u''
+        return cursor.selectedText().replace(u'\u2029', u'\n')
+
     def provide_ide_current_word(self):
         
         editor = self._current_editor()
