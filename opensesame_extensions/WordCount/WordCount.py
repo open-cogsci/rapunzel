@@ -27,7 +27,9 @@ class WordCount(BaseExtension):
 
     def activate(self):
 
-        source = self.extension_manager.provide('ide_current_source')
+        source = self.extension_manager.provide('ide_current_selection')
+        if not source:
+            source = self.extension_manager.provide('ide_current_source')
         if source:
             message = _('{} lines, {} words, {} characters').format(
                 source.count('\n') + 1,
