@@ -125,6 +125,9 @@ class FindWidget(BaseWidget):
     def setFocus(self):
 
         super(FindWidget, self).setFocus()
+        selection = self.extension_manager.provide('ide_current_selection')
+        if selection and u'\n' not in selection:
+            self.ui.lineedit_needle.setText(selection)
         self.ui.lineedit_needle.setFocus()
 
     def _open_result(self, item, column):
