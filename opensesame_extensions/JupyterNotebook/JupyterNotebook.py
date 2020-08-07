@@ -31,9 +31,20 @@ CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
 # Matches <codecell> ... </codecell> and <markdowncell> ... </markdowncell>
 NOTEBOOK_PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
 # Matches # %% .. # %%
-SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*\n)|\Z)'
+SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*(\n|\Z))|\Z)'
 # To check whether there any Spyder cells in there
 SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*\n'
+# Matches ``` and ~~~ for code blocks embedded in Markdown
+FENCED_BLOCK_RE = re.compile(
+r'''
+(?P<fence>^(?:~{3,}|`{3,}))[ ]*                      # opening fence
+((\{(?P<attrs>[^\}\n]*)\})?|                         # (optional {attrs} or
+(\.?(?P<lang>[\w#.+-]*))?[ ]*                        # optional (.)lang
+(hl_lines=(?P<quot>"|')(?P<hl_lines>.*?)(?P=quot))?) # optional hl_lines)
+[ ]*\n                                               # newline (end of opening fence)
+(?P<code>.*?)(?<=\n)                                 # the code block
+(?P=fence)[ ]*$                                      # closing fence
+''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
 class JupyterNotebook(BaseExtension):
@@ -74,40 +85,13 @@ class JupyterNotebook(BaseExtension):
         return self._widget
 
     def provide_jupyter_notebook_cells(self, code=u'', cell_types=None):
-
-        cells = []
-        # Notebook type cells
-        for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
-            if (
-                cell_types is not None and
-                m.group('cell_type') not in cell_types
-            ):
-                continue
-            cells.append({
-                'cell_type': m.group('cell_type'),
-                'source': m.group('source'),
-                'start': m.start(),
-                'end': m.end()
-            })
-        # Spyder type cells. We only search for those if there's at least one
-        # Spyder cell definition in the code, because otherwise we match the
-        # entire code.
-        if (
-            (cell_types is None or 'code' in cell_types) and
-            re.search(SPYDER_HAS_CELLS, code, re.DOTALL) is not None
-        ):
-            for m in re.finditer(
-                SPYDER_PATTERN,
-                code,
-                re.MULTILINE | re.DOTALL
-            ):
-                cells.append({
-                    'cell_type': 'code',
-                    'source': m.group('source'),
-                    'start': m.start(),
-                    'end': m.end()
-                })
-        return cells
+        
+        fnc_name = '_{}_cells'.format(
+            self.extension_manager.provide('ide_current_language')
+        )
+        if not hasattr(self, fnc_name):
+            return
+        return getattr(self, fnc_name)(code, cell_types)
     
     def provide_open_file_extension_ipynb(self):
         
@@ -134,6 +118,12 @@ class JupyterNotebook(BaseExtension):
 
     def _export_ipynb(self):
 
+        if self.extension_manager.provide('ide_current_language') != 'python':
+            self.extension_manager.fire(
+                'notify',
+                message=_(u'Only Python code can be exported to a notebook')
+            )
+            return
         path = QFileDialog.getSaveFileName(
             self.main_window,
             _(u'Open Jupyter/ IPython Notebook'),
@@ -188,3 +178,64 @@ class JupyterNotebook(BaseExtension):
                     cell['source'].lstrip(u'"""\n').rstrip(u'\n"""')
             nb['cells'].append(nbformat.from_dict(cell))
         nbformat.write(nb, path)
+
+    def _python_cells(self, code=u'', cell_types=None):
+
+        cells = []
+        # Notebook type cells
+        for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
+            if (
+                cell_types is not None and
+                m.group('cell_type') not in cell_types
+            ):
+                continue
+            cells.append({
+                'cell_type': m.group('cell_type'),
+                'source': m.group('source'),
+                'start': m.start(),
+                'end': m.end()
+            })
+        # Spyder type cells. We only search for those if there's at least one
+        # Spyder cell definition in the code, because otherwise we match the
+        # entire code.
+        if (
+            (cell_types is None or 'code' in cell_types) and
+            re.search(SPYDER_HAS_CELLS, code, re.DOTALL) is not None
+        ):
+            for m in re.finditer(
+                SPYDER_PATTERN,
+                code,
+                re.MULTILINE | re.DOTALL
+            ):
+                cells.append({
+                    'cell_type': 'code',
+                    'source': m.group('source'),
+                    'start': m.start(),
+                    'end': m.end()
+                })
+        return cells
+    
+    def _R_cells(self, code=u'', cell_types=None):
+        
+        return self._python_cells(code, cell_types)
+
+    def _markdown_cells(self, code=u'', cell_types=None):
+        
+        cells = []
+        offset = 0
+        while True:
+            m = FENCED_BLOCK_RE.search(code)
+            if not m:
+                break
+            chunk = code[m.start():m.end()]
+            start = m.start() + offset + chunk.find(u'\n') + 1
+            end = m.start() + offset + chunk.rfind(u'\n')
+            cells.append({
+                'cell_type': 'code',
+                'source': m.group('code'),
+                'start': start,
+                'end': end 
+                })
+            offset += m.end()
+            code = code[m.end():]
+        return cells
