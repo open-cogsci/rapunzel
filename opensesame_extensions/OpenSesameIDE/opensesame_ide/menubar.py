@@ -230,6 +230,18 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_run_selection,
             ide.run_current_selection,
         )
+        self._action_run_from_current_position = self._action(
+            _(u'Run &from current position'),
+            u'os-run-quick',
+            cfg.opensesame_ide_shortcut_run_from_current_position,
+            ide.run_from_current_position,
+        )
+        self._action_run_up_to_current_position = self._action(
+            _(u'Run &up to current position'),
+            u'os-run-quick',
+            cfg.opensesame_ide_shortcut_run_up_to_current_position,
+            ide.run_up_to_current_position,
+        )
         self._action_run_debug = self._action(
             _(u'Run file in &debugger'),
             u'os-run',
@@ -270,6 +282,8 @@ class MenuBar(QMenuBar):
         self._menu_run = self.addMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
+        self._menu_run.addAction(self._action_run_from_current_position)
+        self._menu_run.addAction(self._action_run_up_to_current_position)
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_run_interrupt)
         self._menu_run.addAction(self._action_run_restart)

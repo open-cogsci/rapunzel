@@ -22,18 +22,49 @@ import os
 import sys
 import mimetypes
 import textwrap
+import inspect
 from libopensesame import metadata
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton
+from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton, QApplication
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
 from pyqode.core import widgets
 from pyqode.core.api.utils import TextHelper
 from pyqode_extras.widgets import FallbackCodeEdit
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
+
+
+def with_editor_and_cursor(fnc):
+    
+    def inner(self, *args, **kwargs):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return
+        if takes_args:
+            return fnc(self, editor, editor.textCursor(), *args, **kwargs)
+        return fnc(self, editor, editor.textCursor())
+    
+    takes_args = len(inspect.getargspec(fnc).args) > 3
+    return inner
+
+
+def with_editor(fnc):
+    
+    def inner(self, *args, **kwargs):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return
+        if takes_args:
+            return fnc(self, editor, *args, **kwargs)
+        return fnc(self, editor)
+    
+    takes_args = len(inspect.getargspec(fnc).args) > 2
+    return inner
 
 
 class OpenSesameIDE(BaseExtension):
@@ -444,21 +475,61 @@ class OpenSesameIDE(BaseExtension):
             u'jupyter_change_dir',
             path=os.path.dirname(path)
         )
+    
+    @with_editor_and_cursor
+    def run_from_current_position(self, editor, cursor):
+        
+        self._run_range(
+            editor,
+            cursor,
+            cursor.position(),
+            editor.document().characterCount() - 1
+        )
+    
+    @with_editor_and_cursor
+    def run_up_to_current_position(self, editor, cursor):
+        
+        self._run_range(editor, cursor, 0, cursor.position())
 
-    def run_current_selection(self):
-
-        # 1. If text is selected, run the selected text
-        # 2. Else, if the cursor is in a notebook cell, select and run the
-        #    cell.
-        # 3. Else, select and run the current line
-        editor = self._current_editor()
-        if editor is None:
+    def _run_range(self, editor, cursor, from_pos, end_pos):
+        
+        cells = self.extension_manager.provide(
+            u'jupyter_notebook_cells',
+            code=editor.toPlainText(),
+            cell_types=[u'code']
+        )
+        if not cells:
+            cursor.setPosition(from_pos)
+            cursor.movePosition(cursor.StartOfBlock, cursor.MoveAnchor)
+            cursor.setPosition(end_pos, cursor.KeepAnchor)
+            cursor.movePosition(cursor.EndOfBlock, cursor.KeepAnchor)
+            editor.setTextCursor(cursor)
+            self._run_notify(_(u'Running code range'))
+            self.extension_manager.fire(
+                u'jupyter_run_code',
+                code=self._selected_text(cursor)
+            )
             return
+        self._run_notify(_(u'Running multiple notebook cells'))
+        for cell in cells:
+            if cell['start'] > end_pos or cell['end'] < from_pos:
+                continue
+            cursor.setPosition(cell['start'])
+            cursor.setPosition(cell['end'], cursor.KeepAnchor)
+            editor.setTextCursor(cursor)
+            self.extension_manager.fire(
+                u'jupyter_run_code',
+                code=self._selected_text(cursor)
+            )
+            QApplication.processEvents()
+    
+    @with_editor_and_cursor
+    def run_current_selection(self, editor, cursor):
+
         # If the current editor is attached to a file, change the working
         # directory if this behavior is specified in the configuration
         if cfg.opensesame_ide_run_selection_change_working_directory:
             self.change_working_directory()
-        cursor = editor.textCursor()
         if not cursor.hasSelection():
             cells = self.extension_manager.provide(
                 u'jupyter_notebook_cells',
@@ -483,8 +554,10 @@ class OpenSesameIDE(BaseExtension):
             editor.setTextCursor(cursor)
         else:
             self._run_notify(_(u'Running selection'))
-        code = textwrap.dedent(cursor.selectedText().replace(u'\u2029', u'\n'))
-        self.extension_manager.fire(u'jupyter_run_code', code=code)
+        self.extension_manager.fire(
+            u'jupyter_run_code',
+            code=self._selected_text(cursor)
+        )
 
     def run_interrupt(self):
 
@@ -498,14 +571,11 @@ class OpenSesameIDE(BaseExtension):
 
         self.extension_manager.activate(u'plugin_manager')
 
-    def event_ide_jump_to_line(self, lineno):
+    @with_editor_and_cursor
+    def event_ide_jump_to_line(self, editor, cursor, lineno):
 
-        editor = self._scetw.current_widget()
-        if not editor:
-            return
         lines = editor.toPlainText().split(u'\n')
         position = sum([len(line) for line in lines[:lineno - 1]]) + lineno - 1
-        cursor = editor.textCursor()
         cursor.setPosition(position)
         editor.setTextCursor(cursor)
 
@@ -550,11 +620,9 @@ class OpenSesameIDE(BaseExtension):
         from opensesame_ide import Preferences
         return Preferences(self.main_window)
 
-    def _split(self, direction):
+    @with_editor
+    def _split(self, editor, direction):
 
-        editor = self._current_editor()
-        if editor is None:
-            return
         splitter = self._current_splitter()
         # If there are no child splitters, we use the regular split() method
         if not splitter.child_splitters:
@@ -622,13 +690,11 @@ class OpenSesameIDE(BaseExtension):
         for dockwidget in self.dock_widgets:
             dockwidget.close()
 
-    def locate_file_in_folder(self):
+    @with_editor
+    def locate_file_in_folder(self, editor):
 
         for dockwidget in self.dock_widgets:
             dockwidget.setVisible(True)
-        editor = self._current_editor()
-        if editor is None:
-            return
         for dock_widget in self.dock_widgets:
             dock_widget.select_path(editor.file.path)
         if not self.folder_browsers_visible():
@@ -803,11 +869,9 @@ class OpenSesameIDE(BaseExtension):
             if os.path.exists(arg):
                 self._open_from_command_line(arg)
 
-    def _current_project_file(self):
+    @with_editor
+    def _current_project_file(self, editor):
 
-        editor = self._current_editor()
-        if editor is None:
-            return None
         for d in self.dock_widgets:
             if not editor.file.path.startswith(d.path):
                 continue
@@ -834,11 +898,9 @@ class OpenSesameIDE(BaseExtension):
 
         return self._scetw.current_widget()
 
-    def _current_original_editor(self):
+    @with_editor
+    def _current_original_editor(self, editor):
 
-        editor = self._scetw.current_widget()
-        if editor is None:
-            return
         if editor.original:
             return editor.original
         return editor
@@ -854,10 +916,10 @@ class OpenSesameIDE(BaseExtension):
 
         return self._current_path()
 
-    def _current_tabwidget(self):
+    @with_editor
+    def _current_tabwidget(self, editor):
 
-        editor = self._current_editor()
-        if editor is None or editor.parent() is None:
+        if editor.parent() is None:
             return
         return editor.parent().parent()
 
@@ -955,3 +1017,7 @@ class OpenSesameIDE(BaseExtension):
         if cfg.opensesame_ide_use_system_default_encoding:
             return None
         return cfg.opensesame_ide_default_encoding
+
+    def _selected_text(self, cursor):
+        
+        return textwrap.dedent(cursor.selectedText().replace(u'\u2029', u'\n'))

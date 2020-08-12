@@ -33,6 +33,8 @@
         "opensesame_ide_shortcut_clear_breakpoints": "Ctrl+F12",
         "opensesame_ide_shortcut_change_working_directory": "F8",
         "opensesame_ide_shortcut_run_selection": "F9",
+        "opensesame_ide_shortcut_run_from_current_position": "Shift+F9",
+        "opensesame_ide_shortcut_run_up_to_current_position": "Alt+F9",
         "opensesame_ide_shortcut_run_interrupt": "Ctrl+F9",
         "opensesame_ide_shortcut_toggle_fullscreen": "F11",
         "opensesame_ide_mimetypes": "{'.md': 'text/x-markdown', '.r': 'text/x-r', '.R': 'text/x-r'}"
