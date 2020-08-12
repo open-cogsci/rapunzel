@@ -32,8 +32,10 @@ CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
 NOTEBOOK_PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
 # Matches # %% .. # %%
 SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*(\n|\Z))|\Z)'
+# Matches based on multiline strings """ or '''
+SIMPLE_PATTERN = r'^["\']{3}[ \t]*\n(?P<source>.*?)\n["\']{3}[ \t]*\n'
 # To check whether there any Spyder cells in there
-SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*\n'
+SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*(\n|\Z)'
 # Matches ``` and ~~~ for code blocks embedded in Markdown
 FENCED_BLOCK_RE = re.compile(
 r'''
@@ -154,9 +156,9 @@ class JupyterNotebook(BaseExtension):
         py_cells = []
         for cell in nb['cells']:
             if cell['cell_type'] == 'markdown':
-                py_cells.append(MARKDOWN_CELL.format(cell['source']))
+                py_cells.append(u'"""\n{}\n"""\n'.format(cell['source']))
             elif cell['cell_type'] == 'code':
-                py_cells.append(CODE_CELL.format(cell['source']))
+                py_cells.append(cell['source'] + u'\n')
         return u'\n'.join(py_cells)
 
     def _code_to_notebook(self, code, path):
@@ -164,16 +166,16 @@ class JupyterNotebook(BaseExtension):
         import nbformat
 
         nb = nbformat.v4.new_notebook()
-        for m in re.finditer(NOTEBOOK_PATTERN, code, re.MULTILINE | re.DOTALL):
+        for pycell in self._python_cells(code):
             cell = {
-                'cell_type': m.group('cell_type'),
-                'source': m.group('source'),
+                'cell_type': pycell['cell_type'],
+                'source': pycell['source'],
                 'metadata': {}
             }
-            if m.group('cell_type') == 'code':
+            if pycell['cell_type'] == 'code':
                 cell['execution_count'] = 0
                 cell['outputs'] = []
-            elif m.group('cell_type') == 'markdown':
+            elif pycell['cell_type'] == 'markdown':
                 cell['source'] = \
                     cell['source'].lstrip(u'"""\n').rstrip(u'\n"""')
             nb['cells'].append(nbformat.from_dict(cell))
@@ -195,6 +197,8 @@ class JupyterNotebook(BaseExtension):
                 'start': m.start(),
                 'end': m.end()
             })
+        if cells:
+            return cells
         # Spyder type cells. We only search for those if there's at least one
         # Spyder cell definition in the code, because otherwise we match the
         # entire code.
@@ -213,8 +217,45 @@ class JupyterNotebook(BaseExtension):
                     'start': m.start(),
                     'end': m.end()
                 })
+        if cells:
+            return cells
+        # Simple cells, separated by triple quotes
+        end_prev = 0
+        for m in re.finditer(SIMPLE_PATTERN, code, re.MULTILINE | re.DOTALL):
+            # Code cells in between two comments
+            if cell_types is None or u'code' in cell_types:
+                codecell = code[end_prev:m.start()].strip()
+                # Ignore empty codecells at the beginning
+                if codecell or end_prev:
+                    cells.append({
+                        'cell_type': 'code',
+                        'source': codecell,
+                        'start': end_prev,
+                        'end': m.start()
+                    })
+            if cell_types is None or u'markdown' in cell_types:
+                cells.append({
+                    'cell_type': 'markdown',
+                    'source': m.group('source'),
+                    'start': m.start(),
+                    'end': m.end()
+                })
+            end_prev = m.end()
+        # The last code cell that is not followed by a comment
+        if (
+            (cell_types is None or u'code' in cell_types) and
+            end_prev != len(code) - 1
+        ):
+            codecell = code[end_prev:].strip()
+            if codecell:
+                cells.append({
+                    'cell_type': 'code',
+                    'source': codecell,
+                    'start': end_prev,
+                    'end': len(code) - 1
+                })
         return cells
-    
+
     def _R_cells(self, code=u'', cell_types=None):
         
         return self._python_cells(code, cell_types)
