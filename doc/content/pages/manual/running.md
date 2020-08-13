@@ -55,7 +55,10 @@ run: |
 
 ## Defining code and Markdown cells
 
-A code cell contains a chunk of code that should be executed together. You can define code cells in two ways. The short way:
+A code cell contains a chunk of code that should be executed together. A Markdown cell contains comments, and are mostly useful when [exporting your code to a Jupyter Notebook](%url:notebooks%). You can define code cells in three different ways. These ways are mutually exclusive, so within one document stick to one way of defining your cells.
+
+
+### Only code cells
 
 ```python
 # %%
@@ -65,24 +68,42 @@ print('This is a code cell')
 print('This is another code cell')
 ```
 
-And the long way:
+
+### Mixing code cells and Markdown cells
+
+*Version note: New in Rapunzel 0.4.9*
+
+A multiline string (indicated by `"""` or `'''`) is treated as a Markdown cell. Everything in between Markdown cells is treated as a code cell.
+
+
+```python
+print('This is a code cell')
+
+"""
+This is a Markdown cell
+"""
+
+print('This is another code cell')
+```
+
+
+### Mixing code cells and Markdown cells (alternative)
+
+
+A slightly more verbose way to define code and Markdown cells uses explicit tags, like so:
 
 ```python
 # <codecell>
 print('This is a code cell')
 # </codecell>
 
-# <codecell>
-print('This is another code cell')
-# </codecell>
-```
-
-You can also define Markdown cells. This is mostly useful if you want to export your file as a Jupyter Notebook.
-
-```python
 # <markdowncell>
 """
 This is a Markdown cell
 """
 # </markdowncell>
+
+# <codecell>
+print('This is another code cell')
+# </codecell>
 ```
