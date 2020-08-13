@@ -150,13 +150,10 @@ setup(
     install_requires=(
         [] if 'install' in sys.argv and '--root' in sys.argv
         else [
-            'pyqode.core',
-            'pyqode.python',
             'python-levenshtein',
             'python-opensesame',
             'qtconsole',
             'nbformat',
-            'pyyaml',
             'pyspellchecker'
         ]
     ),
