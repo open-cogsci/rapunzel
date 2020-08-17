@@ -252,7 +252,7 @@ class JupyterNotebook(BaseExtension):
                     'cell_type': 'code',
                     'source': codecell,
                     'start': end_prev,
-                    'end': len(code) - 1
+                    'end': len(code)
                 })
         return cells
 
