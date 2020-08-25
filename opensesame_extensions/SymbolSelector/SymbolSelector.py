@@ -27,7 +27,8 @@ _ = translation_context(u'SymbolSelector', category=u'extension')
 
 PYTHON_SYMBOLS = r'^[ \t]*(?P<type>def|class)[ \t]+(?P<name>\w+)'
 R_SYMBOLS = r'^[ \t]*(?P<name>[\w.]+)[ \t]*<-[ \t]*function'
-MARKDOWN_SYMBOLS = r'^#+[ \t]*(?P<name>.+)$'
+MARKDOWN_HEADINGS = r'^#+[ \t]*(?P<name>.+)$'
+MARKDOWN_HR = r'^---[ \t]*$'
 
 
 class SymbolSelector(BaseExtension):
@@ -67,6 +68,17 @@ class SymbolSelector(BaseExtension):
             )
         ]
 
+    def _get_nameless_symbols(self, pattern, code, tmpl):
+
+        return [
+            (tmpl.format(i + 1), code[:m.start()].count('\n') + 1)
+            for i, m in enumerate(re.finditer(
+                pattern,
+                code,
+                re.MULTILINE | re.ASCII if py3 else re.MULTILINE
+            ))
+        ]
+
     def _get_python_symbols(self, code):
 
         return self._get_symbols(PYTHON_SYMBOLS, code)
@@ -77,7 +89,10 @@ class SymbolSelector(BaseExtension):
 
     def _get_markdown_symbols(self, code):
 
-        return self._get_symbols(MARKDOWN_SYMBOLS, code)
+        return (
+            self._get_symbols(MARKDOWN_HEADINGS, code) + 
+            self._get_nameless_symbols(MARKDOWN_HR, code, '--- ({})')
+        )
 
     def event_symbol_selector_activate(self):
 
