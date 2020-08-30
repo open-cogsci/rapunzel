@@ -56,8 +56,11 @@ class SearchBox(QLineEdit):
 
     def keyPressEvent(self, e):
 
-        if e.key() == Qt.Key_Down:
+        if e.key() in (Qt.Key_Down, Qt.Key_Home):
             self.parent().focus_result_box()
+            return
+        if e.key() in (Qt.Key_Up, Qt.Key_End):
+            self.parent().focus_result_box(jump_to_last=True)
             return
         if e.key() in (Qt.Key_Enter, Qt.Key_Return):
             self.parent().select_top_result()
@@ -75,7 +78,9 @@ class ResultBox(QListWidget):
                 Qt.Key_Down,
                 Qt.Key_Up,
                 Qt.Key_Return,
-                Qt.Key_Enter
+                Qt.Key_Enter,
+                Qt.Key_PageUp,
+                Qt.Key_PageDown
             )
         ):
             self.parent().focus_search_box(e)
@@ -122,10 +127,12 @@ class QuickSelectorDialog(QDialog):
         self.setMinimumWidth(cfg.quick_selector_min_width)
         self._search(u'')
 
-    def focus_result_box(self):
+    def focus_result_box(self, jump_to_last=False):
 
         self._result_box.setFocus()
-        self._result_box.setCurrentRow(0)
+        self._result_box.setCurrentRow(
+            self._result_box.count() - 1 if jump_to_last else 0
+        )
 
     def focus_search_box(self, e):
 
