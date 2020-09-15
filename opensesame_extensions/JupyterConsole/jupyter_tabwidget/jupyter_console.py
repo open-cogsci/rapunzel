@@ -158,6 +158,11 @@ class JupyterConsole(BaseWidget):
             name=self.name,
             workspace_func=self.get_workspace_globals
         )
+        self.extension_manager.fire(
+            'register_subprocess',
+            pid=self.pid,
+            description='jupyter_console:{}'.format(self.name)
+        )
 
     def interrupt(self):
 
