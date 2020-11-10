@@ -171,7 +171,13 @@ class OpenSesameIDE(BaseExtension):
         editor = self._current_editor()
         if editor is None:
             return None
-        return editor.language
+        try:
+            return editor.language
+        except AttributeError:
+            # In rare cases, the editor may not have a language property, or 
+            # the property may crash, both of which result in an 
+            # AttributeError.
+            pass
 
     def open_document(self, path):
 
