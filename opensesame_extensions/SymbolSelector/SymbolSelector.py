@@ -56,11 +56,15 @@ class SymbolSelector(BaseExtension):
     def _jump_to_line(self, lineno):
 
         self.extension_manager.fire('ide_jump_to_line', lineno=lineno)
+        
+    def _linenr(self, code, pos):
+        
+        return code[:pos].count('\n') + 1
 
     def _get_symbols(self, pattern, code):
 
         return [
-            (m.group('name'), code[:m.start()].count('\n') + 1)
+            (m.group('name'), self._linenr(code, m.start()))
             for m in re.finditer(
                 pattern,
                 code,
@@ -71,7 +75,7 @@ class SymbolSelector(BaseExtension):
     def _get_nameless_symbols(self, pattern, code, tmpl):
 
         return [
-            (tmpl.format(i + 1), code[:m.start()].count('\n') + 1)
+            (tmpl.format(i + 1), self._linenr(code, m.start()))
             for i, m in enumerate(re.finditer(
                 pattern,
                 code,
@@ -93,6 +97,43 @@ class SymbolSelector(BaseExtension):
             self._get_symbols(MARKDOWN_HEADINGS, code) +
             self._get_symbols(MARKDOWN_HR, code)
         )
+        
+    def _get_javascript_symbols(self, code):
+        
+        import esprima
+        from esprima.nodes import (
+            ClassDeclaration,
+            MethodDefinition,
+            FunctionDeclaration
+        )
+        
+        def parse_tree(ast):
+            
+            if isinstance(ast.body, list):
+                symbols = []
+                for e in ast.body:
+                    symbols += parse_tree(e)
+                return symbols
+            if isinstance(
+                ast.declaration,
+                (ClassDeclaration, FunctionDeclaration)
+            ):
+                return [(
+                    ast.declaration.id.name,
+                    self._linenr(code, ast.declaration.range[0])
+                )] + parse_tree(ast.declaration.body)
+            if isinstance(ast, MethodDefinition):
+                return [(
+                    ast.key.name,
+                    self._linenr(code, ast.range[0])
+                )] + parse_tree(ast.value.body)
+            return []
+        
+        try:
+            ast = esprima.parseScript(code, tolerant=True, range=True)
+        except esprima.error_handler.Error:
+            return []
+        return parse_tree(ast)
 
     def event_symbol_selector_activate(self):
 
