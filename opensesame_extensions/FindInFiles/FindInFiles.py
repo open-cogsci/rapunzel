@@ -72,7 +72,13 @@ def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False):
     for path in file_list:
         if filter and not fnmatch.fnmatch(path, filter):
             continue
-        haystack = safe_read(path)
+        try:
+            haystack = safe_read(path)
+        except FileNotFoundError:  # Deleted after file list was built
+            continue
+        except OSError:
+            # FileNotFoundError maps onto IOError, but Py2 gives OSError
+            continue
         lines = haystack.split(u'\n')
         for line_number in find_text(
             needle,
