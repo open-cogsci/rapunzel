@@ -154,7 +154,8 @@ setup(
             'python-opensesame',
             'qtconsole',
             'nbformat',
-            'pyspellchecker'
+            'pyspellchecker',
+            'esprima'
         ]
     ),
     data_files=data_files()

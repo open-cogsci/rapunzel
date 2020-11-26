@@ -100,7 +100,15 @@ class SymbolSelector(BaseExtension):
         
     def _get_javascript_symbols(self, code):
         
-        import esprima
+        try:
+            import esprima
+        except ImportError:
+            self.extension_manager.fire(
+                'notify',
+                message='Please install esprima for JavaScript support',
+                category='warning'
+            )
+            return []
         from esprima.nodes import (
             ClassDeclaration,
             MethodDefinition,
@@ -132,6 +140,11 @@ class SymbolSelector(BaseExtension):
         try:
             ast = esprima.parseScript(code, tolerant=True, range=True)
         except esprima.error_handler.Error:
+            self.extension_manager.fire(
+                'notify',
+                message = 'Failed to parse JavaScript',
+                category='warning'
+            )
             return []
         return parse_tree(ast)
 
