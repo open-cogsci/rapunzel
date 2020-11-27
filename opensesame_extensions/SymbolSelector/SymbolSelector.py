@@ -126,10 +126,12 @@ class SymbolSelector(BaseExtension):
                 ast.declaration,
                 (ClassDeclaration, FunctionDeclaration)
             ):
+                ast = ast.declaration
+            if isinstance(ast, (ClassDeclaration, FunctionDeclaration)):
                 return [(
-                    ast.declaration.id.name,
-                    self._linenr(code, ast.declaration.range[0])
-                )] + parse_tree(ast.declaration.body)
+                    ast.id.name,
+                    self._linenr(code, ast.range[0])
+                )] + parse_tree(ast.body)
             if isinstance(ast, MethodDefinition):
                 return [(
                     ast.key.name,
