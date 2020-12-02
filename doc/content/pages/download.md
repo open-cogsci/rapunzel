@@ -35,21 +35,21 @@ Once Rapunzel has been installed, you can start it from the Anaconda prompt (`ra
 
 The standard download is based on Python 3.8 for 64 bit systems. The installer and `.zip` packages are identical, except for the installation.
 
-<a role="button" class="btn btn-success btn-align-left" href="https://github.com/smathot/rapunzel/releases/download/release%2F0.4.7/rapunzel_0.4.7-py38-win64-2.exe">
+<a role="button" class="btn btn-success btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.4.14/rapunzel_0.4.14-py38-win64-1.exe">
 	<b>Standard</b> Windows installer (.exe)
 </a>
 
-<a role="button" class="btn btn-default btn-align-left" href="https://github.com/smathot/rapunzel/releases/download/release%2F0.4.7/rapunzel_0.4.7-py38-win64-2.zip">
+<a role="button" class="btn btn-default btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.4.14/rapunzel_0.4.14-py38-win64-1.zip">
 	<b>Standard</b> Windows no installation required (.zip)
 </a>
 
 
 ## Ubuntu
 
-You can install Rapunzel through the `rapunzel` PPA:
+You can install Rapunzel through the `cogscinl` PPA:
 
 ```bash
-sudo add-apt-repository ppa:smathot/rapunzel
+sudo add-apt-repository ppa:smathot/cogscinl
 sudo apt update
 sudo apt install python3-rapunzel
 ```
