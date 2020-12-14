@@ -155,7 +155,8 @@ setup(
             'qtconsole',
             'nbformat',
             'pyspellchecker',
-            'esprima'
+            'esprima',
+            'psutil'
         ]
     ),
     data_files=data_files()
