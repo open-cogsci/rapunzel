@@ -625,7 +625,7 @@ class OpenSesameIDE(BaseExtension):
         
         from opensesame_ide import Preferences
         return Preferences(self.main_window)
-
+        
     @with_editor
     def _split(self, editor, direction):
 
@@ -663,15 +663,21 @@ class OpenSesameIDE(BaseExtension):
             u'register_editor',
             editor=editor
         )
+        # Close the editor in the original splitter
         splitter.main_tab_widget.close()
-        for index in range(splitter.main_tab_widget.count()):
-            editor = splitter.main_tab_widget.widget(index)
-            if editor is None:  # This seems to happen under race conditions
-                continue
-            subsplitter.main_tab_widget._on_tab_move_request(editor, index)
+        # Copy the remaining editors of the original splitter to the
+        # subsplitter
+        editors = [
+            (index, splitter.main_tab_widget.widget(index))
+            for index in range(splitter.main_tab_widget.count())
+        ]
+        for index, editor in editors[::-1]:
+            subsplitter.main_tab_widget._on_tab_move_request(editor, 0)
         subsplitter.main_tab_widget.setCurrentIndex(
             subsplitter.main_tab_widget.count() - 1
         )
+        # Set the focus to the editor in the subsubsplitter
+        subsubsplitter.main_tab_widget.widget(0).setFocus()
         self.main_window.setUpdatesEnabled(True)
 
     def _open_folder(self, path):
@@ -902,7 +908,10 @@ class OpenSesameIDE(BaseExtension):
 
     def _current_editor(self):
 
-        return self._scetw.current_widget()
+        # The current_widget() method of pyqode doesn't always return the
+        # correct editor. It appears to be more robust to get the current
+        # splitter and then from there get the current widget.
+        return self._current_splitter().main_tab_widget.currentWidget()
 
     @with_editor
     def _current_original_editor(self, editor):
@@ -931,7 +940,7 @@ class OpenSesameIDE(BaseExtension):
 
     def _current_splitter(self):
 
-        editor = self._current_editor()
+        editor = self._scetw.current_widget()
         if editor is None or editor.parent() is None:
             return self._scetw
         return editor.parent().parent().parent()
