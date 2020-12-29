@@ -37,16 +37,30 @@ class SymbolSelector(BaseExtension):
 
     def activate(self):
 
-        mimetype = self.extension_manager.provide(u'ide_current_language')
-        try:
-            fnc = getattr(self, u'_get_{}_symbols'.format(mimetype))
-        except AttributeError:
-            oslogger.warning(u'don\'t know how to handle {}'.format(mimetype))
-            return
-        symbols = fnc(self.extension_manager.provide(u'ide_current_source'))
+        self.main_window.set_busy(True)
+        editor = self.extension_manager.provide(u'ide_current_editor')
         haystack = []
-        for name, lineno in symbols:
-            haystack.append((name, lineno, self._jump_to_line))
+        if editor is not None and 'SymbolsMode' in editor.modes.keys():
+            lsp_symbols = editor.modes.get('SymbolsMode').request_symbols()
+            for name, kind, lineno, container in lsp_symbols:
+                if container is not None:
+                    name = '{}.{}'.format(container, name)
+                haystack.append((
+                    name,
+                    lineno + 1,
+                    self._jump_to_line
+                ))
+        else:
+            mimetype = self.extension_manager.provide(u'ide_current_language')
+            try:
+                fnc = getattr(self, u'_get_{}_symbols'.format(mimetype))
+            except AttributeError:
+                oslogger.warning(u'don\'t know how to handle {}'.format(mimetype))
+                return
+            symbols = fnc(self.extension_manager.provide(u'ide_current_source'))
+            for name, lineno in symbols:
+                haystack.append((name, lineno, self._jump_to_line))
+        self.main_window.set_busy(False)
         self.extension_manager.fire(
             u'quick_select',
             haystack=haystack,
