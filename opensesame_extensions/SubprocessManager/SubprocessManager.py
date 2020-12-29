@@ -146,7 +146,6 @@ class SubprocessManager(BaseExtension):
 
     def event_close(self):
         
-        
         for pid in self._active_processes:
             oslogger.debug('killing process {}'.format(pid))
             p = psutil.Process(pid)
@@ -159,6 +158,10 @@ class SubprocessManager(BaseExtension):
     def event_end_experiment(self, ret_val):
         
         self._parachute_start()
+        
+    def provide_subprocess_pids(self):
+        
+        return list(self._processes.keys())
             
     def _parachute_start(self):
         
