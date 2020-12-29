@@ -132,7 +132,19 @@ class OpenSesameIDE(BaseExtension):
     def event_ide_run_current_selection(self):
 
         self.run_current_selection()
+        
+    def provide_ide_project_folders(self):
+        
+        return [d.path for d in self.dock_widgets]
 
+    def provide_ide_current_editor(self):
+
+        return self._current_editor()
+    
+    def provide_ide_editors(self):
+
+        return self._scetw.widgets()
+        
     def provide_ide_current_source(self):
 
         editor = self._current_editor()
@@ -850,6 +862,10 @@ class OpenSesameIDE(BaseExtension):
 
         folders = [d.path for d in self.dock_widgets]
         cfg.opensesame_ide_last_folder = u';'.join(folders)
+        self.extension_manager.fire(
+            'ide_project_folders_changed',
+            folders=folders
+        )
 
     def _restore_open_folders(self):
 
