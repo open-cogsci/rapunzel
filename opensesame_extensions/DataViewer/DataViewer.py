@@ -45,7 +45,7 @@ class DataViewer(BaseExtension):
         value = self.extension_manager.provide(
             'jupyter_workspace_variable',
             name=name
-        )        
+        )
         dw = DataDockWidget(self, name, value, workspace)
         self.main_window.addDockWidget(Qt.RightDockWidgetArea, dw)
         self.main_window.set_busy(False)

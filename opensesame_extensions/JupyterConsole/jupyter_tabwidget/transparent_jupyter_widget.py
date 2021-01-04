@@ -29,6 +29,8 @@ from libqtopensesame.misc.base_subcomponent import BaseSubcomponent
 from qtpy.QtWidgets import QApplication
 from libopensesame.oslogging import oslogger
 from qtconsole.rich_jupyter_widget import RichJupyterWidget
+from libqtopensesame.misc.translate import translation_context
+_ = translation_context(u'JupyterConsole', category=u'extension')
 
 
 GLOBAL_EXPR = u'''{
@@ -59,6 +61,13 @@ not inspect.isclass(val) and
 not inspect.ismodule(val)
 ]
 '''
+
+
+class FailedToGetWorkspaceVariable(Exception):
+    
+    def __repr__(self):
+        
+        return _('Failed to get workspace variable')
 
 
 class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
@@ -205,17 +214,22 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
             time.sleep(0.05)
             QApplication.processEvents()
         else:
-            return None
+            return FailedToGetWorkspaceVariable()
         reply = self._user_expressions[key].get(
             u'data',
             {}
         ).get(u'text/plain', None)
         if reply is None:
-            return None
+            return FailedToGetWorkspaceVariable()
         try:
             return pickle.loads(eval(reply))
-        except (TypeError, pickle.UnpicklingError, RecursionError):
-            return None
+        except (
+            TypeError,
+            pickle.UnpicklingError,
+            RecursionError,
+            ModuleNotFoundError
+        ):
+            return FailedToGetWorkspaceVariable()
 
 
 class InprocessJupyterWidget(TransparentJupyterWidget):

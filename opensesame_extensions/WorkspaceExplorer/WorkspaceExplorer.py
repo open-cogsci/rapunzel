@@ -18,9 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
-
 from libqtopensesame.misc.config import cfg
-import qdatamatrix
 from datamatrix import DataMatrix
 from qdatamatrix import QDataMatrix
 from qtpy.QtWidgets import QDockWidget
@@ -75,10 +73,9 @@ class WorkspaceExplorer(BaseExtension):
             return
         if not row:
             return
-        name = self._qdm.dm.name[row - 1]
         self.extension_manager.fire(
             'data_viewer_inspect',
-            name=name,
+            name=self._qdm.dm.name[row - 1],
             workspace=self.extension_manager.provide('jupyter_workspace_name')
         )
 
