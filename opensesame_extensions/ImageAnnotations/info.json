@@ -1,0 +1,8 @@
+{
+    "label": "Image annotations",
+    "description": "Add images as annotations to code",
+    "modes": ["ide"],
+    "settings": {
+        "image_annotations": "{}"
+    }
+}

@@ -152,6 +152,13 @@ class OpenSesameIDE(BaseExtension):
             return u''
         return editor.toPlainText()
         
+    def provide_current_path(self):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return u''
+        return editor.file.path
+        
     def provide_ide_current_selection(self):
         
         editor = self._current_editor()

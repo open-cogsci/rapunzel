@@ -29,6 +29,10 @@ from libqtopensesame.misc.base_subcomponent import BaseSubcomponent
 from qtpy.QtWidgets import QApplication
 from libopensesame.oslogging import oslogger
 from qtconsole.rich_jupyter_widget import RichJupyterWidget
+try:
+    from base64 import decodebytes
+except ImportError:  # Python 2
+    from base64 import decodestring as decodebytes
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'JupyterConsole', category=u'extension')
 
@@ -80,11 +84,17 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
         self.setup(jupyter_console)
         self.executed.connect(self._on_executed)
         self.executing.connect(self._on_executing)
+        self._last_executed = None
         # It is possible for _on_executing() to be called again, before
         # _on_executed() is called. We therefore keep track of how many times
-        # _on_executing() has been called, and only release the busy status 
+        # _on_executing() has been called, and only release the busy status
         # when this counter is set back to 0.
         self._executing_counter = 0
+        
+    def execute(self, *args, **kwargs):
+        
+        self._last_executed = args[0] if args else kwargs.get('source', None)
+        super(TransparentJupyterWidget, self).execute(*args, **kwargs)
 
     def _on_executing(self):
 
@@ -113,6 +123,32 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
         super(TransparentJupyterWidget, self).reset(clear=clear)
         self._executing_counter = 0
         self._jupyter_console.set_busy(False)
+        
+    def _handle_display_data(self, msg):
+        """Reimplemented to handle communications between the figure explorer
+        and the kernel. Inspired by Spyder's `figurebrowser.py`.
+        """
+        img = None
+        data = msg['content']['data']
+        if 'image/svg+xml' in data:
+            fmt = 'image/svg+xml'
+            img = data['image/svg+xml']
+        elif 'image/png' in data:
+            # PNG data is base64 encoded as it passes over the network
+            # in a JSON structure so we decode it.
+            fmt = 'image/png'
+            img = decodebytes(data['image/png'].encode('ascii'))
+        elif 'image/jpeg' in data and self._jpg_supported:
+            fmt = 'image/jpeg'
+            img = decodebytes(data['image/jpeg'].encode('ascii'))
+        if img is not None:
+            self.extension_manager.fire(
+                'image_annotations_new',
+                img=img,
+                fmt=fmt,
+                code=self._last_executed
+            )
+        return super(TransparentJupyterWidget, self)._handle_display_data(msg)
 
 
 class OutprocessJupyterWidget(TransparentJupyterWidget):
