@@ -48,7 +48,8 @@ EXTENSIONS = [
     u'GitGUI',
     u'RapunzelLocale',
     u'PythonDebugger',
-    u'SubprocessManager'
+    u'SubprocessManager',
+    u'ImageAnnotations'
 ]
 
 
