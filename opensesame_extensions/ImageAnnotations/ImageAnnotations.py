@@ -55,7 +55,13 @@ class ImageAnnotations(BaseExtension):
         except BaseException:
             oslogger.warning('failed to parse image annotations from config')
             self._image_annotations = {}
-            
+        # Remove annotations for non-existing images.
+        for file_path, file_annotations in self._image_annotations.items():
+            self._image_annotations[file_path] = {
+                code: img_path for (code, img_path) in file_annotations.items()
+                if os.path.exists(img_path)
+            }
+
     def event_register_editor(self, editor):
         """When an editor is registered, an ImageAnnotationsMode is added, but
         only if the editor already has an ImageAnnotationsPanel, which is
