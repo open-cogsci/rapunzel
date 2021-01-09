@@ -20,7 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import fnmatch
 import multiprocessing
-from qtpy.QtWidgets import QTreeWidgetItem, QApplication, QDockWidget
+from qtpy.QtWidgets import QTreeWidgetItem, QDockWidget
 from qtpy.QtCore import Qt, QTimer
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -143,6 +143,10 @@ class FindWidget(BaseWidget):
             u'ide_open_file',
             path=path,
             line_number=line_number
+        )
+        self.extension_manager.fire(
+            u'ide_search_text',
+            needle=self.ui.lineedit_needle.text().strip(),
         )
         self.tabwidget.switch(u'OpenSesameIDE')
 

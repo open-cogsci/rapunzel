@@ -112,6 +112,37 @@ class OpenSesameIDE(BaseExtension):
 
         self.open_document(path)
         self.extension_manager.fire('ide_jump_to_line', lineno=line_number)
+        
+    def event_ide_search_text(self, needle):
+        
+        editor = self._current_editor()
+        if editor is None:
+            return u''
+        try:
+            search_panel = editor.panels.get('SearchAndReplacePanel')
+        except KeyError:
+            return  # Panel is not installed
+        cursor = editor.textCursor()
+        needle_pos = cursor.block().text().find(needle)
+        if needle_pos < 0:
+            needle_pos = editor.toPlainText().find(needle)
+        if needle_pos < 0:
+            oslogger.warning('failed to find needle in text')
+            return
+        cursor.clearSelection()
+        cursor.movePosition(cursor.StartOfBlock, cursor.MoveAnchor)
+        cursor.movePosition(
+            cursor.NextCharacter,
+            cursor.MoveAnchor,
+            needle_pos
+        )
+        cursor.movePosition(
+            cursor.NextCharacter,
+            cursor.KeepAnchor,
+            len(needle)
+        )
+        editor.setTextCursor(cursor)
+        search_panel.on_search()
 
     def event_ide_show_tab_bar(self, show_tab_bar):
 
