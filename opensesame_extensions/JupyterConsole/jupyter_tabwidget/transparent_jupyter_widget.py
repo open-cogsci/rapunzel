@@ -100,6 +100,7 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
 
         self._executing_counter += 1
         self._jupyter_console.set_busy(True)
+        self.extension_manager.fire('jupyter_execute_start')
 
     def _on_executed(self):
 
@@ -113,6 +114,7 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
             name=self._name,
             workspace_func=self.get_workspace_globals
         )
+        self.extension_manager.fire('jupyter_execute_finished')
         
     def running(self):
         
@@ -143,12 +145,23 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
             img = decodebytes(data['image/jpeg'].encode('ascii'))
         if img is not None:
             self.extension_manager.fire(
-                'image_annotations_new',
+                'jupyter_execute_result_image',
                 img=img,
                 fmt=fmt,
                 code=self._last_executed
             )
         return super(TransparentJupyterWidget, self)._handle_display_data(msg)
+        
+    def _append_plain_text(self, text, *args, **kwargs):
+        
+        super(TransparentJupyterWidget, self)._append_plain_text(
+            text,
+            *args,
+            **kwargs
+        )
+        if not self._executing_counter:
+            return
+        self.extension_manager.fire('jupyter_execute_result_text', text=text)
 
 
 class OutprocessJupyterWidget(TransparentJupyterWidget):

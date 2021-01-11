@@ -218,6 +218,7 @@ class MenuBar(QMenuBar):
             separate=True
         )
         # Run menu
+        self._menu_run = self.addMenu(_('&Run'))
         self._action_run_current_file = self._action(
             _(u'&Run project or file'),
             u'os-run',
@@ -241,6 +242,11 @@ class MenuBar(QMenuBar):
             u'os-run-quick',
             cfg.opensesame_ide_shortcut_run_up_to_current_position,
             ide.run_up_to_current_position,
+        )
+        self._action_capture_output = self._cfg_action(
+            self._menu_run,
+            _(u'&Capture output'),
+            u'image_annotations_capture_output'
         )
         self._action_run_debug = self._action(
             _(u'Run file in &debugger'),
@@ -279,11 +285,12 @@ class MenuBar(QMenuBar):
             ide.change_working_directory,
         )
         # Run menu
-        self._menu_run = self.addMenu(_('&Run'))
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
         self._menu_run.addAction(self._action_run_from_current_position)
         self._menu_run.addAction(self._action_run_up_to_current_position)
+        self._menu_run.addSeparator()
+        self._menu_run.addAction(self._action_capture_output)
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_run_interrupt)
         self._menu_run.addAction(self._action_run_restart)
