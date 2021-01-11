@@ -244,7 +244,7 @@ class JupyterNotebook(BaseExtension):
         # The last code cell that is not followed by a comment
         if (
             (cell_types is None or u'code' in cell_types) and
-            end_prev != len(code) - 1
+            end_prev not in (len(code) - 1, 0)
         ):
             codecell = code[end_prev:].strip()
             if codecell:
