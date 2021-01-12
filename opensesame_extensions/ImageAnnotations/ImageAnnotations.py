@@ -30,7 +30,7 @@ from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'ImageAnnotations', category=u'extension')
 
-CAPTURE_PLACEHOLDER = '# ... {} ... \n'.format(_('capturing'))
+OUTPUT_MARKER = '\n# % output'
 HOURGLASSES = ['# ○\n', '# ◔\n', '# ◑\n', '# ◕\n', '# ●\n']
 
 
@@ -39,6 +39,8 @@ class ImageAnnotations(BaseExtension):
     and shows these as annotations next to the executed code. Relies on
     ImageAnnotationsMode and ImageAnnotationsPanel from pyqode.core.
     """
+    
+    preferences_ui = 'extensions.ImageAnnotations.preferences'
     
     def event_startup(self):
         """Creates a folder for the image files if it doesn't exist, and
@@ -83,7 +85,6 @@ class ImageAnnotations(BaseExtension):
         """Toggles capture of output when this changed in the menu."""
         if setting != 'image_annotations_capture_output':
             return
-        cfg.image_annotations_capture_output = value
         editor = self.extension_manager.provide('ide_current_editor')
         if editor is None:
             return
@@ -98,6 +99,8 @@ class ImageAnnotations(BaseExtension):
         only if the editor already has an ImageAnnotationsPanel, which is
         managed by pyqode_manager.
         """
+        if not cfg.image_annotations_enabled:
+            return
         try:
             editor.panels.get('ImageAnnotationsPanel')
         except KeyError:
@@ -107,7 +110,13 @@ class ImageAnnotations(BaseExtension):
         editor.modes.append(mode)
         self._set_annotations(editor, mode)
         
-    def event_jupyter_execute_start(self):
+    def event_jupyter_run_file(self, path, debug=False):
+        self._start_capture()
+
+    def event_jupyter_run_code(self, code):
+        self._start_capture()
+        
+    def _start_capture(self):
         """Inserts a capture placeholder after the cursor when capturing is
         enabled.
         """
@@ -124,6 +133,7 @@ class ImageAnnotations(BaseExtension):
             return
         self._capturing = True
         self._has_captured = False
+        self._code = None
         # The hourglass serves as a progress indicator, but also as a reference
         # to insert captured text before.
         self._hourglass = 0
@@ -156,9 +166,11 @@ class ImageAnnotations(BaseExtension):
         """
         if not self._capturing:
             return
-        # Ignore empty lines at the start
-        if not self._has_captured and not text.strip():
-            return
+        if not self._has_captured:
+            # Ignore empty lines at the start
+            if not text.strip():
+                return
+            self._text_operation(OUTPUT_MARKER)
         self._has_captured = True
         self._text_operation(
             '\n'.join(
@@ -166,7 +178,6 @@ class ImageAnnotations(BaseExtension):
             ) + '\n',
             insert_position=self._editor.toPlainText().find(
                 HOURGLASSES[self._hourglass]
-                # CAPTURE_PLACEHOLDER
             )
         )
     
@@ -314,7 +325,14 @@ class ImageAnnotations(BaseExtension):
         # Get the cursor and remember the original position and anchor, where
         # the anchor is the start of the selection if any text is selected.
         cursor = self._editor.textCursor()
-        cursor.beginEditBlock()
+        # If the code has not changed since the last operation, then we
+        # continue the previous edit block. This ensures that all capture
+        # operations are treated as a single undo operation.
+        code = self._editor.toPlainText()
+        if self._code == code:
+            cursor.joinPreviousEditBlock()
+        else:
+            cursor.beginEditBlock()
         restore_selection = cursor.hasSelection()
         anchor = cursor.anchor()
         pos = cursor.position()
@@ -323,6 +341,8 @@ class ImageAnnotations(BaseExtension):
                 # If no insert position is specified, we insert after the
                 # selected text.
                 cursor.setPosition(cursor.selectionEnd())
+                if not cursor.atBlockStart() and not cursor.atBlockEnd():
+                    cursor.movePosition(cursor.EndOfBlock)
                 insert_position = cursor.position()
             else:
                 cursor.setPosition(insert_position)
@@ -339,7 +359,9 @@ class ImageAnnotations(BaseExtension):
                 pos += len(txt)
         else:
             # Find the text, select it, and remove it.
-            needle_pos = self._editor.toPlainText().find(txt)
+            needle_pos = code.find(txt)
+            if needle_pos < 0:  # Don't do anything if the text is not found.
+                return
             cursor.setPosition(needle_pos)
             cursor.movePosition(
                 cursor.Right,
@@ -361,3 +383,9 @@ class ImageAnnotations(BaseExtension):
             cursor.setPosition(pos, cursor.KeepAnchor)
         cursor.endEditBlock()
         self._editor.setTextCursor(cursor)
+        self._code = self._editor.toPlainText()
+
+    def settings_widget(self):
+        
+        from image_annotations import Preferences
+        return Preferences(self.main_window)

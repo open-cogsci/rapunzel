@@ -4,6 +4,7 @@
     "modes": ["ide"],
     "settings": {
         "image_annotations": "{}",
+        "image_annotations_enabled": true,
         "image_annotations_capture_output": false
     }
 }
