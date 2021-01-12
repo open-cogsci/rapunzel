@@ -21,6 +21,7 @@ from libopensesame.py3compat import *
 import os
 import re
 from qtpy.QtWidgets import QFileDialog
+from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.misc.translate import translation_context
@@ -35,7 +36,9 @@ SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ 
 # Matches based on multiline strings """ or '''
 SIMPLE_PATTERN = r'^["\']{3}[ \t]*\n(?P<source>.*?)\n["\']{3}[ \t]*\n'
 # To check whether there any Spyder cells in there
-SPYDER_HAS_CELLS  = r'#[ \t]*%%[ \t]*(\n|\Z)'
+SPYDER_HAS_CELLS = r'#[ \t]*%%[ \t]*(\n|\Z)'
+# Finds output `# % output` blocks in the code cells
+OUTPUT_PATTERN = r'\n# % output[ \t]*\n(?P<output>.*?)(\n|\Z)(?!#)'
 # Matches ``` and ~~~ for code blocks embedded in Markdown
 FENCED_BLOCK_RE = re.compile(
 r'''
@@ -173,13 +176,126 @@ class JupyterNotebook(BaseExtension):
                 'metadata': {}
             }
             if pycell['cell_type'] == 'code':
-                cell['execution_count'] = 0
-                cell['outputs'] = []
+                if 'execution_count' in pycell:
+                    cell['execution_count'] = pycell['execution_count']
+                    cell['outputs'] = self._create_notebook_output_cells(
+                        pycell['outputs'],
+                        pycell['execution_count']
+                    )
+                else:
+                    cell['execution_count'] = 0
+                    cell['outputs'] = []
             elif pycell['cell_type'] == 'markdown':
                 cell['source'] = \
                     cell['source'].lstrip(u'"""\n').rstrip(u'\n"""')
+            print(cell)
             nb['cells'].append(nbformat.from_dict(cell))
         nbformat.write(nb, path)
+        
+    def _notebook_output_cell(self, type_, data, execution_count):
+        
+        return {
+            'data': {type_: data},
+            'execution_count': execution_count,
+            'metadata': {},
+            'output_type': 'execute_result'
+        }
+        
+    def _notebook_img_cell(self, type_, img_path, execution_count):
+        
+        import base64
+        
+        base, ext = os.path.splitext(img_path.lower())
+        if ext == '.png':
+            fmt = 'image/png'
+        elif ext in ('.jpg', '.jpeg'):
+            fmt = 'image/jpeg'
+        elif ext == '.svg':
+            fmt = 'image/svg+xml'
+        else:
+            oslogger.warning('unknown image format: {}'.format(img_path))
+            return {}
+        with open(img_path, 'rb') as fd:
+            data = base64.b64encode(fd.read())
+        return self._notebook_output_cell(fmt, data, execution_count)
+        
+    def _create_notebook_output_cells(self, output, execution_count):
+        
+        data = []
+        outputs = []
+        for line in output.splitlines():
+            if line.startswith('# ![]'):
+                if data:
+                    outputs.append(
+                        self._notebook_output_cell(
+                            'text/plain',
+                            '\n'.join(data),
+                            execution_count
+                        )
+                    )
+                    data = []
+                img_path = line.rstrip()[6:-1]
+                outputs.append(
+                    self._notebook_img_cell(
+                        'image/png',
+                        img_path,
+                        execution_count
+                    )
+                )
+                continue
+            if line.startswith('# '):
+                line = line[2:]
+            elif line.startswith('#'):
+                line = line[1:]
+            data.append(line)
+        if data:
+            outputs.append(
+                self._notebook_output_cell(
+                    'text/plain',
+                    '\n'.join(data),
+                    execution_count
+                )
+            )
+        return outputs
+        
+    def _separate_output(self, cells):
+        
+        new_cells = []
+        execution_count = 1
+        for cell in cells:
+            if cell['cell_type'] != 'code':
+                new_cells.append(cell)
+                continue
+            source = cell['source']
+            prev_start = 0
+            for m in re.finditer(
+                OUTPUT_PATTERN,
+                source,
+                re.MULTILINE | re.DOTALL
+            ):
+                new_cells.append({
+                    'cell_type': 'code',
+                    'source': source[prev_start:m.start()],
+                    'execution_count': execution_count,
+                    'start': prev_start,
+                    'end': m.start(),
+                    "output_type": "execute_result",
+                    'outputs': m.group('output')
+                })
+                execution_count += 1
+                prev_start = m.end()
+            # There may a trailing cell behind the last output block. If this
+            # is not empty, we insert it as a new cell. If no code/ output
+            # cells were detected yet, we also insert it, even if it's empty, 
+            # because then it was a proper empty code cell to begin with.
+            if not prev_start or source[prev_start:].strip():
+                new_cells.append({
+                    'cell_type': 'code',
+                    'source': source[prev_start:],
+                    'start': prev_start,
+                    'end': len(source),
+                })
+        return new_cells
 
     def _python_cells(self, code=u'', cell_types=None):
 
@@ -198,7 +314,7 @@ class JupyterNotebook(BaseExtension):
                 'end': m.end()
             })
         if cells:
-            return cells
+            return self._separate_output(cells)
         # Spyder type cells. We only search for those if there's at least one
         # Spyder cell definition in the code, because otherwise we match the
         # entire code.
@@ -218,7 +334,7 @@ class JupyterNotebook(BaseExtension):
                     'end': m.end()
                 })
         if cells:
-            return cells
+            return self._separate_output(cells)
         # Simple cells, separated by triple quotes
         end_prev = 0
         for m in re.finditer(SIMPLE_PATTERN, code, re.MULTILINE | re.DOTALL):
@@ -254,7 +370,7 @@ class JupyterNotebook(BaseExtension):
                     'start': end_prev,
                     'end': len(code)
                 })
-        return cells
+        return self._separate_output(cells)
 
     def _R_cells(self, code=u'', cell_types=None):
         
@@ -275,8 +391,8 @@ class JupyterNotebook(BaseExtension):
                 'cell_type': 'code',
                 'source': m.group('code'),
                 'start': start,
-                'end': end 
-                })
+                'end': end
+            })
             offset += m.end()
             code = code[m.end():]
         return cells
