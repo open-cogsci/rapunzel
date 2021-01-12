@@ -83,16 +83,30 @@ class ImageAnnotations(BaseExtension):
                     
     def event_setting_changed(self, setting, value):
         """Toggles capture of output when this changed in the menu."""
-        if setting != 'image_annotations_capture_output':
+        if setting == 'image_annotations_enabled':
+            if value:
+                cfg.image_annotations_enabled = True
+            else:
+                cfg.image_annotations_enabled = False
+                cfg.image_annotations_capture_output = False
+        elif setting == 'image_annotations_capture_output':
+            if value:
+                cfg.image_annotations_enabled = True
+                cfg.image_annotations_capture_output = True
+            else:
+                cfg.image_annotations_capture_output = False
+        else:
             return
         editor = self.extension_manager.provide('ide_current_editor')
         if editor is None:
             return
-        try:
-            mode = editor.modes.get('ImageAnnotationsMode')
-        except KeyError:
-            return
-        self._set_annotations(editor, mode)
+        # If one of the settings is enabled, we add the mode to the editor. If
+        # it is already installed, this will trigger a refresh.
+        if cfg.image_annotations_enabled:
+            self._add_mode(editor)
+        # If the annotations are disabled altogether, then we remove the mode.
+        else:
+            self._remove_mode(editor)
         
     def event_register_editor(self, editor):
         """When an editor is registered, an ImageAnnotationsMode is added, but
@@ -105,10 +119,26 @@ class ImageAnnotations(BaseExtension):
             editor.panels.get('ImageAnnotationsPanel')
         except KeyError:
             return
-        mode = modes.ImageAnnotationsMode()
-        mode.annotation_clicked.connect(self._on_annotation_clicked)
-        editor.modes.append(mode)
+        self._add_mode(editor)
+        
+    def _add_mode(self, editor):
+        """Adds the image annotation mode to the editor if it wasn't already
+        installed, and sets the annotations.
+        """
+        if 'ImageAnnotationsMode' in editor.modes.keys():
+            mode = editor.modes.get('ImageAnnotationsMode')
+        else:
+            mode = modes.ImageAnnotationsMode()
+            mode.annotation_clicked.connect(self._on_annotation_clicked)
+            editor.modes.append(mode)
         self._set_annotations(editor, mode)
+        
+    def _remove_mode(self, editor):
+        """Removes the image annotation mode from the editor."""
+        if 'ImageAnnotationsMode' not in editor.modes.keys():
+            return
+        mode = editor.modes.get('ImageAnnotationsMode')
+        editor.modes.remove('ImageAnnotationsMode')
         
     def event_jupyter_run_file(self, path, debug=False):
         self._start_capture()

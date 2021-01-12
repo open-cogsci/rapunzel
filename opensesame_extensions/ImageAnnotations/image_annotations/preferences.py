@@ -38,24 +38,10 @@ class Preferences(BasePreferencesWidget):
         self.ui.radiobutton_no_capture.clicked.connect(self._no_capture)
         self.ui.radiobutton_image_capture.clicked.connect(self._image_capture)
         self.ui.radiobutton_full_capture.clicked.connect(self._full_capture)
+        self.event_setting_changed(None, None)
         
     def event_setting_changed(self, setting, value):
         
-        if setting == 'image_annotations_enabled':
-            if value:
-                cfg.image_annotations_enabled = True
-            else:
-                cfg.image_annotations_enabled = False
-                cfg.image_annotations_capture_output = False
-        elif setting == 'image_annotations_capture_output':
-            if value:
-                cfg.image_annotations_enabled = True
-                cfg.image_annotations_capture_output = True
-            else:
-                cfg.image_annotations_capture_output = False
-        else:
-            return
-        cfg[setting] = value
         if not cfg.image_annotations_enabled:
             self.ui.radiobutton_no_capture.setChecked(True)
         elif not cfg.image_annotations_capture_output:
