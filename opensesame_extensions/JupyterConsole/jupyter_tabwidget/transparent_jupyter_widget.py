@@ -27,6 +27,7 @@ import inspect
 import pickle
 from libqtopensesame.misc.base_subcomponent import BaseSubcomponent
 from qtpy.QtWidgets import QApplication
+from qtpy.QtCore import QTimer
 from libopensesame.oslogging import oslogger
 from qtconsole.rich_jupyter_widget import RichJupyterWidget
 try:
@@ -103,18 +104,23 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
         self.extension_manager.fire('jupyter_execute_start')
 
     def _on_executed(self):
-
-        if self._executing_counter:
-            self._executing_counter -= 1
-        if self._executing_counter:
-            return
-        self._jupyter_console.set_busy(False)
-        self.extension_manager.fire(
-            u'workspace_update',
-            name=self._name,
-            workspace_func=self.get_workspace_globals
-        )
-        self.extension_manager.fire('jupyter_execute_finished')
+        """Is called when the kernel is done executing code. Oddly, this can
+        happen just before the last bit of output is captured. Therefore, we
+        don't react right away, but call the finish() function 100 ms later.
+        """
+        def finish():
+            if self._executing_counter:
+                self._executing_counter -= 1
+            if self._executing_counter:
+                return
+            self._jupyter_console.set_busy(False)
+            self.extension_manager.fire(
+                u'workspace_update',
+                name=self._name,
+                workspace_func=self.get_workspace_globals
+            )
+            self.extension_manager.fire('jupyter_execute_finished')
+        QTimer.singleShot(100, finish)
         
     def running(self):
         
