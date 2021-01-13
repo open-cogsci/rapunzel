@@ -384,9 +384,12 @@ class OpenSesameIDE(BaseExtension):
             self.save_file_as()
         else:
             self._scetw.save_current()
+        self.extension_manager.fire('ide_save_current_file')
 
     def save_file_as(self):
 
+        editor = self._current_editor()
+        from_path = editor.file.path if editor else ''
         self._current_splitter().save_current_as()
         editor = self._current_editor()
         if editor is None:
@@ -399,6 +402,11 @@ class OpenSesameIDE(BaseExtension):
             return
         self.close_tab()
         self.open_document(path)
+        self.extension_manager.fire(
+            'ide_save_current_file_as',
+            from_path=from_path,
+            to_path=path
+        )
 
     def open_file(self, *args):
 
@@ -594,9 +602,10 @@ class OpenSesameIDE(BaseExtension):
             )
             if cells is None:
                 cells = []
-            for cell in cells:
-                if cell['start'] <= cursor.position() <= cell['end']:
-                    # Select code cell
+            # Loop through the cells from the bottom up and run the first cell
+            # that starts above the cursor.
+            for cell in cells[::-1]:
+                if cursor.position() >= cell['start']:
                     cursor.setPosition(cell['start'])
                     cursor.setPosition(cell['end'], cursor.KeepAnchor)
                     self._run_notify(_(u'Running notebook cell'))

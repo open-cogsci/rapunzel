@@ -18,6 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import re
 import os
 import uuid
 import yaml
@@ -32,6 +33,7 @@ _ = translation_context(u'ImageAnnotations', category=u'extension')
 
 OUTPUT_MARKER = '\n# % output'
 HOURGLASSES = ['# ○\n', '# ◔\n', '# ◑\n', '# ◕\n', '# ●\n']
+IMG_PATTERN = r'!\[\]\((?P<path>.+)\)'
 
 
 class ImageAnnotations(BaseExtension):
@@ -137,7 +139,6 @@ class ImageAnnotations(BaseExtension):
         """Removes the image annotation mode from the editor."""
         if 'ImageAnnotationsMode' not in editor.modes.keys():
             return
-        mode = editor.modes.get('ImageAnnotationsMode')
         editor.modes.remove('ImageAnnotationsMode')
         
     def event_jupyter_run_file(self, path, debug=False):
@@ -145,6 +146,36 @@ class ImageAnnotations(BaseExtension):
 
     def event_jupyter_run_code(self, code):
         self._start_capture()
+        
+    def provide_image_writer(self):
+        return self._img_to_file
+    
+    def event_image_annotations_detect(self, code):
+        """Scans the code for markdown style images."""
+        editor = self.extension_manager.provide('ide_current_editor')
+        if editor is None:
+            return
+        try:
+            mode = editor.modes.get('ImageAnnotationsMode')
+        except KeyError:
+            return
+        for m in re.finditer(IMG_PATTERN, code):
+            img_path = m.group('path')
+            if editor.file.path not in self._image_annotations:
+                self._image_annotations[editor.file.path] = {}
+            img_code = '![]({})'.format(img_path)
+            if code not in self._image_annotations[editor.file.path]:
+                self._image_annotations[editor.file.path][img_code] = []
+            self._image_annotations[editor.file.path][img_code].append(
+                img_path
+            )
+        self._set_annotations(editor, mode)
+        
+    def event_ide_save_current_file_as(self, from_path, to_path):
+        
+        if from_path not in self._image_annotations:
+            return
+        self._image_annotations[to_path] = self._image_annotations[from_path]
         
     def _start_capture(self):
         """Inserts a capture placeholder after the cursor when capturing is
