@@ -233,10 +233,13 @@ class ImageAnnotations(BaseExtension):
                 return
             self._text_operation(OUTPUT_MARKER)
         self._has_captured = True
+        formatted_output = '\n'.join(
+            ['# {}'.format(line) for line in text.splitlines()]
+        )
+        if not formatted_output:
+            return
         self._text_operation(
-            '\n'.join(
-                ['# {}'.format(line) for line in text.splitlines()]
-            ) + '\n',
+            formatted_output + '\n',
             insert_position=self._editor.toPlainText().find(
                 HOURGLASSES[self._hourglass]
             )
