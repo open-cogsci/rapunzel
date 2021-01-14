@@ -811,8 +811,16 @@ class OpenSesameIDE(BaseExtension):
         self.tabwidget.shortcut_switch_right.setKey(u'')
         # Create a custom menubar
         self._menubar = MenuBar(self.main_window, self)
+        self.extension_manager.fire(
+            'ide_menubar_initialized',
+            menubar=self._menubar
+        )
         self.main_window.setMenuBar(self._menubar)
         self._toolbar = self._menubar.build_tool_bar()
+        self.extension_manager.fire(
+            'ide_toolbar_initialized',
+            menubar=self._toolbar
+        )
         self.main_window.addToolBar(self._toolbar)
         # Patch the starting and closing of the app
         self.main_window.restore_window_state = \

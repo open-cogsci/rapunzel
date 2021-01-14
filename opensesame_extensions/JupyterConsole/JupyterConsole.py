@@ -111,6 +111,10 @@ class JupyterConsole(BaseExtension):
 
         self._set_visible(True)
         self._jupyter_console.current.execute(code)
+    
+    def event_jupyter_run_silent(self, code):
+
+        self._jupyter_console.current.execute(code)
 
     def event_jupyter_write(self, msg):
 

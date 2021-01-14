@@ -20,8 +20,10 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import importlib
-from qtpy.QtWidgets import QFileDialog
+import time
+from qtpy.QtWidgets import QFileDialog, QMenu, QApplication
 from libopensesame.oslogging import oslogger
+from libopensesame import misc
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.misc.translate import translation_context
@@ -40,18 +42,29 @@ class JupyterNotebook(BaseExtension):
     preferences_ui = 'extensions.JupyterNotebook.preferences'
 
     def event_startup(self):
-
-        self.action_import_ipynb = self.qaction(
-            u'document-open',
-            _('Import notebook'),
-            self._import_ipynb,
-        )
-        self.action_export_ipynb = self.qaction(
-            u'document-save',
-            _('Export notebook'),
-            self._export_ipynb,
-        )
         self._widget = None
+        
+    def event_ide_menubar_initialized(self, menubar):
+        self._menu = QMenu(_('Import and export'), self.main_window)
+        self._menu.setIcon(self.theme.qicon('text-x-script'))
+        self._menu.addAction(self.qaction(
+            u'document-open', _('Import notebook'), self._import_ipynb,
+        ))
+        self._menu.addSeparator()
+        self._menu.addAction(self.qaction(
+            u'document-save', _('Export notebook'), self._export_ipynb
+        ))
+        self._menu.addAction(self.qaction(
+            u'document-save', _('Export pdf'), self._export_pdf
+        ))
+        self._menu.addAction(self.qaction(
+            u'document-save', _('Export html'), self._export_html
+        ))
+        self._menu.addAction(self.qaction(
+            u'document-save', _('Export docx'), self._export_docx
+        ))
+        menubar._menu_file.insertMenu(menubar._action_quit, self._menu)
+        menubar._menu_file.insertSeparator(menubar._action_quit)
 
     def event_close(self):
 
@@ -126,7 +139,7 @@ class JupyterNotebook(BaseExtension):
         self.extension_manager.fire(u'ide_new_file', source=code)
         self.extension_manager.fire(u'image_annotations_detect', code=code)
 
-    def _export_ipynb(self):
+    def _export(self, dialog_title, dialog_filter, ext):
         """Export the code to an .ipynb file."""
         
         from jupyter_notebook_cell_parsers import parse_nbformat
@@ -134,13 +147,13 @@ class JupyterNotebook(BaseExtension):
         if self.extension_manager.provide('ide_current_language') != 'python':
             self.extension_manager.fire(
                 'notify',
-                message=_(u'Only Python code can be exported to a notebook')
+                message=_(u'Only Python code can be exported')
             )
             return
         path = QFileDialog.getSaveFileName(
             self.main_window,
-            _(u'Open Jupyter/ IPython Notebook'),
-            filter=u'Notebooks (*.ipynb)',
+            dialog_title,
+            filter=dialog_filter,
             directory=cfg.file_dialog_path
         )
         if isinstance(path, tuple):
@@ -148,9 +161,68 @@ class JupyterNotebook(BaseExtension):
         if not path:
             return
         cfg.file_dialog_path = os.path.dirname(path)
+        if not path.lower().endswith(ext):
+            path += ext
+        if path.lower().endswith('.ipynb'):
+            ipynb_path = path
+        else:
+            ipynb_path = os.path.splitext(path)[0] + '.ipynb'
         parse_nbformat.cells_to_notebook(
             self.provide_jupyter_notebook_cells(
                 self.extension_manager.provide('ide_current_source')
             ),
-            path
+            ipynb_path
         )
+        return path, ipynb_path
+    
+    def _run(self, code):
+        
+        self.main_window.set_busy(True)
+        self.extension_manager.fire('jupyter_run_silent', code=code)
+        while self.extension_manager.provide('jupyter_kernel_running'):
+            QApplication.processEvents()
+            time.sleep(0.1)
+        self.main_window.set_busy(False)
+        
+    def _to_html(self, ipynb_path):
+        
+        self._run('!jupyter nbconvert {} --to html'.format(ipynb_path))
+        return os.path.splitext(ipynb_path)[0] + '.html'
+        
+    def _export_ipynb(self):
+        """Export the code to an .ipynb file."""
+        
+        self._export(
+            dialog_title=_(u'Export to Jupyter/ IPython Notebook'),
+            dialog_filter=u'Notebooks (*.ipynb)',
+            ext='.ipynb'
+        )
+
+    def _export_pdf(self):
+        path, ipynb_path = self._export(
+            dialog_title=_(u'Export to pdf'),
+            dialog_filter=u'pdf (*.pdf)',
+            ext='.pdf'
+        )
+        html_path = self._to_html(ipynb_path)
+        self._run('!pandoc {} -o {}'.format(html_path, path))
+        misc.open_url(path)
+        
+    def _export_html(self):
+        path, ipynb_path = self._export(
+            dialog_title=_(u'Export to HTML'),
+            dialog_filter=u'html (*.html)',
+            ext='.html'
+        )
+        html_path = self._to_html(ipynb_path)
+        misc.open_url(html_path)
+
+    def _export_docx(self):
+        path, ipynb_path = self._export(
+            dialog_title=_(u'Export to .docx'),
+            dialog_filter=u'docx (*.docx)',
+            ext='.docx'
+        )
+        html_path = self._to_html(ipynb_path)
+        self._run('!pandoc {} -o {}'.format(html_path, path))
+        misc.open_url(path)
