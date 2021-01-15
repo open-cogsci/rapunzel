@@ -560,7 +560,11 @@ class OpenSesameIDE(BaseExtension):
         """Runs either a selection of cells in a certain range, or a selection
         of lines if no cells are defined.
         """
-        
+
+        # If the current editor is attached to a file, change the working
+        # directory if this behavior is specified in the configuration
+        if cfg.opensesame_ide_run_selection_change_working_directory:
+            self.change_working_directory()
         cells = self.extension_manager.provide(
             u'jupyter_notebook_cells',
             code=editor.toPlainText(),
