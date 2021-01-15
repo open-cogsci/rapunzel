@@ -112,7 +112,7 @@ class JupyterNotebook(BaseExtension):
         
         from jupyter_notebook_cell_parsers import parse_nbformat
         
-        if path is None:
+        if not isinstance(path, basestring):
             path = QFileDialog.getOpenFileName(
                 self.main_window,
                 _(u'Open Jupyter/ IPython Notebook'),
