@@ -31,7 +31,7 @@ from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'ImageAnnotations', category=u'extension')
 
-OUTPUT_MARKER = '\n# % output'
+OUTPUT_MARKER = '# % output'
 HOURGLASSES = ['# ○\n', '# ◔\n', '# ◑\n', '# ◕\n', '# ●\n']
 IMG_PATTERN = r'!\[\]\((?P<path>.+)\)'
 
@@ -240,7 +240,12 @@ class ImageAnnotations(BaseExtension):
             # folder being printed out as the first result line.
             if not text.strip() or os.path.isdir(text.strip()):
                 return
-            self._text_operation(OUTPUT_MARKER)
+            self._text_operation(
+                OUTPUT_MARKER,
+                insert_position=self._editor.toPlainText().find(
+                    HOURGLASSES[self._hourglass]
+                )
+            )
         self._has_captured = True
         formatted_output = '\n'.join(
             ['# {}'.format(line) for line in text.splitlines()]
