@@ -107,7 +107,7 @@ class JupyterConsole(BaseExtension):
 
         self._jupyter_console.current.change_dir(path)
 
-    def event_jupyter_run_code(self, code):
+    def event_jupyter_run_code(self, code, editor=None):
 
         self._set_visible(True)
         self._jupyter_console.current.execute(code)

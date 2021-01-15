@@ -609,6 +609,14 @@ class OpenSesameIDE(BaseExtension):
             oslogger.debug('kernel running, trying again later')
             QTimer.singleShot(1000, self._run_cell_from_queue)
             return
+        # Image annotations removes the hourglass from the document only a
+        # little while after the executing is stopped. If we then start a new
+        # execution, this will confuse things. So we wait until capturing is
+        # completely done.
+        if self.extension_manager.provide('image_annotations_capturing'):
+            oslogger.debug('still capturing, trying again later')
+            QTimer.singleShot(1000, self._run_cell_from_queue)
+            return
         cell_number, editor = self._cells_to_run_queue.pop(0)
         oslogger.debug('running cell {}'.format(cell_number))
         cells = self.extension_manager.provide(
@@ -628,7 +636,8 @@ class OpenSesameIDE(BaseExtension):
         editor.setTextCursor(cursor)
         self.extension_manager.fire(
             u'jupyter_run_code',
-            code=self._selected_text(cursor)
+            code=self._selected_text(cursor),
+            editor=editor
         )
     
     @with_editor_and_cursor

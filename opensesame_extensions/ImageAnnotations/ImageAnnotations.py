@@ -49,6 +49,8 @@ class ImageAnnotations(BaseExtension):
         restores the image annotation info.
         """
         self._capturing = False
+        self._hourglass = 0
+        self._editor = None
         self.enable_capture = False
         self._image_folder = os.path.join(
             self.main_window.home_folder,
@@ -140,15 +142,17 @@ class ImageAnnotations(BaseExtension):
         if 'ImageAnnotationsMode' not in editor.modes.keys():
             return
         editor.modes.remove('ImageAnnotationsMode')
-        
-    def event_jupyter_run_file(self, path, debug=False):
-        self._start_capture()
 
-    def event_jupyter_run_code(self, code):
-        self._start_capture()
+    def event_jupyter_run_code(self, code, editor=None):
+        self._start_capture(editor)
         
     def provide_image_writer(self):
         return self._img_to_file
+    
+    def provide_image_annotations_capturing(self):
+        if self._editor is None:
+            return False
+        return HOURGLASSES[self._hourglass] in self._editor.toPlainText()
     
     def event_image_annotations_detect(self, code):
         """Scans the code for markdown style images."""
@@ -177,10 +181,16 @@ class ImageAnnotations(BaseExtension):
             return
         self._image_annotations[to_path] = self._image_annotations[from_path]
         
-    def _start_capture(self):
+    def _start_capture(self, editor):
         """Inserts a capture placeholder after the cursor when capturing is
         enabled.
         """
+        if editor is None:
+            self._editor = self.extension_manager.provide('ide_current_editor')
+        else:
+            self._editor = editor
+        if self._editor is None:
+            return
         if not cfg.image_annotations_capture_output:
             return
         if self._capturing:
@@ -188,9 +198,6 @@ class ImageAnnotations(BaseExtension):
                 'notify',
                 message=_('Already capturing output')
             )
-            return
-        self._editor = self.extension_manager.provide('ide_current_editor')
-        if self._editor is None:
             return
         self._capturing = True
         self._has_captured = False
@@ -252,24 +259,21 @@ class ImageAnnotations(BaseExtension):
         `fmt` is the format, and code is the code snippet that resulted in
         creating of the image.
         """
-        editor = self.extension_manager.provide('ide_current_editor')
-        if editor is None:
-            return
         try:
-            mode = editor.modes.get('ImageAnnotationsMode')
+            mode = self._editor.modes.get('ImageAnnotationsMode')
         except KeyError:
             return
-        if editor.file.path not in self._image_annotations:
-            self._image_annotations[editor.file.path] = {}
-        if code not in self._image_annotations[editor.file.path]:
-            self._image_annotations[editor.file.path][code] = []
+        if self._editor.file.path not in self._image_annotations:
+            self._image_annotations[self._editor.file.path] = {}
+        if code not in self._image_annotations[self._editor.file.path]:
+            self._image_annotations[self._editor.file.path][code] = []
         img_path = self._img_to_file(img, fmt)
-        self._image_annotations[editor.file.path][code].append(img_path)
+        self._image_annotations[self._editor.file.path][code].append(img_path)
         if cfg.image_annotations_capture_output:
             md = '![]({})'.format(img_path)
-            self._image_annotations[editor.file.path][md] = [img_path]
+            self._image_annotations[self._editor.file.path][md] = [img_path]
             self.event_jupyter_execute_result_text(md)
-        self._set_annotations(editor, mode)
+        self._set_annotations(self._editor, mode)
         
     def _set_annotations(self, editor, mode):
         """Sends the annotations to the AnnotationMode."""
