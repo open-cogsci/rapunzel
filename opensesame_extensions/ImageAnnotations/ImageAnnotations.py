@@ -228,8 +228,10 @@ class ImageAnnotations(BaseExtension):
         if not self._capturing:
             return
         if not self._has_captured:
-            # Ignore empty lines at the start
-            if not text.strip():
+            # Ignore empty lines at the start. Also ignore folder names, 
+            # because changing the working directory annoyingly results in this
+            # folder being printed out as the first result line.
+            if not text.strip() or os.path.isdir(text.strip()):
                 return
             self._text_operation(OUTPUT_MARKER)
         self._has_captured = True
