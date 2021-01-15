@@ -27,7 +27,7 @@ from libopensesame import metadata
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
 from libqtopensesame.misc.config import cfg
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt, QTimer
 from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton, QApplication
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
@@ -90,6 +90,7 @@ class OpenSesameIDE(BaseExtension):
         self._set_ignore_patterns()
         self._restore_open_folders()
         self._parse_command_line()
+        self._cells_to_run_queue = []
         self.main_window.setWindowTitle(u'Rapunzel')
         self.main_window.setWindowIcon(
             self.theme.qicon(u'rapunzel')
@@ -556,6 +557,9 @@ class OpenSesameIDE(BaseExtension):
         self._run_range(editor, cursor, 0, cursor.position())
 
     def _run_range(self, editor, cursor, from_pos, end_pos):
+        """Runs either a selection of cells in a certain range, or a selection
+        of lines if no cells are defined.
+        """
         
         cells = self.extension_manager.provide(
             u'jupyter_notebook_cells',
@@ -575,17 +579,53 @@ class OpenSesameIDE(BaseExtension):
             )
             return
         self._run_notify(_(u'Running multiple notebook cells'))
-        for cell in cells:
-            if cell['start'] > end_pos or cell['end'] < from_pos:
-                continue
-            cursor.setPosition(cell['start'])
-            cursor.setPosition(cell['end'], cursor.KeepAnchor)
-            editor.setTextCursor(cursor)
-            self.extension_manager.fire(
-                u'jupyter_run_code',
-                code=self._selected_text(cursor)
-            )
-            QApplication.processEvents()
+        self._cells_to_run_queue = [
+            (cell_number, editor) for cell_number, cell in enumerate(cells)
+            if cell['start'] <= end_pos and cell['end'] >= from_pos
+        ]
+        self._run_cell_from_queue()
+        
+    def event_jupyter_execute_finished(self):
+        """If the jupyter kernel is done, execute the next queued cell."""
+        if self._cells_to_run_queue:
+            QTimer.singleShot(1000, self._run_cell_from_queue)
+        
+    def _run_cell_from_queue(self):
+        """Checks if there are cells cued to be executed. If so, then the cell
+        is retrieved by number, and not by position, because the cell positions
+        may have changed since the cell was queued.
+        """
+        if not self._cells_to_run_queue:
+            oslogger.debug('no more cells queued')
+            return
+        # In certain race conditions, the kernel may already be active again
+        # before we've had a chance to execute this cell. If so, try again
+        # later.
+        if self.extension_manager.provide('jupyter_kernel_running'):
+            oslogger.debug('kernel running, trying again later')
+            QTimer.singleShot(1000, self._run_cell_from_queue)
+            return
+        cell_number, editor = self._cells_to_run_queue.pop(0)
+        oslogger.debug('running cell {}'.format(cell_number))
+        cells = self.extension_manager.provide(
+            u'jupyter_notebook_cells',
+            code=editor.toPlainText(),
+            cell_types=[u'code']
+        )
+        try:
+            cell = cells[cell_number]
+        except IndexError:
+            # Something changed in the code such that the cell number doesn't
+            # exist anymore.
+            return
+        cursor = editor.textCursor()
+        cursor.setPosition(cell['start'])
+        cursor.setPosition(cell['end'], cursor.KeepAnchor)
+        editor.setTextCursor(cursor)
+        self.extension_manager.fire(
+            u'jupyter_run_code',
+            code=self._selected_text(cursor)
+        )
     
     @with_editor_and_cursor
     def run_current_selection(self, editor, cursor):
@@ -627,10 +667,12 @@ class OpenSesameIDE(BaseExtension):
     def run_interrupt(self):
 
         self.extension_manager.fire(u'jupyter_interrupt')
+        self._cells_to_run_queue = []
 
     def run_restart(self):
 
         self.extension_manager.fire(u'jupyter_restart')
+        self._cells_to_run_queue = []
 
     def open_plugin_manager(self):
 
