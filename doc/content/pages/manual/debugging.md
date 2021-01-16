@@ -6,18 +6,6 @@ next_url: %url:notebooks%
 [TOC]
 
 
-%--
-video:
- source: youtube
- id: VidRapunzel
- videoid: t8wo4dTkUJA
- width: 640
- height: 360
- caption: |
-  Visual debugging
---%
-
-
 ## Exploring the workspace
 
 
@@ -58,3 +46,17 @@ Press `ctrl+F12` to clear all breakpoints.
 ### Exploring the workspace while debugging
 
 The workspace explorer also shows the state of the workspace while the debugger is active. However, currently you cannot inspect individual variables by double-clicking on them while te debugger is active.
+
+
+## Video: Debugging
+
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: t8wo4dTkUJA
+ width: 640
+ height: 360
+ caption: |
+  Visual debugging
+--%

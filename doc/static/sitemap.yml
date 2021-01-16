@@ -9,5 +9,7 @@
           - /manual/running
         - - Debugging and exploring the workspace
           - /manual/debugging
-        - - Working with Jupyter notebooks
+        - - Notebooks
           - /manual/notebooks
+        - - Language servers
+          - /manual/language-server

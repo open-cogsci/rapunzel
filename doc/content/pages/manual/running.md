@@ -14,18 +14,6 @@ Rapunzel uses an intuitive logic to run code as you would expect it to, as expla
 [TOC]
 
 
-%--
-video:
- source: youtube
- id: VidRapunzel
- videoid: UYKIIsyex1g
- width: 640
- height: 360
- caption: |
-  Running code with Rapunzel
---%
-
-
 ## Running a project or file (`F5`)
 
 - If a project file exists for the currently active file, then this project file controls how the project is executed (see below).
@@ -55,55 +43,18 @@ run: |
 
 ## Defining code and Markdown cells
 
-A code cell contains a chunk of code that should be executed together. A Markdown cell contains comments, and are mostly useful when [exporting your code to a Jupyter Notebook](%url:notebooks%). You can define code cells in three different ways. These ways are mutually exclusive, so within one document stick to one way of defining your cells.
+See the [notebook documentation](%url:notebooks%).
 
 
-### Only code cells
+## Video: running code
 
-```python
-# %%
-print('This is a code cell')
-
-# %%
-print('This is another code cell')
-```
-
-
-### Mixing code cells and Markdown cells
-
-*Version note: New in Rapunzel 0.4.9*
-
-A multiline string (indicated by `"""` or `'''`) is treated as a Markdown cell. Everything in between Markdown cells is treated as a code cell.
-
-
-```python
-print('This is a code cell')
-
-"""
-This is a Markdown cell
-"""
-
-print('This is another code cell')
-```
-
-
-### Mixing code cells and Markdown cells (alternative)
-
-
-A slightly more verbose way to define code and Markdown cells uses explicit tags, like so:
-
-```python
-# <codecell>
-print('This is a code cell')
-# </codecell>
-
-# <markdowncell>
-"""
-This is a Markdown cell
-"""
-# </markdowncell>
-
-# <codecell>
-print('This is another code cell')
-# </codecell>
-```
+%--
+video:
+ source: youtube
+ id: VidRapunzel
+ videoid: UYKIIsyex1g
+ width: 640
+ height: 360
+ caption: |
+  Running code with Rapunzel
+--%

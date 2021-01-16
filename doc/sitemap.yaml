@@ -3,4 +3,5 @@ Manual:
     Workflow: manual/workflow
     Running code: manual/running
     Debugging and exploring the workspace: manual/debugging
-    Working with Jupyter notebooks: manual/notebooks
+    Notebooks: manual/notebooks
+    Language servers: manual/language-server
