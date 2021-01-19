@@ -84,7 +84,7 @@ class FolderBrowser(FileSystemTreeView):
         self.clear_ignore_patterns()
         self.add_ignore_patterns(ide.ignore_patterns)
         self.set_root_path(os.path.normpath(path))
-        self.set_context_menu(FileSystemContextMenu())
+        self.set_context_menu(FileSystemContextMenu(self.main_window))
         self._watcher = QFileSystemWatcher()
         self._watcher.addPath(path)
         self._watcher.fileChanged.connect(self._on_file_changed)
