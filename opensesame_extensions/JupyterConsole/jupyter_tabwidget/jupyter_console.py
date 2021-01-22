@@ -211,7 +211,7 @@ class JupyterConsole(BaseWidget):
             CHANGE_DIR_CMD.get(
                 self._kernel,
                 DEFAULT_CHANGE_DIR_CMD
-            ).format(path=path)
+            ).format(path=path.replace(u'\\', u'\\\\'))
         )
 
     def run_file(self, path):
@@ -220,7 +220,7 @@ class JupyterConsole(BaseWidget):
             RUN_FILE_CMD.get(
                 self._kernel,
                 DEFAULT_RUN_FILE_CMD
-            ).format(path=path)
+            ).format(path=path.replace(u'\\', u'\\\\'))
         )
 
     def run_debug(self, path, breakpoints):
