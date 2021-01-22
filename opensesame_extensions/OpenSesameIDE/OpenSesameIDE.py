@@ -718,9 +718,12 @@ class OpenSesameIDE(BaseExtension):
     def quick_select_folders(self):
 
         haystack = []
-        for path in cfg.opensesame_ide_recent_folders.split(u';'):
-            if not os.path.isdir(path):
-                continue
+        norm_paths = {
+            os.path.normpath(os.path.normcase(path))
+            for path in cfg.opensesame_ide_recent_folders.split(u';')
+            if os.path.isdir(path)
+        }
+        for path in sorted(norm_paths):
             haystack.append((path, path, self._open_folder))
         self.extension_manager.fire(
             u'quick_select',
