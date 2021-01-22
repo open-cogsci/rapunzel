@@ -149,7 +149,7 @@ class JupyterNotebook(BaseExtension):
                 'notify',
                 message=_(u'Only Python code can be exported')
             )
-            return
+            return None, None
         path = QFileDialog.getSaveFileName(
             self.main_window,
             dialog_title,
@@ -159,7 +159,7 @@ class JupyterNotebook(BaseExtension):
         if isinstance(path, tuple):
             path = path[0]
         if not path:
-            return
+            return None, None
         cfg.file_dialog_path = os.path.dirname(path)
         if not path.lower().endswith(ext):
             path += ext
@@ -204,6 +204,8 @@ class JupyterNotebook(BaseExtension):
             dialog_filter=u'pdf (*.pdf)',
             ext='.pdf'
         )
+        if path is None:
+            return
         html_path = self._to_html(ipynb_path)
         self._run('!pandoc {} -o {}'.format(html_path, path))
         misc.open_url(path)
@@ -214,6 +216,8 @@ class JupyterNotebook(BaseExtension):
             dialog_filter=u'html (*.html)',
             ext='.html'
         )
+        if path is None:
+            return
         html_path = self._to_html(ipynb_path)
         misc.open_url(html_path)
 
@@ -223,6 +227,8 @@ class JupyterNotebook(BaseExtension):
             dialog_filter=u'docx (*.docx)',
             ext='.docx'
         )
+        if path is None:
+            return
         html_path = self._to_html(ipynb_path)
         self._run('!pandoc {} -o {}'.format(html_path, path))
         misc.open_url(path)
