@@ -370,7 +370,7 @@ class ImageAnnotations(BaseExtension):
         menu.addAction(_('Clear all'), self._clear_annotation)
         menu.addSeparator()
         menu.addAction(_('Open folder'), self._open_folder)
-        menu.exec(event.globalPos())
+        menu.exec_(event.globalPos())
 
     def _text_operation(
         self,
