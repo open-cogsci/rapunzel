@@ -105,7 +105,7 @@ class JupyterNotebook(BaseExtension):
     def provide_open_file_extension_ipynb(self):
         """A provider for directly opening .ipynb files."""
         
-        return self._import_ipynb, _('Import as Python script')
+        return self._import_ipynb, _('Import as script')
     
     def _import_ipynb(self, path=None):
         """Import an ipynb file from path and return it as plain-text code."""
@@ -125,7 +125,7 @@ class JupyterNotebook(BaseExtension):
             return
         cfg.file_dialog_path = os.path.dirname(path)
         try:
-            code = parse_nbformat.notebook_to_code(
+            language, code = parse_nbformat.notebook_to_code(
                 path,
                 self.extension_manager.provide('image_writer')
             )
@@ -136,7 +136,13 @@ class JupyterNotebook(BaseExtension):
             )
             self.console.write(e)
             return
-        self.extension_manager.fire(u'ide_new_file', source=code)
+        if language.lower() == 'r':
+            ext = '.R'
+        elif language.lower() == 'python':
+            ext = '.py'
+        else:
+            ext = None
+        self.extension_manager.fire(u'ide_new_file', source=code, ext=ext)
         self.extension_manager.fire(u'image_annotations_detect', code=code)
 
     def _export(self, dialog_title, dialog_filter, ext):
@@ -144,12 +150,7 @@ class JupyterNotebook(BaseExtension):
         
         from jupyter_notebook_cell_parsers import parse_nbformat
 
-        if self.extension_manager.provide('ide_current_language') != 'python':
-            self.extension_manager.fire(
-                'notify',
-                message=_(u'Only Python code can be exported')
-            )
-            return None, None
+        language = self.extension_manager.provide('ide_current_language')
         path = QFileDialog.getSaveFileName(
             self.main_window,
             dialog_title,
@@ -171,7 +172,8 @@ class JupyterNotebook(BaseExtension):
             self.provide_jupyter_notebook_cells(
                 self.extension_manager.provide('ide_current_source')
             ),
-            ipynb_path
+            ipynb_path,
+            language
         )
         return path, ipynb_path
     

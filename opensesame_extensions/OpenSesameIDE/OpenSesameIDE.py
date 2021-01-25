@@ -150,9 +150,9 @@ class OpenSesameIDE(BaseExtension):
         cfg.opensesame_ide_show_tab_bar = show_tab_bar
         self._scetw.tab_bar_visible = show_tab_bar
 
-    def event_ide_new_file(self, source=None):
+    def event_ide_new_file(self, source=None, ext=None):
 
-        self.new_file()
+        self.new_file(ext=ext)
         if source is None:
             return
         self._current_editor().setPlainText(source)
@@ -353,11 +353,11 @@ class OpenSesameIDE(BaseExtension):
         self._add_recent_folder(path)
         self._remember_open_folders()
 
-    def new_file(self):
+    def new_file(self, ext=None):
 
-        editor = self._current_splitter().create_new_document(
-            extension=cfg.opensesame_ide_default_extension
-        )
+        if not ext:
+            ext = cfg.opensesame_ide_default_extension
+        editor = self._current_splitter().create_new_document(extension=ext)
         self.extension_manager.fire(
             u'register_editor',
             editor=editor

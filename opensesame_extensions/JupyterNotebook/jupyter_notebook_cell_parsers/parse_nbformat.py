@@ -27,10 +27,18 @@ from libopensesame.oslogging import oslogger
 def notebook_to_code(path, img_to_file_fnc):
     """Reads an ipynb file and turns it into code with cell markers."""
     nb = nbformat.read(path, as_version=4)
+    language = _language_from_notebook(nb)
     py_cells = []
     for cell in nb['cells']:
         if cell['cell_type'] == 'markdown':
-            py_cells.append(u'"""\n{}\n"""\n'.format(cell['source']))
+            if language.lower() == 'python':
+                py_cells.append(u'"""\n{}\n"""\n'.format(cell['source']))
+            else:
+                py_cells.append(
+                    '# %%\n' + '\n'.join(
+                        '# ' + line for line in cell['source'].splitlines()
+                    )
+                )
         elif cell['cell_type'] == 'code':
             py_cells.append(cell['source'] + u'\n')
             if cell['outputs']:
@@ -49,15 +57,16 @@ def notebook_to_code(path, img_to_file_fnc):
     code = u'\n'.join(py_cells)
     if not code.endswith('\n'):
         code += '\n'
-    return code
+    return language, code
 
 
-def cells_to_notebook(cells, path=None):
+def cells_to_notebook(cells, path=None, language=None):
     """Takes a list of cells as returned by one of the cell parsers, and turns
     it into a notebook object. If a path is specified, the notebook is written
     to file, otherwise it is returned as an object.
     """
     nb = nbformat.v4.new_notebook()
+    _language_to_notebook(nb, language)
     for pycell in cells:
         cell = {
             'cell_type': pycell['cell_type'],
@@ -168,3 +177,45 @@ def _notebook_output_cells(output, execution_count):
             )
         )
     return outputs
+
+
+def _language_from_notebook(nb):
+    
+    if 'metadata' not in nb:
+        return None
+    if 'kernel_info' in nb['metadata']:
+        kernel_info = nb['metadata']['kernel_info']
+    elif 'kernelspec' in nb['metadata']:
+        kernel_info = nb['metadata']['kernelspec']
+    else:
+        return None
+    return kernel_info.get('language', None)
+
+
+def _language_to_notebook(nb, language):
+    
+    if 'metadata' not in nb:
+        nb['metadata'] = {}
+    if language == 'R':
+        nb['metadata']['kernel_info'] = {
+            "display_name": "R",
+            "language": "R",
+            "name": "ir"
+        }
+    elif language == 'python':
+        if py3:
+            nb['metadata']['kernel_info'] = {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3"
+            }
+        else:
+            nb['metadata']['kernel_info'] = {
+                "display_name": "Python 2",
+                "language": "python",
+                "name": "python2"
+            }
+    else:
+        return
+    # kernelspec and kernel_info appear to be used both
+    nb['metadata']['kernelspec'] = nb['metadata']['kernel_info']

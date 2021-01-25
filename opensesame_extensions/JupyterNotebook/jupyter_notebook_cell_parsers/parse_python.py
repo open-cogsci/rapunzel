@@ -25,7 +25,7 @@ CODE_CELL = u'# <codecell>\n{}\n# </codecell>\n'
 # Matches <codecell> ... </codecell> and <markdowncell> ... </markdowncell>
 NOTEBOOK_PATTERN = r'^#[ \t]*<(?P<cell_type>code|markdown)cell>[ \t]*\n(?P<source>.*?)\n^#[ \t]*</(code|markdown)cell>'
 # Matches # %% .. # %%
-SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*(\n|\Z))|\Z)'
+SPYDER_PATTERN = r'((#[ \t]*%%[ \t]*\n)|\A)(?P<markdown>.*?)\n(?!#)(?P<source>.*?)(\n|\Z)((?=#[ \t]*%%[ \t]*(\n|\Z))|\Z)'
 # Matches based on multiline strings """ or '''
 SIMPLE_PATTERN = r'^["\']{3}[ \t]*\n(?P<source>.*?)\n["\']{3}[ \t]*\n'
 # To check whether there any Spyder cells in there
@@ -75,11 +75,21 @@ def parse_python(code=u'', cell_types=None):
             code,
             re.MULTILINE | re.DOTALL
         ):
+            markdown = ''
+            for md_line in m.group('markdown').splitlines():
+                markdown += md_line[1:].lstrip()
+            if markdown:
+                cells.append({
+                    'cell_type': 'markdown',
+                    'source': markdown,
+                    'start': m.start('markdown'),
+                    'end': m.end('markdown')
+                })
             cells.append({
                 'cell_type': 'code',
                 'source': m.group('source'),
-                'start': m.start(),
-                'end': m.end()
+                'start': m.start('source'),
+                'end': m.end('source')
             })
     if cells:
         return _separate_output(cells)
