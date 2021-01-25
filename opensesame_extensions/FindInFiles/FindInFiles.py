@@ -171,6 +171,8 @@ class FindWidget(BaseWidget):
                 filter
             )
         )
+        self._n_matches = 0
+        self._n_files = 0
         self._finder.start()
         oslogger.debug(u'finding {} (PID={})'.format(
             needle,
@@ -206,6 +208,13 @@ class FindWidget(BaseWidget):
             except AttributeError:
                 # Process.close() was introduced only in Python 3.7
                 pass
+            self.extension_manager.fire(
+                u'notify',
+                message=_('Found {} match(es) in {} file(s)').format(
+                    self._n_matches,
+                    self._n_files
+                ) if self._n_matches else _('No matches found')
+            )
             return
         if path != self._last_path:
             self._path_item = QTreeWidgetItem(
@@ -215,6 +224,8 @@ class FindWidget(BaseWidget):
             self._path_item.result = path, 1
             self.ui.treewidget_results.addTopLevelItem(self._path_item)
             self._last_path = path
+            self._n_files += 1
+        self._n_matches += 1
         line_item = QTreeWidgetItem(
             self._path_item,
             [u'{}: {}'.format(line_number, matching_line)]
