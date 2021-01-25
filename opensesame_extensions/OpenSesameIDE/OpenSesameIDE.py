@@ -864,7 +864,7 @@ class OpenSesameIDE(BaseExtension):
         if not self.main_window.ui.action_onetabmode.isChecked():
             self.main_window.ui.action_onetabmode.trigger()
         self.tabwidget.add = self._patch_tabwidget_add(self.tabwidget.add)
-        self.tabwidget.tabCloseRequested.connect(self._on_tabwidget_close)
+        self.tabwidget.tab_removed.connect(self._on_tabwidget_close)
         self.tabwidget.shortcut_switch_left.setKey(u'')
         self.tabwidget.shortcut_switch_right.setKey(u'')
         # Create a custom menubar
