@@ -156,6 +156,8 @@ class ImageAnnotations(BaseExtension):
     
     def event_image_annotations_detect(self, code):
         """Scans the code for markdown style images."""
+        if not isinstance(code, basestring):
+            return
         editor = self.extension_manager.provide('ide_current_editor')
         if editor is None:
             return
