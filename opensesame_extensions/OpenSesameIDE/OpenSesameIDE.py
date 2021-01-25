@@ -233,7 +233,7 @@ class OpenSesameIDE(BaseExtension):
     def open_document(self, path):
 
         # First normalize the path and check if there's a custom handler for it
-        path = os.path.abspath(os.path.normcase(path))
+        path = os.path.abspath(os.path.normpath(path))
         ext = os.path.splitext(path)[1].lstrip('.').lower()
         handler = self.extension_manager.provide(
             'open_file_extension_{}'.format(ext)
@@ -258,7 +258,7 @@ class OpenSesameIDE(BaseExtension):
         for editor in self._scetw.widgets():
             if editor.file.path is None:
                 continue
-            if path == os.path.normpath(os.path.normcase(editor.file.path)):
+            if path == os.path.abspath(os.path.normpath(editor.file.path)):
                 editor.parent().parent().setCurrentWidget(editor)
                 editor.setFocus()
                 return
@@ -719,7 +719,7 @@ class OpenSesameIDE(BaseExtension):
 
         haystack = []
         norm_paths = {
-            os.path.normpath(os.path.normcase(path))
+            os.path.abspath(os.path.normpath(path))
             for path in cfg.opensesame_ide_recent_folders.split(u';')
             if os.path.isdir(path)
         }
