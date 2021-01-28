@@ -24,14 +24,6 @@ Rapunzel is a modern code editor focused on numerical computing with Python and 
 
 <br />
 
-%--
-figure:
-  source: rapunzel.png
-  id: FigRapunzel
-  caption: A screenshot of Rapunzel 0.5.7, showing output capture, the Jupyter Console, and workspace explorer.
---%
-
-
 ## Features
 
 - [An intuitive workflow](%url:workflow%)
@@ -42,3 +34,10 @@ figure:
 - [Experimental support for language servers](%url:language-server)
 
 Powered by [OpenSesame](https://osdoc.cogsci.nl/) and [Project Jupyter](https://jupyter.org/).
+
+%--
+figure:
+  source: rapunzel.png
+  id: FigRapunzel
+  caption: A screenshot of Rapunzel 0.5.7, showing output capture, the Jupyter Console, and workspace explorer.
+--%
