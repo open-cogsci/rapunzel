@@ -28,10 +28,10 @@ Rapunzel is a modern code editor focused on numerical computing with Python and 
 
 - [An intuitive workflow](%url:workflow%)
 - [Intuitively run projects, files, cells, selections, or lines of code](%url:running%)
-- [Import from and export to Jupyter Notebook](%notebooks)
-- [Export code, comments, output, and figures to `.html`, `.pdf`, or `.docx`](%notebooks)
+- [Import from and export to Jupyter Notebook](%url:notebooks%)
+- [Export code, comments, output, and figures to `.html`, `.pdf`, or `.docx`](%url:notebooks%)
 - [Powerful visual debugging and workspace inspection](%url:debugging%)
-- [Experimental support for language servers](%url:language-server)
+- [Experimental support for language servers](%url:language-server%)
 
 Powered by [OpenSesame](https://osdoc.cogsci.nl/) and [Project Jupyter](https://jupyter.org/).
 
