@@ -86,6 +86,10 @@ class MenuBar(QMenuBar):
         self._menu_file.addAction(self._action_close_all_folders)
         self._menu_file.addSeparator()
         self._menu_file.addAction(self._action_quit)
+        # Edit menu
+        self._menu_edit = self.addMenu(_(u'&Edit'))
+        self._menu_edit.aboutToShow.connect(self._show_edit_menu)
+        self._menu_edit.aboutToHide.connect(self._menu_edit.clear)
         # Tools menu
         self._action_preferences = self._action(
             _(u'&Preferences'),
@@ -111,7 +115,92 @@ class MenuBar(QMenuBar):
             'GitGUI',
             menu=self._menu_tools
         )
-        # View menu
+        self._action_symbol_selector = self._add_extension_action(
+            'SymbolSelector',
+            menu=self._menu_tools,
+            separate=True
+        )
+        self._action_find_in_files = self._add_extension_action(
+            'FindInFiles',
+            menu=self._menu_tools,
+            separate=False
+        )
+        self._action_command_palette = self._add_extension_action(
+            'CommandPalette',
+            menu=self._menu_tools,
+            separate=False
+        )
+        self._action_spellcheck = self._add_extension_action(
+            'SpellCheck',
+            menu=self._menu_tools,
+            separate=False
+        )
+        self._action_word_count = self._add_extension_action(
+            'WordCount',
+            menu=self._menu_tools,
+            separate=False
+        )
+        # Editor menu (submenu of view)
+        self._menu_editor = QMenu(_('&Editor'), self)
+        self._menu_editor.setIcon(
+            self._ide.theme.qicon(u'accessories-text-editor')
+        )
+        self._action_toggle_line_wrap = self._cfg_action(
+            self._menu_editor,
+            _(u'Wrap lines'),
+            u'pyqode_line_wrap'
+        )
+        self._action_toggle_whitespaces = self._cfg_action(
+            self._menu_editor,
+            _(u'Show whitespace'),
+            u'pyqode_show_whitespaces'
+        )
+        self._action_toggle_line_numbers = self._cfg_action(
+            self._menu_editor,
+            _(u'Show line numbers'),
+            u'pyqode_show_line_numbers'
+        )
+        self._action_toggle_tab_bar = self._action(
+            _(u'Show editor tabs'),
+            None,
+            None,
+            self._toggle_show_tab_bar,
+            checkable=True,
+            checked=cfg.opensesame_ide_show_tab_bar
+        )
+        self._action_select_indentation_mode = self._action(
+            _(u'Select indentation mode'),
+            u'accessories-text-editor',
+            None,
+            self._select_indentation_mode
+        )
+        self._action_toggle_code_folding = self._cfg_action(
+            self._menu_editor,
+            _(u'Code folding'),
+            u'pyqode_code_folding'
+        )
+        self._action_toggle_right_margin = self._cfg_action(
+            self._menu_editor,
+            _(u'Show right margin'),
+            u'pyqode_right_margin'
+        )
+        self._action_toggle_fixed_width = self._cfg_action(
+            self._menu_editor,
+            _(u'Fixed editor width'),
+            u'pyqode_fixed_width'
+        )
+        self._action_toggle_code_completion = self._cfg_action(
+            self._menu_editor,
+            _(u'Code completion'),
+            u'pyqode_code_completion'
+        )
+        self._menu_editor.addAction(self._action_toggle_tab_bar)
+        self._menu_editor.addAction(self._action_select_indentation_mode)
+        # Tabs menu (submenu of view)
+        self._menu_tabs = QMenu(_('&Tabs'), self)
+        self._menu_tabs.setIcon(
+            self._ide.theme.qicon(u'accessories-text-editor')
+        )
         self._action_close_tab = self._action(
             _(u'&Close tab'),
             u'window-close',
@@ -154,6 +243,15 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_switch_next_panel,
             ide.switch_splitter_next
         )
+        self._menu_tabs.addAction(self._action_close_tab)
+        self._menu_tabs.addAction(self._action_close_other_tabs)
+        self._menu_tabs.addAction(self._action_close_all_tabs)
+        self._menu_tabs.addSeparator()
+        self._menu_tabs.addAction(self._action_split_vertical)
+        self._menu_tabs.addAction(self._action_split_horizontal)
+        self._menu_tabs.addAction(self._action_switch_splitter_previous)
+        self._menu_tabs.addAction(self._action_switch_splitter_next)
+        # View menu
         self._action_toggle_fullscreen = self._action(
             _(u'Toggle fullscreen'),
             u'view-fullscreen',
@@ -175,14 +273,8 @@ class MenuBar(QMenuBar):
             ide.locate_file_in_folder
         )
         self._menu_view = self.addMenu(_('&View'))
-        self._menu_view.addAction(self._action_close_tab)
-        self._menu_view.addAction(self._action_close_other_tabs)
-        self._menu_view.addAction(self._action_close_all_tabs)
-        self._menu_view.addSeparator()
-        self._menu_view.addAction(self._action_split_vertical)
-        self._menu_view.addAction(self._action_split_horizontal)
-        self._menu_view.addAction(self._action_switch_splitter_previous)
-        self._menu_view.addAction(self._action_switch_splitter_next)
+        self._menu_view.addMenu(self._menu_editor)
+        self._menu_view.addMenu(self._menu_tabs)
         self._menu_view.addSeparator()
         self._menu_view.addAction(self._action_toggle_fullscreen)
         self._menu_view.addSeparator()
@@ -196,21 +288,6 @@ class MenuBar(QMenuBar):
         self._action_toggle_workspace = self._add_extension_action(
             'WorkspaceExplorer',
             menu=self._menu_view,
-        )
-        self._action_symbol_selector = self._add_extension_action(
-            'SymbolSelector',
-            menu=self._menu_view,
-            separate=True
-        )
-        self._action_find_in_files = self._add_extension_action(
-            'FindInFiles',
-            menu=self._menu_view,
-            separate=True
-        )
-        self._action_command_palette = self._add_extension_action(
-            'CommandPalette',
-            menu=self._menu_view,
-            separate=True
         )
         # Run menu
         self._menu_run = self.addMenu(_('&Run'))
@@ -295,69 +372,17 @@ class MenuBar(QMenuBar):
         self._menu_run.addAction(self._action_run_debug)
         self._menu_run.addAction(self._action_toggle_breakpoint)
         self._menu_run.addAction(self._action_clear_breakpoints)
-        # Editor menu
-        self._menu_editor = self.addMenu(_('&Editor'))
-        self._action_toggle_line_wrap = self._cfg_action(
-            self._menu_editor,
-            _(u'Wrap lines'),
-            u'pyqode_line_wrap'
-        )
-        self._action_toggle_whitespaces = self._cfg_action(
-            self._menu_editor,
-            _(u'Show whitespace'),
-            u'pyqode_show_whitespaces'
-        )
-        self._action_toggle_line_numbers = self._cfg_action(
-            self._menu_editor,
-            _(u'Show line numbers'),
-            u'pyqode_show_line_numbers'
-        )
-        self._action_toggle_tab_bar = self._action(
-            _(u'Show editor tabs'),
-            None,
-            None,
-            self._toggle_show_tab_bar,
-            checkable=True,
-            checked=cfg.opensesame_ide_show_tab_bar
-        )
-        self._action_select_indentation_mode = self._action(
-            _(u'Select indentation mode'),
-            u'accessories-text-editor',
-            None,
-            self._select_indentation_mode
-        )
-        self._action_toggle_code_folding = self._cfg_action(
-            self._menu_editor,
-            _(u'Code folding'),
-            u'pyqode_code_folding'
-        )
-        self._action_toggle_right_margin = self._cfg_action(
-            self._menu_editor,
-            _(u'Show right margin'),
-            u'pyqode_right_margin'
-        )
-        self._action_toggle_fixed_width = self._cfg_action(
-            self._menu_editor,
-            _(u'Fixed editor width'),
-            u'pyqode_fixed_width'
-        )
-        self._action_toggle_code_completion = self._cfg_action(
-            self._menu_editor,
-            _(u'Code completion'),
-            u'pyqode_code_completion'
-        )
-        self._menu_editor.addAction(self._action_toggle_tab_bar)
-        self._menu_editor.addAction(self._action_select_indentation_mode)
-        self._action_word_count = self._add_extension_action(
-            'SpellCheck',
-            menu=self._menu_editor,
-            separate=True
-        )
-        self._action_word_count = self._add_extension_action(
-            'WordCount',
-            menu=self._menu_editor,
-            separate=True
-        )
+        
+    def _show_edit_menu(self):
+        
+        editor = self._ide._current_editor()
+        self._menu_edit.clear()
+        if editor is None:
+            action = self._menu_edit.addAction(_(u'No active editor'))
+            action.setEnabled(False)
+            return
+        for action in editor.get_context_menu().actions():
+            self._menu_edit.addAction(action)
 
     def _add_extension_action(self, ext, menu, separate=False):
 
