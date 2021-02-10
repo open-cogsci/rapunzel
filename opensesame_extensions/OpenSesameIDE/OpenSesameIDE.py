@@ -83,8 +83,12 @@ class OpenSesameIDE(BaseExtension):
         self._scetw.main_tab_widget.cornerWidget().hide()
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
-        self._scetw.main_tab_widget.tab_closed.connect(self._on_editor_close)
         self._scetw.tab_bar_visible = cfg.opensesame_ide_show_tab_bar
+        self._patch_splitter(self._scetw)
+        # self._scetw.main_tab_widget.tab_closed.connect(self._on_editor_close)
+        # self._scetw.editor_created.connect(self._on_editor_created)
+        self._scetw.default_extension = \
+            lambda: cfg.opensesame_ide_default_extension
         self._add_ide_tab()
         self._dock_widgets = {}
         self._set_ignore_patterns()
@@ -358,10 +362,6 @@ class OpenSesameIDE(BaseExtension):
         if not ext:
             ext = cfg.opensesame_ide_default_extension
         editor = self._current_splitter().create_new_document(extension=ext)
-        self.extension_manager.fire(
-            u'register_editor',
-            editor=editor
-        )
 
     def save_file(self):
 
@@ -389,9 +389,11 @@ class OpenSesameIDE(BaseExtension):
 
     def save_file_as(self):
 
+        current_splitter = self._current_splitter()
         editor = self._current_editor()
+        current_splitter.main_tab_widget.unpin(editor)
         from_path = editor.file.path if editor else ''
-        self._current_splitter().save_current_as()
+        current_splitter.save_current_as()
         editor = self._current_editor()
         if editor is None:
             return
@@ -750,9 +752,7 @@ class OpenSesameIDE(BaseExtension):
         # If there are no child splitters, we use the regular split() method
         if not splitter.child_splitters:
             subsplitter = splitter.split(editor, direction)
-            subsplitter.main_tab_widget.tab_closed.connect(
-                self._on_editor_close
-            )
+            self._patch_splitter(subsplitter)
             self.extension_manager.fire(
                 u'register_editor',
                 editor=self._current_editor()
@@ -765,16 +765,14 @@ class OpenSesameIDE(BaseExtension):
         # pyqode.
         self.main_window.setUpdatesEnabled(False)
         subsplitter = splitter.split(editor, splitter.orientation(), index=1)
-        subsplitter.main_tab_widget.tab_closed.connect(self._on_editor_close)
+        self._patch_splitter(subsplitter)
         editor = self._current_editor()
         self.extension_manager.fire(
             u'register_editor',
             editor=editor
         )
         subsubsplitter = subsplitter.split(editor, direction, index=1)
-        subsubsplitter.main_tab_widget.tab_closed.connect(
-            self._on_editor_close
-        )
+        self._patch_splitter(subsubsplitter)
         editor = self._current_editor()
         self.extension_manager.fire(
             u'register_editor',
@@ -916,6 +914,19 @@ class OpenSesameIDE(BaseExtension):
             return fnc(widget, *args, **kwargs)
 
         return inner
+    
+    def _patch_splitter(self, splitter):
+        
+        tw = splitter.main_tab_widget
+        tw.tab_closed.connect(self._on_editor_close)
+        tw.split_requested.disconnect(splitter.split)
+        tw.split_requested.connect(self._on_split_requested)
+        splitter.editor_created.connect(self._on_editor_created)
+        
+    def _on_split_requested(self, widget, orientation, index=None):
+        
+        widget.setFocus()
+        self._split(orientation)
 
     def _on_tabwidget_close(self, index):
 
@@ -1059,6 +1070,13 @@ class OpenSesameIDE(BaseExtension):
     def provide_ide_current_path(self):
 
         return self._current_path()
+        
+    def _on_editor_created(self, editor):
+        
+        self.extension_manager.fire(
+            u'register_editor',
+            editor=editor
+        )
 
     @with_editor
     def _current_tabwidget(self, editor):
