@@ -56,6 +56,7 @@ class SymbolSelector(BaseExtension):
                 fnc = getattr(self, u'_get_{}_symbols'.format(mimetype))
             except AttributeError:
                 oslogger.warning(u'don\'t know how to handle {}'.format(mimetype))
+                self.main_window.set_busy(False)
                 return
             symbols = fnc(self.extension_manager.provide(u'ide_current_source'))
             for name, lineno in symbols:
