@@ -98,7 +98,7 @@ class QuickSelectorDialog(QDialog):
             parent,
             Qt.FramelessWindowHint
         )
-        self.setWindowTitle(u'Open file')
+        self.setWindowTitle(u'Quick Selector')
         style = styles.get_style_by_name(cfg.pyqode_color_scheme)
         self.setStyleSheet(STYLESHEET.format(
             background=style.highlight_color,
@@ -118,6 +118,7 @@ class QuickSelectorDialog(QDialog):
         if placeholder_text:
             self._search_box.setPlaceholderText(placeholder_text)
         self._result_box = ResultBox(self)
+        self._result_box.setTextElideMode(Qt.ElideMiddle)
         self._result_box.itemActivated.connect(self._select)
         self._result_box.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self._result_box.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -168,8 +169,16 @@ class QuickSelectorDialog(QDialog):
                 if subneedle not in lower_label:
                     break
             else:
+                # We count the number of full matches of the needle in the
+                # labels and divide the score by this. This was we give an
+                # advantage to labels that contain multiple matches of the
+                # needle, for example in the folder and file name.
+                hits = max(
+                    1,
+                    sum(lower_label.count(s) for s in needle.split())
+                )
                 results.append((
-                    Levenshtein.distance(needle, lower_label) / len(label),
+                    Levenshtein.distance(needle, lower_label) / (len(label) * hits),
                     label,
                     data,
                     on_select
