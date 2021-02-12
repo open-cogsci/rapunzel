@@ -75,9 +75,9 @@ def parse_python(code=u'', cell_types=None):
             code,
             re.MULTILINE | re.DOTALL
         ):
-            markdown = ''
-            for md_line in m.group('markdown').splitlines():
-                markdown += md_line[1:].lstrip()
+            markdown = '\n'.join([
+                line[1:].lstrip() for line in m.group('markdown').splitlines()
+            ])
             if markdown:
                 cells.append({
                     'cell_type': 'markdown',
