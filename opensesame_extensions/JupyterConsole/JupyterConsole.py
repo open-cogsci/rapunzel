@@ -115,6 +115,10 @@ class JupyterConsole(BaseExtension):
     def event_jupyter_run_silent(self, code):
 
         self._jupyter_console.current.execute(code)
+        
+    def event_jupyter_run_system_command(self, cmd):
+
+        self._jupyter_console.current.run_system_command(cmd)
 
     def event_jupyter_write(self, msg):
 

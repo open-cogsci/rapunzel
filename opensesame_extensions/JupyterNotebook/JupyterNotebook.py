@@ -177,10 +177,10 @@ class JupyterNotebook(BaseExtension):
         )
         return path, ipynb_path
     
-    def _run(self, code):
+    def _run(self, cmd):
         
         self.main_window.set_busy(True)
-        self.extension_manager.fire('jupyter_run_silent', code=code)
+        self.extension_manager.fire('jupyter_run_system_command', cmd=cmd)
         while self.extension_manager.provide('jupyter_kernel_running'):
             QApplication.processEvents()
             time.sleep(0.1)
@@ -188,7 +188,7 @@ class JupyterNotebook(BaseExtension):
         
     def _to_html(self, ipynb_path):
         
-        self._run('!jupyter nbconvert {} --to html'.format(ipynb_path))
+        self._run('jupyter nbconvert "{}" --to html'.format(ipynb_path))
         return os.path.splitext(ipynb_path)[0] + '.html'
         
     def _export_ipynb(self):
@@ -209,7 +209,7 @@ class JupyterNotebook(BaseExtension):
         if path is None:
             return
         html_path = self._to_html(ipynb_path)
-        self._run('!pandoc {} -o {}'.format(html_path, path))
+        self._run('pandoc "{}" -o "{}"'.format(html_path, path))
         misc.open_url(path)
         
     def _export_html(self):
@@ -232,5 +232,5 @@ class JupyterNotebook(BaseExtension):
         if path is None:
             return
         html_path = self._to_html(ipynb_path)
-        self._run('!pandoc {} -o {}'.format(html_path, path))
+        self._run('pandoc "{}" -o "{}"'.format(html_path, path))
         misc.open_url(path)

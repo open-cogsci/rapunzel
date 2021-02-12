@@ -31,6 +31,8 @@ from jupyter_tabwidget.constants import (
     DEFAULT_CHANGE_DIR_CMD,
     RUN_FILE_CMD,
     DEFAULT_RUN_FILE_CMD,
+    RUN_SYSTEM_CMD,
+    DEFAULT_RUN_SYSTEM_CMD,
     TRANSPARENT_KERNELS
 )
 from libqtopensesame.misc.translate import translation_context
@@ -222,7 +224,17 @@ class JupyterConsole(BaseWidget):
                 DEFAULT_RUN_FILE_CMD
             ).format(path=path.replace(u'\\', u'\\\\'))
         )
-
+        
+    def run_system_command(self, cmd):
+        
+        tmpl = RUN_SYSTEM_CMD.get(self._kernel, DEFAULT_RUN_SYSTEM_CMD)
+        cmd = cmd.replace(u'\\', u'\\\\')
+        # If the command has double quotes itself, such as for the R system()
+        # command, then we need to escape any quotes in the cmd string.
+        if u'"' in tmpl:
+            cmd = cmd.replace(u'"', u'\\"')
+        self.execute(tmpl.format(cmd=cmd))
+        
     def run_debug(self, path, breakpoints):
 
         # This should be changed into a kernel-agnostic implementation

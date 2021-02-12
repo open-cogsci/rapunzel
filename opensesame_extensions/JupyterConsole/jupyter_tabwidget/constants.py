@@ -35,4 +35,9 @@ RUN_FILE_CMD = {
 }
 DEFAULT_RUN_FILE_CMD = u'%run "{path}"'
 DEFAULT_RUN_DEBUG_CMD = None
+RUN_SYSTEM_CMD = {
+    u'ir': 'system("{cmd}")',
+    u'bash': '{cmd}'
+}
+DEFAULT_RUN_SYSTEM_CMD = u'!{cmd}'
 TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']
