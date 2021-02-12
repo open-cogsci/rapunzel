@@ -31,7 +31,7 @@ from qtpy.QtCore import Qt, QTimer
 from qtpy.QtWidgets import QFileDialog, QMessageBox, QPushButton, QApplication
 from opensesame_ide import FolderBrowserDockWidget, MenuBar
 from libqtopensesame.misc.translate import translation_context
-from pyqode.core import widgets
+from pyqode.core import widgets, panels
 from pyqode.core.api.utils import TextHelper
 from pyqode_extras.widgets import FallbackCodeEdit
 _ = translation_context(u'OpenSesameIDE', category=u'extension')
@@ -80,7 +80,6 @@ class OpenSesameIDE(BaseExtension):
         self._register_mimetypes()
         self._patch_behavior()
         self._scetw = widgets.SplittableCodeEditTabWidget(self.main_window)
-        self._scetw.main_tab_widget.cornerWidget().hide()
         self._scetw.fallback_editor = FallbackCodeEdit
         self._scetw.tab_name = u'OpenSesameIDE'
         self._scetw.tab_bar_visible = cfg.opensesame_ide_show_tab_bar
@@ -153,6 +152,18 @@ class OpenSesameIDE(BaseExtension):
 
         cfg.opensesame_ide_show_tab_bar = show_tab_bar
         self._scetw.tab_bar_visible = show_tab_bar
+        
+    def event_register_editor(self, editor, mime_type=u'text/plain'):
+        """The IDE mode has a special panel that allows the extension to be
+        changed for empty unsaved buffers.
+        """
+        try:
+            editor.panels.get('ChangeExtensionPanel')
+        except KeyError:
+            editor.panels.append(
+                panels.ChangeExtensionPanel(),
+                panels.ChangeExtensionPanel.Position.TOP
+            )
 
     def event_ide_new_file(self, source=None, ext=None):
 
@@ -1071,12 +1082,22 @@ class OpenSesameIDE(BaseExtension):
 
         return self._current_path()
         
-    def _on_editor_created(self, editor):
+    def _on_extension_changed(self, ext):
         
+        print(ext)
+        cfg.opensesame_ide_default_extension = ext
+        
+    def _on_editor_created(self, editor):
         self.extension_manager.fire(
             u'register_editor',
             editor=editor
         )
+        try:
+            p = editor.panels.get('ChangeExtensionPanel')
+        except KeyError:
+            pass
+        else:
+            p.extension_changed.connect(self._on_extension_changed)
 
     @with_editor
     def _current_tabwidget(self, editor):
