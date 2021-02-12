@@ -43,6 +43,7 @@ class ImageAnnotations(BaseExtension):
     """
     
     preferences_ui = 'extensions.ImageAnnotations.preferences'
+    re_strip_ansi_codes = re.compile(chr(27) + r'\[[0-9;]+m')
     
     def event_startup(self):
         """Creates a folder for the image files if it doesn't exist, and
@@ -255,6 +256,15 @@ class ImageAnnotations(BaseExtension):
         """
         self._capturing = False
         
+    def _format_output(self, text):
+        """Formats a block of output so that ansi color codes are removed and
+        that each lines is quoted.
+        """
+        return '\n'.join([
+            '# {}'.format(self.re_strip_ansi_codes.sub(' ', line))
+            for line in text.splitlines()
+        ])
+        
     def event_jupyter_execute_result_text(self, text):
         """Gets text that is sent to the Jupyter console and captures it if
         capturing is enabled.
@@ -274,9 +284,7 @@ class ImageAnnotations(BaseExtension):
                 )
             )
         self._has_captured = True
-        formatted_output = '\n'.join(
-            ['# {}'.format(line) for line in text.splitlines()]
-        )
+        formatted_output = self._format_output(text)
         if not formatted_output:
             return
         self._text_operation(
