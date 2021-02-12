@@ -177,6 +177,31 @@ class ImageAnnotations(BaseExtension):
             )
         self._set_annotations(editor, mode)
         
+    def event_image_annotations_clear_output(self):
+        
+        editor = self.extension_manager.provide('ide_current_editor')
+        if editor is None:
+            return
+        code = editor.toPlainText()
+        cells = self.extension_manager.provide(
+            'jupyter_notebook_cells',
+            code=code,
+            cell_types=['code']
+        )
+        for cell in cells:
+            if not 'outputs' in cell:
+                continue
+            code = code.replace(
+                '{}\n{}'.format(OUTPUT_MARKER, cell['outputs']),
+                ''
+            )
+        # We use a cursor rather than simply setting the text, so that this
+        # action can be undone.
+        cursor = editor.textCursor()
+        cursor.select(cursor.Document)
+        cursor.insertText(code)
+        editor.setTextCursor(cursor)
+        
     def event_ide_save_current_file_as(self, from_path, to_path):
         
         if from_path not in self._image_annotations:
