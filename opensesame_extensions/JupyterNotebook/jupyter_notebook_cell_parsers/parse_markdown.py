@@ -21,7 +21,7 @@ from libopensesame.py3compat import *
 from jupyter_notebook_cell_parsers.parse_python import FENCED_BLOCK_RE
 
 
-def _markdown_cells(code=u'', cell_types=None):
+def parse_markdown(code=u'', cell_types=None):
     
     cells = []
     offset = 0
