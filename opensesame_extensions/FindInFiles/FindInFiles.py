@@ -257,6 +257,7 @@ class FindDockWidget(QDockWidget):
         self._find_widget = FindWidget(self._main_window)
         self.setWidget(self._find_widget)
         self.setWindowTitle(_(u'Find in projects'))
+        self.setObjectName('FindDockWidget')
         self._find_widget.setFocus()
 
     def closeEvent(self, e):
