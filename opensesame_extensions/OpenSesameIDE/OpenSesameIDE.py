@@ -118,7 +118,17 @@ class OpenSesameIDE(BaseExtension):
         self.extension_manager.fire('ide_jump_to_line', lineno=line_number)
         
     def event_ide_search_text(self, needle):
-        
+        """
+        desc:
+            Conducts a case-insensitive search for a needle in the current
+            editor. The search starts from the cursor position, or from the
+            start if no match was found after the cursor position.
+            
+        arguments:
+            needle:
+                desc:    The search needle.
+                type:    str
+        """
         editor = self._current_editor()
         if editor is None:
             return u''
@@ -127,14 +137,19 @@ class OpenSesameIDE(BaseExtension):
         except KeyError:
             return  # Panel is not installed
         cursor = editor.textCursor()
-        needle_pos = cursor.block().text().find(needle)
+        needle = needle.lower()
+        code = editor.toPlainText().lower()
+        # First search from current cursor position
+        needle_pos = code.find(needle, cursor.position())
+        # If the needle is not found, search from the start of the code
         if needle_pos < 0:
-            needle_pos = editor.toPlainText().find(needle)
+            needle_pos = code.find(needle)
+        # If the needle still not found, then it doesn't exist.
         if needle_pos < 0:
             oslogger.warning('failed to find needle in text')
             return
         cursor.clearSelection()
-        cursor.movePosition(cursor.StartOfBlock, cursor.MoveAnchor)
+        cursor.movePosition(cursor.Start, cursor.MoveAnchor)
         cursor.movePosition(
             cursor.NextCharacter,
             cursor.MoveAnchor,
