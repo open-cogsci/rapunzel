@@ -124,10 +124,15 @@ def get_version():
     return info['version']
 
 
+with open('readme.md') as fd:
+    readme = fd.read()
+
 setup(
     name='rapunzel',
     version=get_version(),
     description='Turns OpenSesame into a Python code editor',
+    long_description=readme,
+    long_description_content_type='text/markdown',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
     url='https://github.com/smathot/rapunzel',

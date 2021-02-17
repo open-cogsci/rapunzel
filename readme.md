@@ -9,7 +9,14 @@ Copyright 2019-2021 Sebastiaan Mathôt (@smathot)
 
 Rapunzel is a set of OpenSesame extensions that turn OpenSesame into an integrated development environment.
 
+For documentation and installation instructions, see:
+
+- <https://rapunzel.cogsci.nl/>
+
+OpenSesame is hosted on GitHub:
+
 - <https://github.com/smathot/OpenSesame/>
+
 
 ## List of extensions
 
@@ -30,11 +37,6 @@ Rapunzel is a set of OpenSesame extensions that turn OpenSesame into an integrat
 - `PythonDebugger` implements the Rapunzel debugger for Python, based on the IPython debugger
 - `SubprocessManager` keeps track of all subprocess that were launched by Rapunzel
 - `ImageAnnotations` captures images and text output inserts them as annotations or code comments into the document
-
-
-### Documentation and installation instructions
-
-- <https://rapunzel.cogsci.nl/>
 
 
 ## License
