@@ -75,9 +75,21 @@ def parse_python(code=u'', cell_types=None):
             code,
             re.MULTILINE | re.DOTALL
         ):
-            markdown = '\n'.join([
-                line[1:].lstrip() for line in m.group('markdown').splitlines()
-            ])
+            if m.group('markdown').startswith('#'):
+                markdown = '\n'.join([
+                    line[1:].lstrip() for line in m.group('markdown').splitlines()
+                ])
+                source = m.group('source')
+                source_start = m.start('source')
+            else:
+                # If there is no comment line, then the regular expression
+                # takes the first line of code to be the comment. Therefore
+                # we glue it back together here. This can probably be addressed
+                # more elegantly in the regular expression, but this does the
+                # job as well.
+                markdown = None
+                source = m.group('markdown') + '\n' + m.group('source')
+                source_start = m.start('markdown')
             if markdown:
                 cells.append({
                     'cell_type': 'markdown',
@@ -87,8 +99,8 @@ def parse_python(code=u'', cell_types=None):
                 })
             cells.append({
                 'cell_type': 'code',
-                'source': m.group('source'),
-                'start': m.start('source'),
+                'source': source,
+                'start': source_start,
                 'end': m.end('source')
             })
     if cells:
