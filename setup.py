@@ -124,14 +124,19 @@ def get_version():
     return info['version']
 
 
-with open('readme.md') as fd:
-    readme = fd.read()
+def get_readme():
+
+    if os.path.exists('readme.md'):
+        with open('readme.md') as fd:
+            return fd.read()
+    return 'No readme information'
+
 
 setup(
     name='rapunzel',
     version=get_version(),
     description='Turns OpenSesame into a Python code editor',
-    long_description=readme,
+    long_description=get_readme(),
     long_description_content_type='text/markdown',
     author='Sebastiaan Mathot',
     author_email='s.mathot@cogsci.nl',
