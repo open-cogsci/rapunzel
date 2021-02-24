@@ -1099,7 +1099,6 @@ class OpenSesameIDE(BaseExtension):
         
     def _on_extension_changed(self, ext):
         
-        print(ext)
         cfg.opensesame_ide_default_extension = ext
         
     def _on_editor_created(self, editor):
