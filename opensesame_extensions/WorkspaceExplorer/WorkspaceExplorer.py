@@ -21,7 +21,7 @@ from libopensesame.py3compat import *
 from libqtopensesame.misc.config import cfg
 from datamatrix import DataMatrix
 from qdatamatrix import QDataMatrix
-from qtpy.QtWidgets import QDockWidget
+from qtpy.QtWidgets import QDockWidget, QLabel
 from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, QTimer
 from libopensesame.oslogging import oslogger
@@ -46,6 +46,12 @@ class WorkspaceExplorer(BaseExtension):
         dm = DataMatrix(length=0)
         dm.initializing = -1
         self._workspace_cache = {}
+        self._label_kernel_not_supported = QLabel(
+            '<b>' + _('Kernel not supported') + '</b>'
+        )
+        self._label_kernel_not_supported.setAlignment(
+            Qt.AlignHCenter | Qt.AlignVCenter
+        )
         self._qdm = WorkspaceMatrix(dm, read_only=True)
         self._qdm.setFont(QFont(cfg.pyqode_font_name, cfg.pyqode_font_size))
         self._qdm.cell_double_clicked.connect(self._inspect_variable)
@@ -108,6 +114,7 @@ class WorkspaceExplorer(BaseExtension):
             not self._dock_widget.isVisible()
         ):
             return
+        self._dock_widget.setWidget(self._qdm)
         self._dock_widget.setWindowTitle(_(u'Workspace ({})').format(name))
         workspace = workspace_func()
         self._workspace_cache[name] = workspace
@@ -122,6 +129,7 @@ class WorkspaceExplorer(BaseExtension):
         if workspace.get(u'not supported', False) is None:
             dm = DataMatrix(length=0)
             dm.kernel_not_supported = -1
+            self._dock_widget.setWidget(self._label_kernel_not_supported)
         # Create a DataMatrix that exposes the workspace
         else:
             dm = DataMatrix(length=len(workspace))
