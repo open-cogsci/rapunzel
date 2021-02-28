@@ -218,17 +218,6 @@ class OutprocessJupyterWidget(TransparentJupyterWidget):
     def get_workspace_globals(self):
 
         return self._silent_execute(GLOBAL_EXPR)
-        
-    @property
-    def pid(self):
-        
-        for i in range(10):
-            pid = self._silent_execute('os.getpid()')
-            if isinstance(pid, int):
-                return pid
-            time.sleep(0.1)
-        oslogger.warning('failed to get pid')
-        return -1
 
     def list_workspace_globals(self):
 
@@ -314,11 +303,6 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
             not inspect.isclass(val) and
             not inspect.ismodule(val)
         }
-    
-    @property
-    def pid(self):
-
-        return os.getpid()
         
     def list_workspace_globals(self):
         

@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import sys
+import time
 from libopensesame.oslogging import oslogger
 from libqtopensesame.misc.config import cfg
 from libqtopensesame.widgets.base_widget import BaseWidget
@@ -33,7 +34,8 @@ from jupyter_tabwidget.constants import (
     DEFAULT_RUN_FILE_CMD,
     RUN_SYSTEM_CMD,
     DEFAULT_RUN_SYSTEM_CMD,
-    TRANSPARENT_KERNELS
+    TRANSPARENT_KERNELS,
+    PID_CMD
 )
 from libqtopensesame.misc.translate import translation_context
 _ = translation_context(u'JupyterConsole', category=u'extension')
@@ -114,7 +116,17 @@ class JupyterConsole(BaseWidget):
     @property
     def pid(self):
         
-        return self._jupyter_widget.pid
+        if self._inprocess:
+            return os.getpid()
+        if self._kernel not in PID_CMD:
+            return -1
+        for i in range(10):
+            pid = self._jupyter_widget._silent_execute(PID_CMD[self._kernel])
+            if isinstance(pid, int):
+                return pid
+            time.sleep(0.1)
+        oslogger.warning('failed to get pid')
+        return -1
 
     def flush(self):
 

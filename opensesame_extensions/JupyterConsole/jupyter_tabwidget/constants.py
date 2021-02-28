@@ -41,3 +41,8 @@ RUN_SYSTEM_CMD = {
 }
 DEFAULT_RUN_SYSTEM_CMD = u'!{cmd}'
 TRANSPARENT_KERNELS = [u'python', u'python2', u'python3']
+PID_CMD = {
+    u'python': u'os.getpid()',
+    u'python2': u'os.getpid()',
+    u'python3': u'os.getpid()'
+}
