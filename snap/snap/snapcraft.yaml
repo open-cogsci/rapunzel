@@ -41,6 +41,7 @@ parts:
           - python3-levenshtein
           - python3-prettytable
           - xdg-utils  # pyqode.core folder browser
+          - python3-distutils
           # Basic numerical Python environment
           - python3-statsmodels
           - python3-seaborn
@@ -56,13 +57,14 @@ parts:
           - pandoc
           
 environment:
-  PYTHONPATH: "$SNAP/usr/lib/python3/dist-packages/:$PYTHONPATH"
+  PYTHONPATH: "$SNAP/usr/lib/python3/dist-packages/:$SNAP/usr/lib/python3.8/:$PYTHONPATH"
   LD_LIBRARY_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$LD_LIBRARY_PATH"
   QT_PLUGIN_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/qt5/plugins/:$QT_PLUGIN_PATH"
   OPENSESAME_EXTENSION_PATH: "$SNAP/usr/share/opensesame_extensions/"
   OPENSESAME_PLUGIN_PATH: "$SNAP/usr/share/opensesame_plugins/"
   OPENSESAME_RESOURCES_PATH: "$SNAP/usr/share/opensesame_resources/"
   MATPLOTLIBDATA: "$SNAP/usr/share/matplotlib/mpl-data/"
+  MATPLOTLIBRC: "$SNAP/etc/matplotlibrc"
   XDG_DATA_HOME: "$SNAP/usr/share/"
 
 apps:
