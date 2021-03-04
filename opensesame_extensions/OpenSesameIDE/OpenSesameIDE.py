@@ -451,7 +451,11 @@ class OpenSesameIDE(BaseExtension):
         cfg.file_dialog_path = os.path.dirname(path)
         self.open_document(path)
         # And remember the folder
-        self._add_recent_folder(os.path.dirname(path))
+        folder = os.path.dirname(path)
+        self._open_folder(folder)
+        self._add_recent_folder(folder)
+        self._remember_open_folders()
+        return path
 
     def folder_browsers_visible(self):
 
@@ -736,6 +740,9 @@ class OpenSesameIDE(BaseExtension):
                 label = path[strip_first + 1:]
                 data = path
                 haystack.append((label, data, self.open_document))
+        if not haystack:
+            self.open_file()
+            return
         self.extension_manager.fire(
             u'quick_select',
             haystack=haystack,
@@ -753,6 +760,9 @@ class OpenSesameIDE(BaseExtension):
         }
         for path in sorted(norm_paths):
             haystack.append((path, path, self._open_folder))
+        if not haystack:
+            self.select_and_open_folder()
+            return
         self.extension_manager.fire(
             u'quick_select',
             haystack=haystack,
