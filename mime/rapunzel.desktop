@@ -8,3 +8,4 @@ Icon=rapunzel
 Type=Application
 Categories=Development;IDE;Science
 StartupNotify=true
+MimeType=text/x-python
