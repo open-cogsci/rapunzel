@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=rapunzel %F
+Name=Rapunzel
+GenericName=Code Editor
+Icon=${SNAP}/meta/gui/rapunzel.svg
+MimeType=text/x-python
+Terminal=false
+Categories=Development;Science;IDE;Qt;
+Keywords=Development;Science;IDE;Qt;
+StartupNotify=true

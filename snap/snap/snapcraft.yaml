@@ -1,0 +1,77 @@
+name: rapunzel
+title: Rapunzel
+base: core20
+version: 0.5.17
+summary: Code editor for numerical computing with Python and R
+description: |
+  Rapunzel (https://rapunzel.cogsci.nl) is a modern code editor for numerical computing with Python and R.
+  
+  Features:
+  
+  - An intuitive workflow
+  - Intuitively run projects, files, cells, selections, or lines of code
+  - Import from and export to Jupyter Notebook
+  - Export code, comments, output, and figures to .html, .pdf, or .docx
+  - Powerful visual debugging and workspace inspection
+  - Experimental support for language servers
+  
+  This Snap package is bundled with:
+  
+  - Commonly used Python libraries for numerical computing (`numpy`, `scipy`, `datamatrix`, `pandas`), plotting (`matplotlib`, `seaborn`), and statistics (`statsmodels`)
+  - Pandoc for exporting code, comments, output, and figures to various formats
+  - A Jupyter / IPython console for interactive computing
+  
+  The Snap format is not very suitable for installing additional packages. If you want to use Rapunel in a custom environment, for example with R or different Python packages, please see https://rapunzel.cogsci.nl for different ways of installing Rapunzel.
+  
+icon: snap/gui/rapunzel.svg
+
+grade: stable
+confinement: classic
+
+package-repositories:
+  - type: apt
+    ppa: smathot/rapunzel
+
+parts:
+    rapunzel:
+        plugin: nil
+        stage-packages:
+          # Rapunzel and recommended dependencies
+          - python3-rapunzel
+          - python3-levenshtein
+          - python3-prettytable
+          - xdg-utils  # pyqode.core folder browser
+          # Basic numerical Python environment
+          - python3-statsmodels
+          - python3-seaborn
+          - python3-matplotlib
+          - python3-pandas
+          - python3-scipy
+          - python3-numpy
+          # For importing and exporting
+          - python3-nbformat
+          - python3-jupyter-core
+          - jupyter-core
+          - jupyter-nbconvert
+          - pandoc
+          
+environment:
+  PYTHONPATH: "$SNAP/usr/lib/python3/dist-packages/:$PYTHONPATH"
+  LD_LIBRARY_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$LD_LIBRARY_PATH"
+  QT_PLUGIN_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/qt5/plugins/:$QT_PLUGIN_PATH"
+  OPENSESAME_EXTENSION_PATH: "$SNAP/usr/share/opensesame_extensions/"
+  OPENSESAME_PLUGIN_PATH: "$SNAP/usr/share/opensesame_plugins/"
+  OPENSESAME_RESOURCES_PATH: "$SNAP/usr/share/opensesame_resources/"
+  MATPLOTLIBDATA: "$SNAP/usr/share/matplotlib/mpl-data/"
+  XDG_DATA_HOME: "$SNAP/usr/share/"
+
+apps:
+    rapunzel:
+        command: usr/bin/rapunzel
+        plugs:
+          - desktop
+          - desktop-legacy
+          - home
+          - opengl
+          - x11
+          - wayland
