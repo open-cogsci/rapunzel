@@ -190,12 +190,20 @@ class ImageAnnotations(BaseExtension):
             cell_types=['code']
         )
         for cell in cells:
-            if not 'outputs' in cell:
+            if 'outputs' not in cell:
                 continue
-            code = code.replace(
-                '{}\n{}'.format(OUTPUT_MARKER, cell['outputs']),
-                ''
-            )
+            # Replace the output and also clear up newlines before and after
+            # the output. This avoids newlines from accumulating in the
+            # document after repeated running and clearing the code.
+            output = '{}\n{}'.format(OUTPUT_MARKER, cell['outputs'])
+            while True:
+                if '\n' + output in code:
+                    output = '\n' + output
+                elif output + '\n' in code:
+                    output += '\n'
+                else:
+                    break
+            code = code.replace(output, '\n\n')
         # We use a cursor rather than simply setting the text, so that this
         # action can be undone.
         cursor = editor.textCursor()
