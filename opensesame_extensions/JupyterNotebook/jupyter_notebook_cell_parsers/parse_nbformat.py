@@ -155,13 +155,14 @@ def _notebook_output_cells(output, execution_count):
                 )
                 data = []
             img_path = line.rstrip()[6:-1]
-            outputs.append(
-                _notebook_img_cell(
-                    'image/png',
-                    img_path,
-                    execution_count
+            if os.path.exists(img_path):
+                outputs.append(
+                    _notebook_img_cell(
+                        'image/png',
+                        img_path,
+                        execution_count
+                    )
                 )
-            )
             continue
         if line.startswith('# '):
             line = line[2:]
