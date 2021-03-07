@@ -1,17 +1,17 @@
 name: rapunzel
 title: Rapunzel
 base: core20
-version: 0.5.17
+version: "0.5.17-snap2"
 summary: Code editor for numerical computing with Python and R
 description: |
-  Rapunzel (https://rapunzel.cogsci.nl) is a modern code editor for numerical computing with Python and R.
+  __Rapunzel__ is a modern code editor for numerical computing with Python and R.
   
   Features:
   
   - An intuitive workflow
-  - Intuitively run projects, files, cells, selections, or lines of code
+  - Quickly run projects, files, cells, selections, or lines of code
   - Import from and export to Jupyter Notebook
-  - Export code, comments, output, and figures to .html, .pdf, or .docx
+  - Export code, comments, output, and figures to `.html`, `.pdf`, or `.docx`
   - Powerful visual debugging and workspace inspection
   - Experimental support for language servers
   
@@ -21,16 +21,21 @@ description: |
   - Pandoc for exporting code, comments, output, and figures to various formats
   - A Jupyter / IPython console for interactive computing
   
-  The Snap format is not very suitable for installing additional packages. If you want to use Rapunel in a custom environment, for example with R or different Python packages, please see https://rapunzel.cogsci.nl for different ways of installing Rapunzel.
+  You can use `pip install` to install additional packages into the Python environment of this Snap package (by entering `!pip3 install [package name]` into the console). However, the Snap format is not very suitable for installing additional software. If you want to use Rapunel in a custom environment, for example with R, please see https://rapunzel.cogsci.nl for different ways of installing Rapunzel.
   
 icon: snap/gui/rapunzel.svg
 
 grade: stable
-confinement: classic
+confinement: strict
 
 package-repositories:
   - type: apt
     ppa: smathot/rapunzel
+    
+# This is where pip looks for the vendor wheels
+layout:
+  /usr/share/python-wheels:
+    bind: $SNAP/usr/share/python-wheels
 
 parts:
     rapunzel:
@@ -55,9 +60,24 @@ parts:
           - jupyter-core
           - jupyter-nbconvert
           - pandoc
-          
+          # Pip comes with 'vendor' dependencies that are installed as wheels
+          # in /usr/share/python-wheels. A layout is defined above to make
+          # sure that the wheels actually end up there.
+          - python3-pip
+          - python-pip-whl
+    # Required for Python multiprocessing
+    semwraplib:
+        plugin: dump
+        source: src
+        override-build: |
+            snapcraftctl build
+            mkdir -p $SNAPCRAFT_PART_INSTALL/lib
+            gcc -g -O0 -Wall -Wstrict-prototypes -fPIC -shared lib.c -o $SNAPCRAFT_PART_INSTALL/lib/semwraplib.so -ldl
+        build-packages:
+        - build-essential
+
 environment:
-  PYTHONPATH: "$SNAP/usr/lib/python3/dist-packages/:$SNAP/usr/lib/python3.8/:$PYTHONPATH"
+  PYTHONPATH: "$HOME/.local/lib/python3.8/site-packages:$SNAP/usr/lib/python3/dist-packages/:$SNAP/usr/lib/python3.8/:$PYTHONPATH"
   LD_LIBRARY_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/:$SNAP/usr/lib/x86_64-linux-gnu/blas:$SNAP/usr/lib/x86_64-linux-gnu/lapack:$LD_LIBRARY_PATH"
   QT_PLUGIN_PATH: "$SNAP/usr/lib/x86_64-linux-gnu/qt5/plugins/:$QT_PLUGIN_PATH"
   OPENSESAME_EXTENSION_PATH: "$SNAP/usr/share/opensesame_extensions/"
@@ -77,3 +97,7 @@ apps:
           - opengl
           - x11
           - wayland
+          - network
+        # Required for Python multiprocessing
+        environment:
+            LD_PRELOAD: $SNAP/lib/semwraplib.so
