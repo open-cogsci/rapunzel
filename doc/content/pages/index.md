@@ -33,7 +33,7 @@ Rapunzel is a modern code editor focused on numerical computing with Python and 
 - [Powerful visual debugging and workspace inspection](%url:debugging%)
 - [Experimental support for language servers](%url:language-server%)
 
-Powered by [OpenSesame](https://osdoc.cogsci.nl/) and [Project Jupyter](https://jupyter.org/).
+Powered by [OpenSesame](https://osdoc.cogsci.nl/), [Project Jupyter](https://jupyter.org/), and [PyQode](https://github.com/open-cogsci/pyqode.core).
 
 %--
 figure:

@@ -1,5 +1,6 @@
 title: Support for language servers
-
+next_title: Installing packages
+next_url: %url:environment%
 
 Support for language servers is experimental
 {: .page-notification}

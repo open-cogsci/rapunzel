@@ -25,11 +25,11 @@ Once Rapunzel has been installed, you can start it from the Anaconda prompt (`ra
 
 The standard download is based on Python 3.9 for 64 bit systems. The installer and `.zip` packages are identical, except for the installation.
 
-<a role="button" class="btn btn-success btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.14/rapunzel_0.5.14-py39-win64-1.exe">
+<a role="button" class="btn btn-success btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.17/rapunzel_0.5.17-py39-win64-1.exe">
 	<b>Standard</b> Windows installer (.exe)
 </a>
 
-<a role="button" class="btn btn-default btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.14/rapunzel_0.5.14-py39-win64-1.zip">
+<a role="button" class="btn btn-default btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.17/rapunzel_0.5.17-py39-win64-1.zip">
 	<b>Standard</b> Windows no installation required (.zip)
 </a>
 
@@ -49,6 +49,12 @@ sudo apt update
 sudo apt install python3-rapunzel
 sudo apt install jupyter-notebook jupyter-nbconvert pandoc  # Optional: for exporting/ importing to various formats
 sudo apt install python3-opensesame-extension-language_server  # Optional: for language-server support
+```
+
+Alternatively you can install Rapunzel as a Snap package through the Ubuntu Software store or the command line:
+
+```bash
+sudo snap install rapunzel
 ```
 
 

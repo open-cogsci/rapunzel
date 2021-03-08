@@ -5,3 +5,4 @@ Manual:
     Debugging and exploring the workspace: manual/debugging
     Notebooks: manual/notebooks
     Language servers: manual/language-server
+    Installing packages: manual/environment
