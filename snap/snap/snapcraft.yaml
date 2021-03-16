@@ -1,7 +1,7 @@
 name: rapunzel
 title: Rapunzel
 base: core20
-version: "0.5.17-snap2"
+version: "0.5.17-snap3"
 summary: Code editor for numerical computing with Python and R
 description: |
   __Rapunzel__ is a modern code editor for numerical computing with Python and R.
@@ -21,7 +21,7 @@ description: |
   - Pandoc for exporting code, comments, output, and figures to various formats
   - A Jupyter / IPython console for interactive computing
   
-  You can use `pip install` to install additional packages into the Python environment of this Snap package (by entering `!pip3 install [package name]` into the console). However, the Snap format is not very suitable for installing additional software. If you want to use Rapunel in a custom environment, for example with R, please see https://rapunzel.cogsci.nl for different ways of installing Rapunzel.
+  You can use `pip install` to install additional packages into the Python environment of this Snap package (by entering `!pip3 install [package name]` into the console). However, the Snap format is not very suitable for installing additional software. If you want to use Rapunzel in a custom environment, for example with R, please see https://rapunzel.cogsci.nl for different ways of installing Rapunzel.
   
 icon: snap/gui/rapunzel.svg
 
