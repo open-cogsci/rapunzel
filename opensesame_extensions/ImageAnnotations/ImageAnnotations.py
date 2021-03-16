@@ -309,7 +309,7 @@ class ImageAnnotations(BaseExtension):
         """
         try:
             mode = self._editor.modes.get('ImageAnnotationsMode')
-        except KeyError:
+        except (AttributeError, KeyError):
             return
         if self._editor.file.path not in self._image_annotations:
             self._image_annotations[self._editor.file.path] = {}
