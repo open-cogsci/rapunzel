@@ -171,7 +171,7 @@ class ImageAnnotations(BaseExtension):
             if editor.file.path not in self._image_annotations:
                 self._image_annotations[editor.file.path] = {}
             img_code = '![]({})'.format(img_path)
-            if code not in self._image_annotations[editor.file.path]:
+            if img_code not in self._image_annotations[editor.file.path]:
                 self._image_annotations[editor.file.path][img_code] = []
             self._image_annotations[editor.file.path][img_code].append(
                 img_path
@@ -307,6 +307,9 @@ class ImageAnnotations(BaseExtension):
         `fmt` is the format, and code is the code snippet that resulted in
         creating of the image.
         """
+        if code is None:
+            oslogger.warning('received None code')
+            return
         try:
             mode = self._editor.modes.get('ImageAnnotationsMode')
         except (AttributeError, KeyError):
@@ -336,7 +339,7 @@ class ImageAnnotations(BaseExtension):
                     code: img_path
                     for (code, img_path)
                     in self._image_annotations[editor.file.path].items()
-                    if annotation_filter(code)
+                    if code is not None and annotation_filter(code)
                 }
             })
         else:
