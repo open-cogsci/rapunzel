@@ -426,16 +426,16 @@ class OpenSesameIDE(BaseExtension):
         path = editor.file.path
         if not path:
             return
-        mimetype, encoding = mimetypes.guess_type(path)
-        if mimetype in editor.mimetypes:
-            return
-        self.close_tab()
-        self.open_document(path)
         self.extension_manager.fire(
             'ide_save_current_file_as',
             from_path=from_path,
             to_path=path
         )
+        mimetype, encoding = mimetypes.guess_type(path)
+        if mimetype in editor.mimetypes:
+            return
+        self.close_tab()
+        self.open_document(path)
 
     def open_file(self, *args):
 
