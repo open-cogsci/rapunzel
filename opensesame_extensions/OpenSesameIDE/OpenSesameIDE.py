@@ -566,7 +566,7 @@ class OpenSesameIDE(BaseExtension):
     def change_working_directory(self):
 
         path = self._current_path()
-        if not os.path.isfile(path):
+        if path is None or not os.path.isfile(path):
             return
         self.extension_manager.fire(
             u'jupyter_change_dir',
