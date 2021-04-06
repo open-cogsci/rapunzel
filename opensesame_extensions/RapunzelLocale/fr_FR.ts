@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="fr">
 <context>
     <name>ImageAnnotations_preferences</name>
     <message>
@@ -319,12 +320,12 @@
 <context>
     <name>extension_CommandPalette</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="169"/>
+        <location filename="../../translation_tools/translatables.py" line="175"/>
         <source>Trigger menu actions</source>
         <translation>Activer les actions du menu</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="170"/>
+        <location filename="../../translation_tools/translatables.py" line="174"/>
         <source>Command palette</source>
         <translation>Palette de commandes</translation>
     </message>
@@ -332,17 +333,17 @@
 <context>
     <name>extension_DataViewer</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="116"/>
+        <location filename="../../translation_tools/translatables.py" line="117"/>
         <source>Load into workspace (DataMatrix) and view</source>
         <translation>Charger dans l&apos;espace de travail (DataMatrix) et afficher</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="118"/>
+        <location filename="../../translation_tools/translatables.py" line="116"/>
         <source>DataViewer</source>
         <translation>DataViewer</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="117"/>
+        <location filename="../../translation_tools/translatables.py" line="118"/>
         <source>Load into workspace (PIL image) and view</source>
         <translation>Charger dans l&apos;espace de travail (image PIL) et afficher</translation>
     </message>
@@ -350,12 +351,12 @@
 <context>
     <name>extension_FindInFiles</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="108"/>
+        <location filename="../../translation_tools/translatables.py" line="110"/>
         <source>Find in project files</source>
         <translation>Rechercher dans les fichiers des projets</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="113"/>
+        <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Find text in project files</source>
         <translation>Trouver du text dans les fichiers des projets</translation>
     </message>
@@ -365,17 +366,17 @@
         <translation>FindInFiles à besoin de l&apos;extension OpenSesameIDE</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="109"/>
+        <location filename="../../translation_tools/translatables.py" line="113"/>
         <source>Find in projects</source>
         <translation>Recherchers dans les projets</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="112"/>
+        <location filename="../../translation_tools/translatables.py" line="109"/>
         <source>Found {} match(es) in {} file(s)</source>
         <translation>{} correspondance(s) trouvée(s) dans {} fichier(s)</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="110"/>
+        <location filename="../../translation_tools/translatables.py" line="108"/>
         <source>No matches found</source>
         <translation>Aucune correspondance trouvée</translation>
     </message>
@@ -383,12 +384,12 @@
 <context>
     <name>extension_GitGUI</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="3"/>
+        <location filename="../../translation_tools/translatables.py" line="4"/>
         <source>Start Git GUI</source>
         <translation>Démarrer Git GUI</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="4"/>
+        <location filename="../../translation_tools/translatables.py" line="3"/>
         <source>Starts Git GUI</source>
         <translation>Démarre Git GUI</translation>
     </message>
@@ -399,29 +400,47 @@
     </message>
 </context>
 <context>
+    <name>extension_IDELauncher</name>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="121"/>
+        <source>Launches Code Editor</source>
+        <translation>Lance l&apos;éditeur de code</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="122"/>
+        <source>Code Editor</source>
+        <translation>Éditeur de code</translation>
+    </message>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="123"/>
+        <source>Launch Code Editor</source>
+        <translation>Lance l&apos;éditeur de code</translation>
+    </message>
+</context>
+<context>
     <name>extension_ImageAnnotations</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="135"/>
+        <location filename="../../translation_tools/translatables.py" line="146"/>
         <source>Add images as annotations to code</source>
         <translation>Ajouter des images comme annotations de code</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="137"/>
+        <location filename="../../translation_tools/translatables.py" line="142"/>
         <source>Clear all</source>
         <translation>Tout effacer</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="138"/>
+        <location filename="../../translation_tools/translatables.py" line="145"/>
         <source>Already capturing output</source>
         <translation>Déjà en train de capturer la sortie</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="136"/>
+        <location filename="../../translation_tools/translatables.py" line="144"/>
         <source>Open folder</source>
         <translation>Ouvrir le dossier</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="139"/>
+        <location filename="../../translation_tools/translatables.py" line="143"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
@@ -439,17 +458,17 @@
 <context>
     <name>extension_JupyterConsole</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="176"/>
+        <location filename="../../translation_tools/translatables.py" line="182"/>
         <source>Show Jupyter/ IPython console</source>
         <translation>Montrer la console Jupyter/ IPython</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="177"/>
+        <location filename="../../translation_tools/translatables.py" line="183"/>
         <source>Restart kernel</source>
         <translation>Redémarrer le noyau</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="175"/>
+        <location filename="../../translation_tools/translatables.py" line="180"/>
         <source>Start new console</source>
         <translation>Lancer une nouvelle console</translation>
     </message>
@@ -459,12 +478,12 @@
         <translation>Montrer la console</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="174"/>
+        <location filename="../../translation_tools/translatables.py" line="179"/>
         <source>The {} (inprocess={}) kernel does not support debugging</source>
         <translation>Le noyau {} (inprocess={}) ne prend pas en charge le débogage</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="173"/>
+        <location filename="../../translation_tools/translatables.py" line="181"/>
         <source>Failed to get workspace variable</source>
         <translation>Échec de l&apos;obtention d&apos;une variable de l&apos;espace de travail</translation>
     </message>
@@ -472,32 +491,32 @@
 <context>
     <name>extension_JupyterNotebook</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="16"/>
+        <location filename="../../translation_tools/translatables.py" line="13"/>
         <source>Open Jupyter/ IPython Notebook</source>
         <translation>Ouvrir Notebook Jupyter/ IPython</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="10"/>
+        <location filename="../../translation_tools/translatables.py" line="22"/>
         <source>Import notebook</source>
         <translation>Importer notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="14"/>
+        <location filename="../../translation_tools/translatables.py" line="21"/>
         <source>Failed to read notebook. See console for details.</source>
         <translation>Le chargement du notebook à échoué. Voir la console pour plus de details.</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="11"/>
+        <location filename="../../translation_tools/translatables.py" line="8"/>
         <source>Launch Jupyter Lab</source>
         <translation>Démarrer Jupyter Lab</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="13"/>
+        <location filename="../../translation_tools/translatables.py" line="12"/>
         <source>Export notebook</source>
         <translation>Exporter notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="18"/>
+        <location filename="../../translation_tools/translatables.py" line="16"/>
         <source>Import and export Jupyter Notebook (.ipynb) files</source>
         <translation>Importer et exporter des fichiers Jupyter Notebook (.ipynb)</translation>
     </message>
@@ -507,47 +526,47 @@
         <translation type="obsolete">Importer en tant que script de Python</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="12"/>
+        <location filename="../../translation_tools/translatables.py" line="17"/>
         <source>Export docx</source>
         <translation>Exporter docx</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="15"/>
+        <location filename="../../translation_tools/translatables.py" line="9"/>
         <source>Export to pdf</source>
         <translation>Exporter vers pdf</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="8"/>
+        <location filename="../../translation_tools/translatables.py" line="11"/>
         <source>Import and export</source>
         <translation>Importer et exporter</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="21"/>
+        <location filename="../../translation_tools/translatables.py" line="14"/>
         <source>Export to Jupyter/ IPython Notebook</source>
         <translation>Exporter vers Notebook Jupyter/ IPython</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="17"/>
+        <location filename="../../translation_tools/translatables.py" line="10"/>
         <source>Export to .docx</source>
         <translation>Exporter vers docx</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="9"/>
+        <location filename="../../translation_tools/translatables.py" line="18"/>
         <source>Export to HTML</source>
         <translation>Exporter vers HTML</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="19"/>
+        <location filename="../../translation_tools/translatables.py" line="20"/>
         <source>Import as script</source>
         <translation>Importer en tant que script</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="22"/>
+        <location filename="../../translation_tools/translatables.py" line="15"/>
         <source>Export html</source>
         <translation>Exporter html</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="20"/>
+        <location filename="../../translation_tools/translatables.py" line="19"/>
         <source>Export pdf</source>
         <translation>Exporter pdf</translation>
     </message>
@@ -555,127 +574,127 @@
 <context>
     <name>extension_OpenSesameIDE</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="87"/>
+        <location filename="../../translation_tools/translatables.py" line="75"/>
         <source>Open file</source>
         <translation>Ouvrir un fichier</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="45"/>
+        <location filename="../../translation_tools/translatables.py" line="87"/>
         <source>&amp;Save</source>
         <translation>&amp;Enregistrer</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="64"/>
+        <location filename="../../translation_tools/translatables.py" line="55"/>
         <source>&amp;Tools</source>
         <translation>&amp;Outils</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="97"/>
+        <location filename="../../translation_tools/translatables.py" line="58"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="83"/>
+        <location filename="../../translation_tools/translatables.py" line="49"/>
         <source>&amp;View</source>
         <translation>&amp;Vue</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="47"/>
+        <location filename="../../translation_tools/translatables.py" line="78"/>
         <source>&amp;Interrupt kernel</source>
         <translation>&amp;Interrompre le noyau</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="50"/>
+        <location filename="../../translation_tools/translatables.py" line="59"/>
         <source>Not indexing {} (too many files)</source>
         <translation>Pas d&apos;indexation de {} (trop de fichiers)</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="57"/>
+        <location filename="../../translation_tools/translatables.py" line="99"/>
         <source>Running notebook cell</source>
         <translation>Exécuter cellule de notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="103"/>
+        <location filename="../../translation_tools/translatables.py" line="93"/>
         <source>Split &amp;vertical</source>
         <translation>Division &amp;vertical</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="48"/>
+        <location filename="../../translation_tools/translatables.py" line="81"/>
         <source>Fixed editor width</source>
         <translation>Largeur de l&apos;éditeur fixée</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="78"/>
+        <location filename="../../translation_tools/translatables.py" line="66"/>
         <source>Run &amp;selection, cell, or current line</source>
         <translation>Exécuter la &amp;sélection, la cellule ou la ligne actuelle</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="59"/>
+        <location filename="../../translation_tools/translatables.py" line="74"/>
         <source>Running current line</source>
         <translation>En train d&apos;exécuter la ligne actuelle</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="54"/>
+        <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>How do you want to open this file?</source>
         <translation>Comment voulez-vous ouvrir ce fichier ?</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="62"/>
+        <location filename="../../translation_tools/translatables.py" line="92"/>
         <source>Close &amp;all tabs</source>
         <translation>Fermer &amp;tous les onglets</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="61"/>
+        <location filename="../../translation_tools/translatables.py" line="95"/>
         <source>Code completion</source>
         <translation>Complétion de code</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="38"/>
+        <location filename="../../translation_tools/translatables.py" line="96"/>
         <source>&amp;Locate active file</source>
         <translation>&amp;Localiser le fichier actuel</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="43"/>
+        <location filename="../../translation_tools/translatables.py" line="62"/>
         <source>Select indentation mode</source>
         <translation>Sélectionner le mode d&apos;indentation</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="41"/>
+        <location filename="../../translation_tools/translatables.py" line="69"/>
         <source>Wrap lines</source>
         <translation>Retour à ligne</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="60"/>
+        <location filename="../../translation_tools/translatables.py" line="50"/>
         <source>Open as text</source>
         <translation>Ouvrir comme texte</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="90"/>
+        <location filename="../../translation_tools/translatables.py" line="88"/>
         <source>&amp;New</source>
         <translation>&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="99"/>
+        <location filename="../../translation_tools/translatables.py" line="40"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="72"/>
+        <location filename="../../translation_tools/translatables.py" line="101"/>
         <source>Switch to previous panel</source>
         <translation>Passer au panneau précedent</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="68"/>
+        <location filename="../../translation_tools/translatables.py" line="39"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Préférences</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="101"/>
+        <location filename="../../translation_tools/translatables.py" line="84"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="81"/>
+        <location filename="../../translation_tools/translatables.py" line="53"/>
         <source>Code folding</source>
         <translation>Pliage de code</translation>
     </message>
@@ -685,52 +704,52 @@
         <translation>Changer OpenSesame en IDE</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="55"/>
+        <location filename="../../translation_tools/translatables.py" line="104"/>
         <source>P&amp;lugins</source>
         <translation>P&amp;lugins</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="39"/>
+        <location filename="../../translation_tools/translatables.py" line="89"/>
         <source>Switch to next panel</source>
         <translation>Passer au panneau suivant</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="67"/>
+        <location filename="../../translation_tools/translatables.py" line="48"/>
         <source>Running project</source>
         <translation>En train d&apos;exécuter le projet</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="42"/>
+        <location filename="../../translation_tools/translatables.py" line="83"/>
         <source>Close &amp;other tabs</source>
         <translation>Fermer les &amp;autres onglets</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="44"/>
+        <location filename="../../translation_tools/translatables.py" line="94"/>
         <source>&amp;Run</source>
         <translation>&amp;Exécuter</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="70"/>
+        <location filename="../../translation_tools/translatables.py" line="51"/>
         <source>&amp;Close tab</source>
         <translation>&amp;Fermer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="65"/>
+        <location filename="../../translation_tools/translatables.py" line="38"/>
         <source>Restart &amp;kernel</source>
         <translation>Redémarrer le &amp;noyau</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="92"/>
+        <location filename="../../translation_tools/translatables.py" line="61"/>
         <source>Save and run</source>
         <translation>Enregistrer et exécuter</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="98"/>
+        <location filename="../../translation_tools/translatables.py" line="54"/>
         <source>Show right margin</source>
         <translation>Montrer la marge droite</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="53"/>
+        <location filename="../../translation_tools/translatables.py" line="56"/>
         <source>Running file</source>
         <translation>En train d&apos;exécuter le fichier</translation>
     </message>
@@ -740,57 +759,57 @@
         <translation>Division &amp;horizontal</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="80"/>
+        <location filename="../../translation_tools/translatables.py" line="41"/>
         <source>Show editor tabs</source>
         <translation>Montrer les onglets de l&apos;éditeur</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="49"/>
+        <location filename="../../translation_tools/translatables.py" line="79"/>
         <source>Unsaved changes</source>
         <translation>Modifications non enregistrées</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="52"/>
+        <location filename="../../translation_tools/translatables.py" line="63"/>
         <source>Running selection</source>
         <translation>En train d&apos;exécuter la sélection</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="77"/>
+        <location filename="../../translation_tools/translatables.py" line="46"/>
         <source>Show whitespace</source>
         <translation>Montrer les espaces</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="56"/>
+        <location filename="../../translation_tools/translatables.py" line="52"/>
         <source>&amp;Close all folders</source>
         <translation>&amp;Fermer tous les navigateurs de dossiers</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="93"/>
+        <location filename="../../translation_tools/translatables.py" line="65"/>
         <source>Show line numbers</source>
         <translation>Montrer les numéros des lignes</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="102"/>
+        <location filename="../../translation_tools/translatables.py" line="73"/>
         <source>Toggle fullscreen</source>
         <translation>Basculer mode plein écran</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="96"/>
+        <location filename="../../translation_tools/translatables.py" line="103"/>
         <source>&amp;Editor</source>
         <translation>&amp;Éditeur</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="51"/>
+        <location filename="../../translation_tools/translatables.py" line="43"/>
         <source>&amp;Run project or file</source>
         <translation>&amp;Exécuter projet ou fichier</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="86"/>
+        <location filename="../../translation_tools/translatables.py" line="44"/>
         <source>Change &amp;working directory to active file</source>
         <translation>Changer le &amp;répertoire de travail vers le fichier actuel</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="63"/>
+        <location filename="../../translation_tools/translatables.py" line="72"/>
         <source>Toggle &amp;folder browsers</source>
         <translation>Basculer les &amp;navigateurs de dossiers</translation>
     </message>
@@ -829,33 +848,33 @@
         <source>Save, run, and don&apos;t ask again</source>
         <translation>Enregistrer, exécuter, et ne plus demander</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="66"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="68"/>
         <source>Search project files or browse disk …</source>
         <translation>Rechercher dans les fichiers des projets ou parcourir le disque …</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="79"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="76"/>
         <source>Save &amp;as…</source>
         <translation>Enregistrer &amp;sous…</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="89"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="47"/>
         <source>Browse disk …</source>
         <translation>Parcourir le disque …</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="40"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="91"/>
         <source>Open &amp;folder…</source>
         <translation>Ouvrir un &amp;dossier…</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="105"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="86"/>
         <source>&amp;Open…</source>
         <translation>&amp;Ouvrir…</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="58"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="60"/>
         <source>Search recent folders or browse disk …</source>
         <translation>Rechercher dans les dossiers récents ou parcourir le disque …</translation>
     </message>
@@ -865,62 +884,62 @@
         <translation>Ne peut pas enregistrer le fichier avec cet encodage</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="95"/>
+        <location filename="../../translation_tools/translatables.py" line="97"/>
         <source>Run file in &amp;debugger</source>
         <translation>Exécuter le fichier dans le &amp;débogueur</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="74"/>
+        <location filename="../../translation_tools/translatables.py" line="70"/>
         <source>Clear &amp;breakpoints</source>
         <translation>Enlever les &amp;points d&apos;arret</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="94"/>
+        <location filename="../../translation_tools/translatables.py" line="98"/>
         <source>&amp;Toggle breakpoint</source>
         <translation>&amp;Basculer un point d&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="73"/>
+        <location filename="../../translation_tools/translatables.py" line="90"/>
         <source>&amp;Capture output</source>
         <translation>&amp;Capturer la sortie</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="46"/>
+        <location filename="../../translation_tools/translatables.py" line="57"/>
         <source>&amp;Edit</source>
         <translation>&amp;Éditer</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="91"/>
+        <location filename="../../translation_tools/translatables.py" line="64"/>
         <source>Running multiple notebook cells</source>
         <translation>Exécuter plusieurs celluses de notebook</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="75"/>
+        <location filename="../../translation_tools/translatables.py" line="102"/>
         <source>C&amp;lear output</source>
         <translation>Effacer &amp;la sortie</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="88"/>
+        <location filename="../../translation_tools/translatables.py" line="80"/>
         <source>Running code range</source>
         <translation>Exécuter une plage de code</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="104"/>
+        <location filename="../../translation_tools/translatables.py" line="45"/>
         <source>Run &amp;up to current position</source>
         <translation>Exécuter &amp;jusqu&apos;à la position actuelle</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="69"/>
+        <location filename="../../translation_tools/translatables.py" line="77"/>
         <source>&amp;Tabs</source>
         <translation>Ongle&amp;ts</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="84"/>
+        <location filename="../../translation_tools/translatables.py" line="42"/>
         <source>Run &amp;from current position</source>
         <translation>Exécuter à &amp;partir de la position actuelle</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="76"/>
+        <location filename="../../translation_tools/translatables.py" line="67"/>
         <source>No active editor</source>
         <translation>Acun éditeur actif</translation>
     </message>
@@ -928,12 +947,12 @@
 <context>
     <name>extension_PythonDebugger</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="166"/>
+        <location filename="../../translation_tools/translatables.py" line="171"/>
         <source>Connects to the Rapunzel PDB</source>
         <translation>Se connecte avec le débogueur Rapunzel</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="165"/>
+        <location filename="../../translation_tools/translatables.py" line="170"/>
         <source>Python Debugger</source>
         <translation>Débogueur Python</translation>
     </message>
@@ -941,12 +960,12 @@
 <context>
     <name>extension_QuickSelector</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="154"/>
+        <location filename="../../translation_tools/translatables.py" line="159"/>
         <source>A general-purpose quick-select dialog</source>
         <translation>Une boîte de dialogue de sélection rapide à usage général</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="153"/>
+        <location filename="../../translation_tools/translatables.py" line="158"/>
         <source>Select stuff quickly</source>
         <translation>Sélectionner des choses rapidement</translation>
     </message>
@@ -954,7 +973,7 @@
 <context>
     <name>extension_RapunzelLocale</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="144"/>
+        <location filename="../../translation_tools/translatables.py" line="149"/>
         <source>Installs translation for Rapunzel extensions</source>
         <translation>Installe la traduction des extensions Rapunzel</translation>
     </message>
@@ -962,12 +981,12 @@
 <context>
     <name>extension_RapunzelWelcome</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="157"/>
+        <location filename="../../translation_tools/translatables.py" line="162"/>
         <source>Get started!</source>
         <translation>Lancez-vous !</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="158"/>
+        <location filename="../../translation_tools/translatables.py" line="163"/>
         <source>A welcome tab for Rapunzel</source>
         <translation>Un onglet de bienvenue pour Rapunzel</translation>
     </message>
@@ -975,47 +994,47 @@
 <context>
     <name>extension_SpellCheck</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="131"/>
+        <location filename="../../translation_tools/translatables.py" line="133"/>
         <source>Check spelling</source>
         <translation>Vérifier l&apos;ortographe</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="126"/>
+        <location filename="../../translation_tools/translatables.py" line="135"/>
         <source>French</source>
         <translation>Français</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="127"/>
+        <location filename="../../translation_tools/translatables.py" line="136"/>
         <source>Spanish</source>
         <translation>Espagnol</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="128"/>
+        <location filename="../../translation_tools/translatables.py" line="137"/>
         <source>Please install pyspellchecker for spell checking</source>
         <translation>Veuillez installer pyspellchecker pour la vérification orthographique</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="124"/>
+        <location filename="../../translation_tools/translatables.py" line="126"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="122"/>
+        <location filename="../../translation_tools/translatables.py" line="131"/>
         <source>Disable</source>
         <translation>Désactiver</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="125"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="129"/>
         <source>Set language for spell checking …</source>
         <translation>Définir la langue pour la vérification orthographique …</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="121"/>
+        <location filename="../../translation_tools/translatables.py" line="127"/>
         <source>German</source>
         <translation>Allemand</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="123"/>
+        <location filename="../../translation_tools/translatables.py" line="128"/>
         <source>Portuguese</source>
         <translation>Portugais</translation>
     </message>
@@ -1025,12 +1044,12 @@
         <translation>Effacer le dictionnaire personnalisé</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="129"/>
+        <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>Spell checking</source>
         <translation>Vérification ortographique</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="130"/>
+        <location filename="../../translation_tools/translatables.py" line="134"/>
         <source>Add word to custom dictionary</source>
         <translation>Ajouter le mot au dictionnaire personnalisé</translation>
     </message>
@@ -1038,12 +1057,12 @@
 <context>
     <name>extension_SubprocessManager</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="162"/>
+        <location filename="../../translation_tools/translatables.py" line="167"/>
         <source>Subprocesses</source>
         <translation>Sous-processus</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="161"/>
+        <location filename="../../translation_tools/translatables.py" line="166"/>
         <source>Manages subprocesses</source>
         <translation>Gérer les sous-processus</translation>
     </message>
@@ -1051,17 +1070,17 @@
 <context>
     <name>extension_SymbolSelector</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="25"/>
+        <location filename="../../translation_tools/translatables.py" line="26"/>
         <source>Symbol selector</source>
         <translation>Sélecteur de symboles</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="26"/>
+        <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Quickly jump to functions, classes, and other symbol definitions</source>
         <translation>Accédez rapidement aux fonctions, classes et autres définitions de symboles</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../../translation_tools/translatables.py" line="27"/>
+    <message>
+        <location filename="../../translation_tools/translatables.py" line="25"/>
         <source>Search symbols in current file …</source>
         <translation>Rechercher des symboles dans le fichier actuel …</translation>
     </message>
@@ -1069,22 +1088,22 @@
 <context>
     <name>extension_WordCount</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="148"/>
+        <location filename="../../translation_tools/translatables.py" line="153"/>
         <source>Word count</source>
         <translation>Nombre de mot</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="149"/>
+        <location filename="../../translation_tools/translatables.py" line="152"/>
         <source>{} lines, {} words, {} characters</source>
         <translation>{} lignes, {} mots, {} caractères</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="147"/>
+        <location filename="../../translation_tools/translatables.py" line="154"/>
         <source>Nothing to count</source>
         <translation>Rien à compter</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="150"/>
+        <location filename="../../translation_tools/translatables.py" line="155"/>
         <source>Counts the number of lines, words, and characters</source>
         <translation>Compte le nombre de lignes, de mots et de caractères</translation>
     </message>
@@ -1092,32 +1111,32 @@
 <context>
     <name>extension_WorkspaceExplorer</name>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="35"/>
+        <location filename="../../translation_tools/translatables.py" line="31"/>
         <source>Workspace ({})</source>
         <translation>Espace de travail ({})</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="30"/>
+        <location filename="../../translation_tools/translatables.py" line="34"/>
         <source>Show Python workspace explorer</source>
         <translation>Afficher l&apos;explorateur d&apos;espace de travail Python</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="32"/>
+        <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>Show workspace</source>
         <translation>Afficher l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="34"/>
+        <location filename="../../translation_tools/translatables.py" line="32"/>
         <source>Workspace</source>
         <translation>Espace de travail</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="31"/>
+        <location filename="../../translation_tools/translatables.py" line="35"/>
         <source>Cannot inspect variables in running kernel</source>
         <translation>Ne peut pas visualiser des variables à partir d&apos;un noyau en cours d&apos;exécution</translation>
     </message>
     <message>
-        <location filename="../../translation_tools/translatables.py" line="33"/>
+        <location filename="../../translation_tools/translatables.py" line="30"/>
         <source>Kernel not supported</source>
         <translation>Noyau non pris en charge</translation>
     </message>
