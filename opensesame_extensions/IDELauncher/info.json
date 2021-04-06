@@ -1,0 +1,19 @@
+{
+    "label": "Code Editor",
+    "description": "Launches Code Editor",
+    "modes": ["default"],
+    "tooltip": "Launch Code Editor",
+    "icon": "rapunzel",
+    "priority": -2,
+    "settings" : {
+        "ide_executable": ""
+    },
+    "menu": {
+        "index": -7,
+        "submenu": "Tools"
+    },
+    "toolbar": {
+        "index": -2,
+        "separator_after": true
+    }
+}
