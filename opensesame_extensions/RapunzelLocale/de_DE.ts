@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="de">
 <context>
     <name>ImageAnnotations_preferences</name>
     <message>
         <location filename="../ImageAnnotations/preferences.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formular</translation>
+        <translation>Formular</translation>
     </message>
     <message>
         <location filename="../ImageAnnotations/preferences.ui" line="35"/>
         <source>Rapunzel IDE: Capture output</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapunzel IDE: Erfasse Ausgabe</translation>
     </message>
     <message>
         <location filename="../ImageAnnotations/preferences.ui" line="59"/>
         <source>Don&apos;t capture output</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfasse die Ausgabe nicht</translation>
     </message>
     <message>
         <location filename="../ImageAnnotations/preferences.ui" line="69"/>
         <source>Capture images as code annotations</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfasse Bilder als Code-Anmerkungen</translation>
     </message>
     <message>
         <location filename="../ImageAnnotations/preferences.ui" line="76"/>
         <source>Capture images and text as code annotations and comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfasse Bilder und Text als Code-Anmerkungen und Kommentare</translation>
     </message>
 </context>
 <context>
@@ -242,12 +243,12 @@
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="311"/>
         <source>Run from current position</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe aus von der aktuellen Position</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="318"/>
         <source>Run up to current position</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe aus bis zur aktuellen Position</translation>
     </message>
 </context>
 <context>
@@ -372,12 +373,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Found {} match(es) in {} file(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>{} Übereinstimmung(en) in {} Datei(en) gefunden</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="110"/>
         <source>No matches found</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Übereinstimmungen gefunden</translation>
     </message>
 </context>
 <context>
@@ -403,37 +404,37 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="135"/>
         <source>Add images as annotations to code</source>
-        <translation type="unfinished"></translation>
+        <translation>Füge Bilder hinzu als Anmerkungen zu Code</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="137"/>
         <source>Clear all</source>
-        <translation type="unfinished"></translation>
+        <translation>Entferne alles</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="138"/>
         <source>Already capturing output</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgabe wird bereits erfasst</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="136"/>
         <source>Open folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffne Ordner</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="139"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffne</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="141"/>
         <source>Image annotations</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildanmerkungen</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="140"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Entferne</translation>
     </message>
 </context>
 <context>
@@ -466,7 +467,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="173"/>
         <source>Failed to get workspace variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden der Arbeitsbereich Variablen fehlgeschlagen</translation>
     </message>
 </context>
 <context>
@@ -509,47 +510,47 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="12"/>
         <source>Export docx</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere docx</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="15"/>
         <source>Export to pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere pdf</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="8"/>
         <source>Import and export</source>
-        <translation type="unfinished"></translation>
+        <translation>Importiere und exportiere</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="21"/>
         <source>Export to Jupyter/ IPython Notebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere zu Jupyter- Ipython Notebook</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="17"/>
         <source>Export to .docx</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere zu .docx</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="9"/>
         <source>Export to HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere zu HTML</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="19"/>
         <source>Import as script</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere als Skript</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="22"/>
         <source>Export html</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere html</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="20"/>
         <source>Export pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportiere pdf</translation>
     </message>
 </context>
 <context>
@@ -564,7 +565,7 @@
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="58"/>
         <source>Search recent folders or browse disk …</source>
         <translation>Suche in kürzlich benutzte Ordner oder suche auf der Festplatte ...</translation>
@@ -644,7 +645,7 @@
         <source>Select indentation mode</source>
         <translation>Wähle den Einschubmodus aus</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="79"/>
         <source>Save &amp;as…</source>
         <translation>Speicher &amp;als...</translation>
@@ -694,7 +695,7 @@
         <source>Turn OpenSesame into an IDE</source>
         <translation>Verändere Opensesame in eine IDE</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="40"/>
         <source>Open &amp;folder…</source>
         <translation>Öffne &amp;Ordner...</translation>
@@ -724,7 +725,7 @@
         <source>&amp;Run</source>
         <translation>&amp;Ausführen</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>&amp;Open…</source>
         <translation>&amp;Öffnen...</translation>
@@ -744,7 +745,7 @@
         <source>Save and run</source>
         <translation>Speichern und ausführen</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="66"/>
         <source>Search project files or browse disk …</source>
         <translation>Suche in den Projektdateien oder suche auf der Festplatte ...</translation>
@@ -799,7 +800,7 @@
         <source>Toggle fullscreen</source>
         <translation>Aktiviere Vollbildmodus</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="89"/>
         <source>Browse disk …</source>
         <translation>Suche auf Festplatte ...</translation>
@@ -852,47 +853,47 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="73"/>
         <source>&amp;Capture output</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ausgabeerfassung</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="46"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeite</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="91"/>
         <source>Running multiple notebook cells</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe mehrere Notebook-Codeblöcke aus</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="75"/>
         <source>C&amp;lear output</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;lösche Ausgabe</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="88"/>
         <source>Running code range</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe einen Codebereich aus</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="104"/>
         <source>Run &amp;up to current position</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe aus &amp;bis zur aktuellen Position</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="69"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Reiter</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="84"/>
         <source>Run &amp;from current position</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe aus &amp;von der aktuellen Position</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="76"/>
         <source>No active editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein aktiver Editor</translation>
     </message>
 </context>
 <context>
@@ -974,7 +975,7 @@
         <source>Disable</source>
         <translation>Deaktiviere</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="125"/>
         <source>Set language for spell checking …</source>
         <translation>Setze die Sprache für die Rechtschreibkontrolle ...</translation>
@@ -992,17 +993,17 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="132"/>
         <source>Clear custom dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Entferne benutzerspezifisches Wörterbuch</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="129"/>
         <source>Spell checking</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtschreibprüfung</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>Add word to custom dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Füge ein Wort zu benutzerdefiniertem Wörterbuch hinzu</translation>
     </message>
 </context>
 <context>
@@ -1010,17 +1011,17 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="162"/>
         <source>Subprocesses</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterprozesse</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="161"/>
         <source>Manages subprocesses</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwalte Unterprozesse</translation>
     </message>
 </context>
 <context>
     <name>extension_SymbolSelector</name>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Search symbols in current file …</source>
         <translation>Suche Symbole in der aktuellen Datei ...</translation>
@@ -1089,7 +1090,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>Kernel not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Kernel wird nicht unterstützt</translation>
     </message>
 </context>
 <context>
