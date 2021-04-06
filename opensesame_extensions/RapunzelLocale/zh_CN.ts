@@ -29,6 +29,34 @@
     </message>
 </context>
 <context>
+    <name>ImageAnnotations_preferences</name>
+    <message>
+        <location filename="../ImageAnnotations/preferences.ui" line="14"/>
+        <source>Form</source>
+        <translation>表单</translation>
+    </message>
+    <message>
+        <location filename="../ImageAnnotations/preferences.ui" line="35"/>
+        <source>Rapunzel IDE: Capture output</source>
+        <translation>Rapunzel IDE: 捕获输出</translation>
+    </message>
+    <message>
+        <location filename="../ImageAnnotations/preferences.ui" line="59"/>
+        <source>Don&apos;t capture output</source>
+        <translation>不捕获输出</translation>
+    </message>
+    <message>
+        <location filename="../ImageAnnotations/preferences.ui" line="69"/>
+        <source>Capture images as code annotations</source>
+        <translation>捕获图像作为代码注释</translation>
+    </message>
+    <message>
+        <location filename="../ImageAnnotations/preferences.ui" line="76"/>
+        <source>Capture images and text as code annotations and comments</source>
+        <translation>捕获图像和文本作为代码注释和注释</translation>
+    </message>
+</context>
+<context>
     <name>JupyterConsole_preferences</name>
     <message>
         <location filename="../JupyterConsole/preferences.ui" line="14"/>
@@ -242,12 +270,12 @@
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="311"/>
         <source>Run from current position</source>
-        <translation type="unfinished"></translation>
+        <translation>从当前位置运行</translation>
     </message>
     <message>
         <location filename="../OpenSesameIDE/preferences.ui" line="318"/>
         <source>Run up to current position</source>
-        <translation type="unfinished"></translation>
+        <translation>运行到当前位置为止</translation>
     </message>
 </context>
 <context>
@@ -372,12 +400,12 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="112"/>
         <source>Found {} match(es) in {} file(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>在{}文件中找到{}个匹配项</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="110"/>
         <source>No matches found</source>
-        <translation type="unfinished"></translation>
+        <translation>未找到匹配项</translation>
     </message>
 </context>
 <context>
@@ -403,37 +431,37 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="135"/>
         <source>Add images as annotations to code</source>
-        <translation type="unfinished"></translation>
+        <translation>将图像作为注释添加到代码中</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="137"/>
         <source>Clear all</source>
-        <translation type="unfinished"></translation>
+        <translation>全部清除</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="138"/>
         <source>Already capturing output</source>
-        <translation type="unfinished"></translation>
+        <translation>已捕获输出</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="136"/>
         <source>Open folder</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件夹</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="139"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="141"/>
         <source>Image annotations</source>
-        <translation type="unfinished"></translation>
+        <translation>图像注释</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="140"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清除</translation>
     </message>
 </context>
 <context>
@@ -466,7 +494,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="173"/>
         <source>Failed to get workspace variable</source>
-        <translation type="unfinished"></translation>
+        <translation>无法获取工作区变量</translation>
     </message>
 </context>
 <context>
@@ -509,47 +537,47 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="12"/>
         <source>Export docx</source>
-        <translation type="unfinished"></translation>
+        <translation>导出docx</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="15"/>
         <source>Export to pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>导出为pdf</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="8"/>
         <source>Import and export</source>
-        <translation type="unfinished"></translation>
+        <translation>导入及导出</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="21"/>
         <source>Export to Jupyter/ IPython Notebook</source>
-        <translation type="unfinished"></translation>
+        <translation>导出为Jupyter/ IPython Notebook</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="17"/>
         <source>Export to .docx</source>
-        <translation type="unfinished"></translation>
+        <translation>导出为docx</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="9"/>
         <source>Export to HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>导出为HTML</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="19"/>
         <source>Import as script</source>
-        <translation type="unfinished"></translation>
+        <translation>导入为脚本</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="22"/>
         <source>Export html</source>
-        <translation type="unfinished"></translation>
+        <translation>导出html</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="20"/>
         <source>Export pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>导出pdf</translation>
     </message>
 </context>
 <context>
@@ -564,7 +592,7 @@
         <source>&amp;Save</source>
         <translation>&amp;保存</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="58"/>
         <source>Search recent folders or browse disk …</source>
         <translation>查找最近文件夹或浏览磁盘 ...</translation>
@@ -644,7 +672,7 @@
         <source>Select indentation mode</source>
         <translation>选择缩进模式</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="79"/>
         <source>Save &amp;as…</source>
         <translation>保存&amp;为...</translation>
@@ -694,7 +722,7 @@
         <source>Turn OpenSesame into an IDE</source>
         <translation>将OpenSesame转换为IDE</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="40"/>
         <source>Open &amp;folder…</source>
         <translation>打开&amp;文件夹</translation>
@@ -724,7 +752,7 @@
         <source>&amp;Run</source>
         <translation>&amp;运行</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="105"/>
         <source>&amp;Open…</source>
         <translation>&amp;打开...</translation>
@@ -744,7 +772,7 @@
         <source>Save and run</source>
         <translation>保存并运行</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="66"/>
         <source>Search project files or browse disk …</source>
         <translation>查找项目文件或浏览磁盘</translation>
@@ -799,7 +827,7 @@
         <source>Toggle fullscreen</source>
         <translation>切换到全屏</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="89"/>
         <source>Browse disk …</source>
         <translation>浏览磁盘 ...</translation>
@@ -852,47 +880,47 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="73"/>
         <source>&amp;Capture output</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;捕获输出</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="46"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;编辑</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="91"/>
         <source>Running multiple notebook cells</source>
-        <translation type="unfinished"></translation>
+        <translation>运行多个notebook单元</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="75"/>
         <source>C&amp;lear output</source>
-        <translation type="unfinished"></translation>
+        <translation>清除输出</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="88"/>
         <source>Running code range</source>
-        <translation type="unfinished"></translation>
+        <translation>运行代码范围</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="104"/>
         <source>Run &amp;up to current position</source>
-        <translation type="unfinished"></translation>
+        <translation>运行&amp;到当前位置</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="69"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;标签项</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="84"/>
         <source>Run &amp;from current position</source>
-        <translation type="unfinished"></translation>
+        <translation>从当前位置运行</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="76"/>
         <source>No active editor</source>
-        <translation type="unfinished"></translation>
+        <translation>没有正在使用的编辑器</translation>
     </message>
 </context>
 <context>
@@ -952,57 +980,57 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="126"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>法语</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="127"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>西班牙语</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="128"/>
         <source>Please install pyspellchecker for spell checking</source>
-        <translation type="unfinished"></translation>
+        <translation>请安装pyspellchecker进行拼写检查</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="124"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>英语</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="122"/>
         <source>Disable</source>
-        <translation type="unfinished"></translation>
+        <translation>禁用</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../../translation_tools/translatables.py" line="125"/>
         <source>Set language for spell checking …</source>
-        <translation type="unfinished"></translation>
+        <translation>设置拼写检查的语言…</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="121"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>德语</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="123"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>葡萄牙语</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="132"/>
         <source>Clear custom dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>清除自定义词典</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="129"/>
         <source>Spell checking</source>
-        <translation type="unfinished"></translation>
+        <translation>拼写检查</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="130"/>
         <source>Add word to custom dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>将单词添加到自定义词典</translation>
     </message>
 </context>
 <context>
@@ -1010,17 +1038,17 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="162"/>
         <source>Subprocesses</source>
-        <translation type="unfinished"></translation>
+        <translation>次程序</translation>
     </message>
     <message>
         <location filename="../../translation_tools/translatables.py" line="161"/>
         <source>Manages subprocesses</source>
-        <translation type="unfinished"></translation>
+        <translation>管理次程序</translation>
     </message>
 </context>
 <context>
-    <name>extension_SymbolSelector</name>
-    <message encoding="UTF-8">
+    <name>extension_SubprocessManager</name>
+    <message>
         <location filename="../../translation_tools/translatables.py" line="27"/>
         <source>Search symbols in current file …</source>
         <translation>在当前文件搜寻符号</translation>
@@ -1089,7 +1117,7 @@
     <message>
         <location filename="../../translation_tools/translatables.py" line="33"/>
         <source>Kernel not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>不支持kernel</translation>
     </message>
 </context>
 <context>
