@@ -33,6 +33,7 @@ EXCLUDE = [
 ]
 
 EXTENSIONS = [
+    u'IDELauncher',
     u'OpenSesameIDE',
     u'FindInFiles',
     u'JupyterConsole',
