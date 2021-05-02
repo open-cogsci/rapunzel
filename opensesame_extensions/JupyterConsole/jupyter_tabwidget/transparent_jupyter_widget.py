@@ -45,25 +45,34 @@ key: (
     (
         val.shape if hasattr(val, 'shape')
         else len(val) if hasattr(val, '__len__')
+        else len(val.layers) if hasattr(val, 'layers') and hasattr(val.layers, '__len__')
         else None
     )
 )
 for key, val in globals().items()
-if not key.startswith(u'_') and
-key not in ('In', 'Out') and
-not callable(val) and
-not inspect.isclass(val) and
-not inspect.ismodule(val)
+if (
+    hasattr(val, 'layers') and hasattr(val.layers, '__len__')
+) or (
+    not key.startswith(u'_') and
+    key not in ('In', 'Out') and
+    not callable(val) and
+    not inspect.isclass(val) and
+    not inspect.ismodule(val)
+)
 }'''
 
 LIST_GLOBAL_EXPR = u'''[
 key
 for key, val in globals().items()
-if not key.startswith(u'_') and
-key not in ('In', 'Out') and
-not callable(val) and
-not inspect.isclass(val) and
-not inspect.ismodule(val)
+if (
+    hasattr(val, 'layers') and hasattr(val.layers, '__len__')
+) or (
+    not key.startswith(u'_') and
+    key not in ('In', 'Out') and
+    not callable(val) and
+    not inspect.isclass(val) and
+    not inspect.ismodule(val)
+)
 ]
 '''
 
@@ -293,15 +302,21 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
             key: (
                 json.dumps(val, default=lambda x: u'<no preview>'),
                 val.__class__.__name__,
-                len(val) if hasattr(val, '__len__') else '<na>'
+                len(val) if hasattr(val, '__len__')
+                else len(val.layers) if hasattr(val, 'layers') and hasattr(val.layers, '__len__')
+                else '<na>'
             )
             for key, val
             in self._kernel_manager.kernel.shell.user_global_ns.copy().items()
-            if not key.startswith(u'_') and
-            key not in ('In', 'Out') and
-            not callable(val) and
-            not inspect.isclass(val) and
-            not inspect.ismodule(val)
+            if (
+                hasattr(val, 'layers') and hasattr(val.layers, '__len__')
+            ) or (
+                not key.startswith(u'_') and
+                key not in ('In', 'Out') and
+                not callable(val) and
+                not inspect.isclass(val) and
+                not inspect.ismodule(val)
+            )
         }
         
     def list_workspace_globals(self):
@@ -310,11 +325,15 @@ class InprocessJupyterWidget(TransparentJupyterWidget):
             key
             for key, val
             in self._kernel_manager.kernel.shell.user_global_ns.copy().items()
-            if not key.startswith(u'_') and
-            key not in ('In', 'Out') and
-            not callable(val) and
-            not inspect.isclass(val) and
-            not inspect.ismodule(val)
+            if (
+                hasattr(val, 'layers') and hasattr(val.layers, '__len__')
+            ) or (
+                not key.startswith(u'_') and
+                key not in ('In', 'Out') and
+                not callable(val) and
+                not inspect.isclass(val) and
+                not inspect.ismodule(val)
+            )
         ]
 
     def set_workspace_globals(self, global_dict):
