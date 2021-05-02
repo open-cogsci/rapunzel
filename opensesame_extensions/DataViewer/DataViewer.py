@@ -102,6 +102,7 @@ class DataViewer(BaseExtension):
     def remove_dock_widget(self, name):
         
         if name in self._dock_widgets:
+            self.main_window.removeDockWidget(self._dock_widgets[name])
             del self._dock_widgets[name]
             
     def event_workspace_update(self, name, workspace_func):
