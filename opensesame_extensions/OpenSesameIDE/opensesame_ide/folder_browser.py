@@ -81,8 +81,7 @@ class FolderBrowser(FileSystemTreeView):
         self._path = path
         self._ide = ide
         self._dock_widget = dock_widget
-        self.clear_ignore_patterns()
-        self.add_ignore_patterns(ide.ignore_patterns)
+        self._set_ignore_patterns()
         self.set_root_path(os.path.normpath(path))
         self.set_context_menu(FileSystemContextMenu(self.main_window))
         self._watcher = QFileSystemWatcher()
@@ -93,6 +92,16 @@ class FolderBrowser(FileSystemTreeView):
         self._file_list = []
         self._active = True
         self._index_files()
+        
+    def _set_ignore_patterns(self):
+        
+        self.clear_ignore_patterns()
+        self.add_ignore_patterns(self._ide.ignore_patterns)
+        gitignore = os.path.join(self._path, u'.gitignore')
+        if not os.path.exists(gitignore):
+            return
+        with open(gitignore) as fd:
+            self.add_ignore_patterns(fd.read().splitlines())
 
     def currentChanged(self, current_index, previous_index):
 
@@ -156,7 +165,7 @@ class FolderBrowser(FileSystemTreeView):
             args=(
                 self._queue,
                 self._path,
-                self._ide.ignore_patterns,
+                self._ignored_patterns,
                 cfg.opensesame_ide_max_index_files
             )
         )
@@ -186,7 +195,7 @@ class FolderBrowser(FileSystemTreeView):
                 message=_(u'Not indexing {} (too many files)').format(
                     self._path
                 ),
-                category=u'warning'
+                category=u'info'
             )
             self._file_list = []
             return
@@ -204,18 +213,12 @@ class FolderBrowser(FileSystemTreeView):
 
 
 def file_indexer(queue, path, ignore_patterns, max_files):
+    
+    from pathspec import PathSpec
 
-    import fnmatch
-
-    def _list_files(dirname, ignore_patterns):
+    def _list_files(dirname):
 
         files = []
-        ignore_patterns = ignore_patterns[:]
-        gitignore = os.path.join(dirname, u'.gitignore')
-        if os.path.exists(gitignore):
-            with open(gitignore) as fd:
-                ignore_patterns += [p.strip() for p in fd.read().split(u'\n')]
-        ignore_patterns = [p for p in ignore_patterns if p]
         try:
             basenames = os.listdir(dirname)
         except Exception:
@@ -223,24 +226,19 @@ def file_indexer(queue, path, ignore_patterns, max_files):
         else:
             for basename in basenames:
                 path = os.path.join(dirname, basename)
-                if any(
-                    (
-                        ignore_pattern in path or
-                        fnmatch.fnmatch(basename, ignore_pattern)
-                    )
-                    for ignore_pattern in ignore_patterns
-                ):
+                if ignore_spec.match_file(path):
                     continue
                 if os.path.isdir(path):
-                    files += _list_files(path, ignore_patterns)
+                    files += _list_files(path)
                 else:
                     files.append(path)
         if len(files) > max_files:
             raise ValueError(u'Too many files')
         return files
 
+    ignore_spec = PathSpec.from_lines('gitwildmatch', ignore_patterns)
     try:
-        files = _list_files(path, ignore_patterns)
+        files = _list_files(path)
     except ValueError:
         files = None
     queue.put(files)
