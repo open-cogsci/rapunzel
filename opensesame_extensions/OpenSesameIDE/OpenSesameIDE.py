@@ -967,7 +967,7 @@ class OpenSesameIDE(BaseExtension):
     def _on_tabwidget_close(self, index):
 
         if self.tabwidget.get_widget(u'OpenSesameIDE') is None:
-            self._add_ide_tab()
+            QTimer.singleShot(1000, self._add_ide_tab)
         if self.tabwidget.count() > 1:
             return
         if not self.main_window.ui.action_onetabmode.isChecked():
