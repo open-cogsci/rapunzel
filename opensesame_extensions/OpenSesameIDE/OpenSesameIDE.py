@@ -625,6 +625,17 @@ class OpenSesameIDE(BaseExtension):
         """If the jupyter kernel is done, execute the next queued cell."""
         if self._cells_to_run_queue:
             QTimer.singleShot(1000, self._run_cell_from_queue)
+            
+    def event_jupyter_exception_occurred(self):
+        
+        self.extension_manager.fire(
+            u'notify',
+            message=_(u'An Exception occurred'),
+            category='warning',
+            always_show=True,
+            timeout=1000
+        )
+        self._cells_to_run_queue = []
         
     def _run_cell_from_queue(self):
         """Checks if there are cells cued to be executed. If so, then the cell

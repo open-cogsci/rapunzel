@@ -177,6 +177,8 @@ class TransparentJupyterWidget(RichJupyterWidget, BaseSubcomponent):
         if not self._executing_counter:
             return
         self.extension_manager.fire('jupyter_execute_result_text', text=text)
+        if 'Traceback (most recent call last)' in text:
+            self.extension_manager.fire('jupyter_exception_occurred')
 
 
 class OutprocessJupyterWidget(TransparentJupyterWidget):
