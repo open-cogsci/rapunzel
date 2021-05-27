@@ -114,6 +114,11 @@ class JupyterConsole(BaseWidget):
         return False
     
     @property
+    def language(self):
+        
+        return self._kernel_manager.kernel_spec.language
+    
+    @property
     def pid(self):
         
         if self._inprocess:
@@ -195,19 +200,19 @@ class JupyterConsole(BaseWidget):
 
     def get_workspace_globals(self):
 
-        if self._kernel in TRANSPARENT_KERNELS:
+        if self.language in TRANSPARENT_KERNELS:
             return self._jupyter_widget.get_workspace_globals()
         return {'not supported': None}
 
     def list_workspace_globals(self):
 
-        if self._kernel in TRANSPARENT_KERNELS:
+        if self.language in TRANSPARENT_KERNELS:
             return self._jupyter_widget.list_workspace_globals()
         return []
 
     def get_workspace_variable(self, name):
 
-        if self._kernel in TRANSPARENT_KERNELS:
+        if self.language in TRANSPARENT_KERNELS:
             return self._jupyter_widget.get_workspace_variable(name)
         return None
     
