@@ -160,6 +160,13 @@ class JupyterConsole(BaseExtension):
             return self._jupyter_console.current._kernel
         except AttributeError:
             return None
+        
+    def provide_workspace_language(self):
+
+        try:
+            return self._jupyter_console.current.language
+        except AttributeError:
+            return None
 
     def provide_jupyter_workspace_globals(self):
 

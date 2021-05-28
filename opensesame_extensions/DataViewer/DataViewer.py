@@ -60,7 +60,9 @@ class DataViewer(BaseExtension):
             # Get the [Kernel]FileHandler class based on the kernel of the
             # active workspace
             cls_name = '{}FileHandler'.format(
-                self.extension_manager.provide('workspace_kernel').capitalize()
+                self.extension_manager.provide(
+                    'workspace_language'
+                ).capitalize()
             )
             oslogger.debug('looking for {}'.format(cls_name))
             try:
