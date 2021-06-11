@@ -121,7 +121,7 @@ class JupyterConsole(BaseWidget):
     @property
     def pid(self):
         
-        if self._inprocess:
+        if self.language:
             return os.getpid()
         if self._kernel not in PID_CMD:
             return -1
