@@ -256,7 +256,7 @@ class JupyterConsole(BaseWidget):
 
         # This should be changed into a kernel-agnostic implementation
         if (
-            self._kernel not in ('python', 'python2', 'python3') or
+            self.language not in ('python', 'python2', 'python3') or
             self._inprocess
         ):
             self.extension_manager.fire(
