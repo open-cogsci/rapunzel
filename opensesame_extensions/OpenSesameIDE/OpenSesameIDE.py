@@ -1046,6 +1046,7 @@ class OpenSesameIDE(BaseExtension):
             if os.path.isdir(folder)
         ]
         if not folders:
+            oslogger.debug('opening current working directory')
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
