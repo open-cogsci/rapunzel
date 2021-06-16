@@ -69,6 +69,8 @@ class DataDockWidget(QDockWidget):
 
     def _inspect_fallback(self, value):
 
+        if hasattr(value, '_repr_html_') and callable(value._repr_html_):
+            return inspect_str(value._repr_html_())
         return inspect_str(repr(value))
 
     def closeEvent(self, e):
