@@ -32,8 +32,8 @@ class RapunzelWelcome(BaseExtension):
     @BaseExtension.as_thread(wait=500)
     def event_startup(self):
 
-        if self.extension_manager['OpenSesameIDE']._current_editor():
-            # Only show the startup tab if no editors are open
+        # Don't show the startup tab if any pinned files have been restored
+        if self.extension_manager.provide('ide_restored_pins'):
             return
         with safe_open(self.ext_resource(u'rapunzel_welcome.md')) as fd:
             md = fd.read()

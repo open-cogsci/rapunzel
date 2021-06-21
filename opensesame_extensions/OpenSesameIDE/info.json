@@ -6,6 +6,7 @@
     "tooltip": "Turn OpenSesame into an IDE",
     "settings": {
         "opensesame_ide_last_folder": "",
+        "opensesame_ide_pinned_files": "",
         "opensesame_ide_recent_folders": "",
         "opensesame_ide_run_autosave": false,
         "opensesame_ide_auto_tabs_to_spaces": false,

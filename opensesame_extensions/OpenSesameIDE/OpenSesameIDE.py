@@ -879,6 +879,7 @@ class OpenSesameIDE(BaseExtension):
         def inner(e):
 
             self.main_window.setUpdatesEnabled(False)
+            self._remember_pinned_files()
             self.extension_manager.fire('pyqode_suspend_auto_backend_restart')
             self._scetw.closeEvent(e)
             self.extension_manager.fire('pyqode_resume_auto_backend_restart')
@@ -1050,6 +1051,29 @@ class OpenSesameIDE(BaseExtension):
             folders = [os.getcwd()]
         for folder in folders:
             self._open_folder(folder)
+            
+    def _remember_pinned_files(self):
+
+        paths = []
+        for editor in self._scetw.widgets(include_clones=True):
+            tab_widget = editor.parent().parent()
+            if editor.file.path is not None and editor.file.path not in paths:
+                if tab_widget.is_pinned(tab_widget.indexOf(editor)):
+                    paths.append(editor.file.path)
+        cfg.opensesame_ide_pinned_files = u';'.join(paths)
+            
+    def provide_ide_restored_pins(self):
+        
+        paths = [
+            path
+            for path in cfg.opensesame_ide_pinned_files.split(u';')
+            if os.path.isfile(path)
+        ]
+        for path in paths:
+            self.open_document(path)
+        for editor in self._scetw.widgets():
+            self._scetw.main_tab_widget.pin(editor)
+        return paths
     
     @BaseExtension.as_thread(wait=750)
     def _open_from_command_line(self, path):
