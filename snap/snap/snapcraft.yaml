@@ -1,7 +1,7 @@
 name: rapunzel
 title: Rapunzel
 base: core20
-version: "0.5.25-snap1"
+version: "0.5.27-snap1"
 summary: Code editor for numerical computing with Python and R
 description: |
   __Rapunzel__ is a modern code editor for numerical computing with Python and R.
@@ -57,6 +57,7 @@ parts:
           # For importing and exporting
           - python3-nbformat
           - python3-jupyter-core
+          - jupyter-client
           - jupyter-core
           - jupyter-nbconvert
           - pandoc
