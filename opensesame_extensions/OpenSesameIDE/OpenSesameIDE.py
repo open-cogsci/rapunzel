@@ -269,9 +269,7 @@ class OpenSesameIDE(BaseExtension):
             'open_file_extension_{}'.format(ext)
         )
         if not handler:
-            from datamatrix import functional as fnc
-            with fnc.profile('profile-open.txt'):
-                self._open_document_as_text(path)
+            self._open_document_as_text(path)
             return
         oslogger.debug('custom handler for .{} extension'.format(ext))
         handler_fnc, handler_desc = handler
