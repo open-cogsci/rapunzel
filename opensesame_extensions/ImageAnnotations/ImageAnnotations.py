@@ -21,7 +21,7 @@ from libopensesame.py3compat import *
 import re
 import os
 import uuid
-import yaml
+import json
 from qtpy import QtWidgets, QtCore
 from pyqode.core import modes
 from libopensesame.oslogging import oslogger
@@ -62,7 +62,7 @@ class ImageAnnotations(BaseExtension):
             oslogger.debug('creating {}'.format(self._image_folder))
             os.mkdir(self._image_folder)
         try:
-            self._image_annotations = safe_yaml_load(cfg.image_annotations)
+            self._image_annotations = json.loads(cfg.image_annotations)
             assert(isinstance(self._image_annotations, dict))
         except BaseException:
             oslogger.warning('failed to parse image annotations from config')
@@ -332,7 +332,7 @@ class ImageAnnotations(BaseExtension):
             def annotation_filter(code): return code.startswith('![](')
         else:
             def annotation_filter(code): return not code.startswith('![](')
-        cfg.image_annotations = yaml.dump(self._image_annotations)
+        cfg.image_annotations = json.dumps(self._image_annotations)
         if editor.file.path in self._image_annotations:
             mode.set_annotations({
                 editor.file.path: {
