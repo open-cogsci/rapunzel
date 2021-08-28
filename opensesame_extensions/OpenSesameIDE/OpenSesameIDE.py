@@ -269,7 +269,9 @@ class OpenSesameIDE(BaseExtension):
             'open_file_extension_{}'.format(ext)
         )
         if not handler:
-            self._open_document_as_text(path)
+            from datamatrix import functional as fnc
+            with fnc.profile('profile-open.txt'):
+                self._open_document_as_text(path)
             return
         oslogger.debug('custom handler for .{} extension'.format(ext))
         handler_fnc, handler_desc = handler
@@ -307,10 +309,6 @@ class OpenSesameIDE(BaseExtension):
             replace_tabs_by_spaces=cfg.opensesame_ide_auto_tabs_to_spaces,
             clean_trailing_whitespaces=cfg.opensesame_ide_strip_lines,
             show_whitespaces=None
-        )
-        self.extension_manager.fire(
-            u'register_editor',
-            editor=editor
         )
 
     def remove_folder_browser_dock_widget(self, dock_widget):
@@ -969,7 +967,7 @@ class OpenSesameIDE(BaseExtension):
         tw.tab_closed.connect(self._on_editor_close)
         tw.split_requested.disconnect(splitter.split)
         tw.split_requested.connect(self._on_split_requested)
-        splitter.editor_created.connect(self._on_editor_created)
+        splitter.document_opened.connect(self._on_editor_created)
         
     def _on_split_requested(self, widget, orientation, index=None):
         
