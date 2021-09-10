@@ -26,6 +26,7 @@ from pyqode.core.widgets import (
     FileSystemContextMenu
 )
 from qtpy.QtWidgets import (
+    QCheckBox,
     QDockWidget,
     QWidget,
     QVBoxLayout,
@@ -46,11 +47,14 @@ class FolderBrowserDockWidget(QDockWidget):
         self.main_window = parent
         self._ide = ide
         self.path = path
+        self._gitignore_checkbox = QCheckBox(_('Use .gitignore'))
+        self._gitignore_checkbox.setChecked(True)
         self._folder_browser = FolderBrowser(parent, ide, path, self)
         self._container_layout = QVBoxLayout()
         self._container_widget = QWidget(self)
         self._container_layout.setContentsMargins(6, 6, 6, 6)
         self._container_layout.addWidget(self._folder_browser)
+        self._container_layout.addWidget(self._gitignore_checkbox)
         self._container_widget.setLayout(self._container_layout)
         self.setWidget(self._container_widget)
         self.setWindowTitle(os.path.basename(path))
@@ -81,6 +85,9 @@ class FolderBrowser(FileSystemTreeView):
         self._path = path
         self._ide = ide
         self._dock_widget = dock_widget
+        self._dock_widget._gitignore_checkbox.stateChanged.connect(
+            self._toggle_gitignore
+        )
         self._set_ignore_patterns()
         self.set_root_path(os.path.normpath(path))
         self.set_context_menu(FileSystemContextMenu(self.main_window))
@@ -91,23 +98,41 @@ class FolderBrowser(FileSystemTreeView):
         self._indexing = False
         self._file_list = []
         self._active = True
+        self._timer = None
         self._index_files()
         
-    def _set_ignore_patterns(self):
+    def _refresh(self):
+        """Refreshes the file tree"""
+        self.set_root_path(self.root_path)
         
+    def _toggle_gitignore(self):
+        """Is called when the .gitignore option is (un)checked. Updates the
+        ignore patterns and refreshes the file tree.
+        """
+        self._set_ignore_patterns()
+        self._restart_indexing()
+        self._refresh()
+        
+    def _set_ignore_patterns(self):
+        """Sets the ignore patterns based on the configuration as well as the
+        .gitignore if available and activated.
+        """
         self.clear_ignore_patterns()
         self.add_ignore_patterns(self._ide.ignore_patterns)
         gitignore = os.path.join(self._path, u'.gitignore')
         if not os.path.exists(gitignore):
+            self._dock_widget._gitignore_checkbox.hide()
             return
-        with open(gitignore) as fd:
-            self.add_ignore_patterns(fd.read().splitlines())
+        self._dock_widget._gitignore_checkbox.show()
+        if self._dock_widget._gitignore_checkbox.isChecked():
+            with open(gitignore) as fd:
+                self.add_ignore_patterns(fd.read().splitlines())
 
     def currentChanged(self, current_index, previous_index):
-
-        # If the current item has changed, then the container dock widget
-        # should be raised. This is necessary for locating files in dock
-        # widgets that are tabbed and not active.
+        """If the current item has changed, then the container dock widget
+        should be raised. This is necessary for locating files in dock widgets
+        that are tabbed and not active.
+        """
         super(FolderBrowser, self).currentChanged(
             current_index,
             previous_index
@@ -115,7 +140,7 @@ class FolderBrowser(FileSystemTreeView):
         self._dock_widget.raise_()
 
     def mouseDoubleClickEvent(self, event):
-
+        """Opens a file when it's double-clicked"""
         path = self.fileInfo(self.indexAt(event.pos())).filePath()
         self.open_file(path)
         
@@ -124,6 +149,7 @@ class FolderBrowser(FileSystemTreeView):
         self._active = False
         self._watcher.fileChanged.disconnect()
         self._watcher.directoryChanged.disconnect()
+        self._stop_indexing()
 
     def open_file(self, path):
 
@@ -143,13 +169,36 @@ class FolderBrowser(FileSystemTreeView):
     def _on_file_changed(self, _=None):
         
         oslogger.debug(u'file changed in {}'.format(self._path))
-        self._index_files()
+        self._restart_indexing()
 
     def _on_folder_changed(self, _=None):
         
         oslogger.debug(u'folder changed in {}'.format(self._path))
+        self._restart_indexing()
+        
+    def _stop_indexing(self):
+        """Stops the file indexer by stopping any active timers and by
+        killing running indexer processes.
+        """
+        if self._timer is not None and self._timer.isActive():
+            oslogger.debug(u'stopping timer for {}'.format(self._path))
+            self._timer.stop()
+        if self._indexing:
+            oslogger.debug(u'killing indexer for {}'.format(self._path))
+            self._file_indexer.terminate()
+        
+    def _restart_indexing(self):
+        """Restarts the file indexer"""
+        self._stop_indexing()
         self._index_files()
-
+        
+    def _start_timer(self, msec, target):
+        self._timer = QTimer()
+        self._timer.setSingleShot(True)
+        self._timer.setInterval(msec)
+        self._timer.timeout.connect(target)
+        self._timer.start()
+        
     def _index_files(self, _=None):
 
         if not self._active:
@@ -179,13 +228,13 @@ class FolderBrowser(FileSystemTreeView):
             pid=self._file_indexer.pid,
             description='file_indexer:{}'.format(self._path)
         )
-        QTimer.singleShot(1000, self._check_file_indexer)
+        self._start_timer(1000, self._check_file_indexer)
 
     def _check_file_indexer(self):
 
         if self._queue.empty():
             oslogger.debug(u'queue still empty for {}'.format(self._path))
-            QTimer.singleShot(1000, self._check_file_indexer)
+            self._start_timer(1000, self._check_file_indexer)
             return
         self._file_list = self._queue.get()
         self._indexing = False
@@ -209,7 +258,7 @@ class FolderBrowser(FileSystemTreeView):
         except AttributeError:
             # Process.close() was introduced only in Python 3.7
             pass
-        QTimer.singleShot(300000, self._index_files)
+        self._start_timer(300000, self._index_files)
 
 
 def file_indexer(queue, path, ignore_patterns, max_files):
