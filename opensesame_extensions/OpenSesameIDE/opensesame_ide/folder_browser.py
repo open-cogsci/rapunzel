@@ -186,6 +186,7 @@ class FolderBrowser(FileSystemTreeView):
         if self._indexing:
             oslogger.debug(u'killing indexer for {}'.format(self._path))
             self._file_indexer.terminate()
+            self._indexing = False
         
     def _restart_indexing(self):
         """Restarts the file indexer"""
