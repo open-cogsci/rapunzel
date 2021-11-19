@@ -23,6 +23,10 @@ import sys
 import mimetypes
 import textwrap
 import inspect
+try:
+    from collections import OrderedDict
+except ImportError:
+    OrderDict = dict
 from libopensesame import metadata
 from libopensesame.oslogging import oslogger
 from libqtopensesame.extensions import BaseExtension
@@ -89,7 +93,7 @@ class OpenSesameIDE(BaseExtension):
         self._scetw.default_extension = \
             lambda: cfg.opensesame_ide_default_extension
         self._add_ide_tab()
-        self._dock_widgets = {}
+        self._dock_widgets = OrderedDict()
         self._set_ignore_patterns()
         self._restore_open_folders()
         self._parse_command_line()
@@ -466,6 +470,10 @@ class OpenSesameIDE(BaseExtension):
         oslogger.debug(
             'setting folder-browser visibility to {}'.format(hidden)
         )
+        if not hidden and hasattr(self._dock_widgets, 'move_to_end'):
+            for path, dockwidget in list(self._dock_widgets.items()):
+                if dockwidget.visibleRegion().isEmpty():
+                    self._dock_widgets.move_to_end(path)
         for dockwidget in self.dock_widgets:
             dockwidget.setVisible(hidden)
 
