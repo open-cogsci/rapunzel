@@ -470,6 +470,12 @@ class OpenSesameIDE(BaseExtension):
         oslogger.debug(
             'setting folder-browser visibility to {}'.format(hidden)
         )
+        # This ensures that, when multiple dockwidgets are tabified together,
+        # the correct one is on top when the dockwidgets are revealed again.
+        # This is done by moving the invisible dockwidgets to the end of the
+        # dict of dockwidgets so that they are made visible last. This only
+        # works for recent versions of Python that support the
+        # OrderDict.move_to_end() function.
         if not hidden and hasattr(self._dock_widgets, 'move_to_end'):
             for path, dockwidget in list(self._dock_widgets.items()):
                 if dockwidget.visibleRegion().isEmpty():
