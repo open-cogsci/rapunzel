@@ -91,6 +91,7 @@ class ImageAnnotations(BaseExtension):
         if setting == 'image_annotations_enabled':
             if value:
                 cfg.image_annotations_enabled = True
+                cfg.image_annotations_capture_output = False
             else:
                 cfg.image_annotations_enabled = False
                 cfg.image_annotations_capture_output = False
@@ -99,6 +100,7 @@ class ImageAnnotations(BaseExtension):
                 cfg.image_annotations_enabled = True
                 cfg.image_annotations_capture_output = True
             else:
+                cfg.image_annotations_enabled = True
                 cfg.image_annotations_capture_output = False
         else:
             return

@@ -315,19 +315,6 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_run_up_to_current_position,
             ide.run_up_to_current_position,
         )
-        self._action_capture_output = self._cfg_action(
-            self._menu_run,
-            _(u'&Capture output'),
-            u'image_annotations_capture_output'
-        )
-        self._action_clear_output = self._action(
-            _(u'C&lear output'),
-            u'edit-clear',
-            None,
-            lambda: self._ide.extension_manager.fire(
-                'image_annotations_clear_output'
-            )
-        )
         self._action_run_debug = self._action(
             _(u'Run file in &debugger'),
             u'os-run',
@@ -364,14 +351,56 @@ class MenuBar(QMenuBar):
             cfg.opensesame_ide_shortcut_change_working_directory,
             ide.change_working_directory,
         )
+        # Output menu (submenu of run)
+        self._menu_output = QMenu(_('&Capture output'), self)
+        self._menu_output.setIcon(
+            self._ide.theme.qicon(u'os-debug')
+        )
+        self._action_no_capture = self._action(
+            _(u'Don\'t capture output'),
+            None,
+            None,
+            self._image_annotations_no_capture,
+            checkable=True,
+            checked=not cfg.image_annotations_enabled
+        )
+        self._action_capture_images = self._action(
+            _(u'Capture images'),
+            None,
+            None,
+            self._image_annotations_capture_images,
+            checkable=True,
+            checked=cfg.image_annotations_enabled and \
+                not cfg.image_annotations_capture_output
+        )
+        self._action_capture_images_and_text = self._action(
+            _(u'Capture images and text'),
+            None,
+            None,
+            self._image_annotations_capture_images_and_text,
+            checkable=True,
+            checked=cfg.image_annotations_capture_output
+        )
+        self._action_clear_output = self._action(
+            _(u'Clear output'),
+            u'edit-clear',
+            None,
+            lambda: self._ide.extension_manager.fire(
+                'image_annotations_clear_output'
+            )
+        )
+        self._menu_output.addAction(self._action_no_capture)
+        self._menu_output.addAction(self._action_capture_images)
+        self._menu_output.addAction(self._action_capture_images_and_text)
+        self._menu_output.addSeparator()
+        self._menu_output.addAction(self._action_clear_output)
         # Run menu
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
         self._menu_run.addAction(self._action_run_from_current_position)
         self._menu_run.addAction(self._action_run_up_to_current_position)
         self._menu_run.addSeparator()
-        self._menu_run.addAction(self._action_capture_output)
-        self._menu_run.addAction(self._action_clear_output)
+        self._menu_run.addMenu(self._menu_output)
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_run_interrupt)
         self._menu_run.addAction(self._action_run_restart)
@@ -438,7 +467,8 @@ class MenuBar(QMenuBar):
         title,
         setting,
         icon=None,
-        shortcut=None
+        shortcut=None,
+        negate=False
     ):
 
         action = QAction(title, self)
@@ -457,7 +487,11 @@ class MenuBar(QMenuBar):
                 value=value
             )
             
-        action.triggered.connect(change_setting)
+        def change_negated_setting(value):
+            change_setting(not value)
+            
+        action.triggered.connect(
+            change_negated_setting if negate else change_setting)
         action.setCheckable(True)
         action.setChecked(cfg[setting])
         action.setPriority(QAction.HighPriority)
@@ -500,6 +534,31 @@ class MenuBar(QMenuBar):
     def _select_indentation_mode(self):
 
         self._ide.extension_manager.fire('pyqode_select_indentation_mode')
+        
+    def _image_annotations_no_capture(self):
+        
+        self._action_capture_images.setChecked(False)
+        self._action_capture_images_and_text.setChecked(False)
+        self._ide.extension_manager.fire(
+            'setting_changed',
+            setting='image_annotations_enabled',
+            value=False)
+    
+    def _image_annotations_capture_images(self):
+        self._action_no_capture.setChecked(False)
+        self._action_capture_images_and_text.setChecked(False)
+        self._ide.extension_manager.fire(
+            'setting_changed',
+            setting='image_annotations_enabled',
+            value=True)
+    
+    def _image_annotations_capture_images_and_text(self):
+        self._action_no_capture.setChecked(False)
+        self._action_capture_images.setChecked(False)
+        self._ide.extension_manager.fire(
+            'setting_changed',
+            setting='image_annotations_capture_output',
+            value=True)
 
 
 class ToolBar(QToolBar):
