@@ -394,6 +394,10 @@ class MenuBar(QMenuBar):
         self._menu_output.addAction(self._action_capture_images_and_text)
         self._menu_output.addSeparator()
         self._menu_output.addAction(self._action_clear_output)
+        # Logging menu (submeny of run)
+        self._menu_logging = QMenu(_(u'&Logging level'))
+        self._menu_logging.setIcon(self._ide.theme.qicon('text-x-script'))
+        self._menu_logging.aboutToShow.connect(self._show_logging_menu)
         # Run menu
         self._menu_run.addAction(self._action_run_current_file)
         self._menu_run.addAction(self._action_run_current_selection)
@@ -401,6 +405,7 @@ class MenuBar(QMenuBar):
         self._menu_run.addAction(self._action_run_up_to_current_position)
         self._menu_run.addSeparator()
         self._menu_run.addMenu(self._menu_output)
+        self._menu_run.addMenu(self._menu_logging)
         self._menu_run.addSeparator()
         self._menu_run.addAction(self._action_run_interrupt)
         self._menu_run.addAction(self._action_run_restart)
@@ -421,6 +426,25 @@ class MenuBar(QMenuBar):
             return
         for action in editor.get_context_menu().actions():
             self._menu_edit.addAction(action)
+            
+    def _show_logging_menu(self):
+        
+        logging_commands = self._ide.extension_manager.provide(
+            'workspace_logging_commands')
+        self._menu_logging.clear()
+        if logging_commands is None:
+            action = self._menu_logging.addAction(_(u'Kernel not supported'))
+            action.setEnabled(False)
+            return
+        for level, command in logging_commands.items():
+            def set_logging_level(command):
+                def inner():
+                    self._ide.extension_manager.fire('jupyter_run_code',
+                                                     code=command)
+                return inner
+            action = self._menu_logging.addAction(
+                self._ide.theme.qicon('text-x-script'), level,
+                set_logging_level(command))
 
     def _add_extension_action(self, ext, menu, separate=False):
 

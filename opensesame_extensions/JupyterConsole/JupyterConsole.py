@@ -167,6 +167,15 @@ class JupyterConsole(BaseExtension):
             return self._jupyter_console.current.language
         except AttributeError:
             return None
+        
+    def provide_workspace_logging_commands(self):
+
+        from jupyter_tabwidget.constants import LOGGING_LEVEL_CMD
+        try:
+            kernel = self._jupyter_console.current.language
+        except AttributeError:
+            return None
+        return LOGGING_LEVEL_CMD.get(kernel, None)
 
     def provide_jupyter_workspace_globals(self):
 

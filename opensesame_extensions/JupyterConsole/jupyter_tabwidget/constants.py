@@ -28,6 +28,15 @@ CHANGE_DIR_CMD = {
     u'ir': 'setwd("{path}")',
     u'bash': 'cd "{path}"'
 }
+LOGGING_LEVEL_CMD = {
+    'python': {
+        'Debug': 'import logging; logging.basicConfig(level=logging.DEBUG, force=True)',
+        'Info': 'import logging; logging.basicConfig(level=logging.INFO, force=True)',
+        'Warning': 'import logging; logging.basicConfig(level=logging.WARNING, force=True)',
+        'Error': 'import logging; logging.basicConfig(level=logging.ERROR, force=True)',
+        'Critical': 'import logging; logging.basicConfig(level=logging.CRITICAL, force=True)'
+    }
+}
 DEFAULT_CHANGE_DIR_CMD = u'%cd "{path}"'
 RUN_FILE_CMD = {
     u'ir': 'source("{path}")',
