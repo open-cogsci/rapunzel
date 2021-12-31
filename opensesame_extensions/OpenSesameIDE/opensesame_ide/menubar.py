@@ -395,7 +395,7 @@ class MenuBar(QMenuBar):
         self._menu_output.addSeparator()
         self._menu_output.addAction(self._action_clear_output)
         # Logging menu (submeny of run)
-        self._menu_logging = QMenu(_(u'&Logging level'))
+        self._menu_logging = QMenu(_(u'&Logging level'), self)
         self._menu_logging.setIcon(self._ide.theme.qicon('text-x-script'))
         self._menu_logging.aboutToShow.connect(self._show_logging_menu)
         # Run menu
