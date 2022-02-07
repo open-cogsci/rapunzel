@@ -19,6 +19,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import importlib
+import pprint
 from libopensesame.oslogging import oslogger
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
@@ -71,7 +72,12 @@ class DataDockWidget(QDockWidget):
 
         if hasattr(value, '_repr_html_') and callable(value._repr_html_):
             return inspect_str(value._repr_html_())
-        return inspect_str(repr(value))
+        try:
+            value = pprint.pformat(value)
+        except Exception as e:
+            oslogger.warning('failed to pretty-print: {!s}'.format(e))
+            value = repr(value)
+        return inspect_str(value)
 
     def closeEvent(self, e):
 
