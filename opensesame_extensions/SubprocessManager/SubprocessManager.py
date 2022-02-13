@@ -147,7 +147,8 @@ class SubprocessManager(BaseExtension):
     def event_close(self):
         
         for pid in self._active_processes:
-            oslogger.debug('killing process {}'.format(pid))
+            oslogger.debug('killing process {} ({})'.format(
+                pid, self._processes[pid]))
             p = psutil.Process(pid)
             p.kill()
             
@@ -173,7 +174,6 @@ class SubprocessManager(BaseExtension):
         self._parachute.start()
         for pid in self._active_processes:
             self._queue.put(pid)
-        self._processes[self._parachute.pid] = 'parachute'
         QTimer.singleShot(
             1000 * PARACHUTE_HEARTBEAT_INTERVAL,
             self._pararchute_heartbeat
