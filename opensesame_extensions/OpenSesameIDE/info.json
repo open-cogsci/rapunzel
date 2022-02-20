@@ -1,6 +1,6 @@
 {
     "label": "Turn OpenSesame into an IDE",
-    "version": "0.5.36",
+    "version": "0.5.37",
     "icon": "go-next",
     "priority": 100,
     "tooltip": "Turn OpenSesame into an IDE",
