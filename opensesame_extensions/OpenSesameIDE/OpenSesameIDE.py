@@ -20,6 +20,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 from libopensesame.py3compat import *
 import os
 import sys
+import time
 import mimetypes
 import textwrap
 import inspect
@@ -582,6 +583,8 @@ class OpenSesameIDE(BaseExtension):
             u'jupyter_change_dir',
             path=os.path.dirname(path)
         )
+        time.sleep(.1)
+        QApplication.processEvents()
     
     @with_editor_and_cursor
     def run_from_current_position(self, editor, cursor):
