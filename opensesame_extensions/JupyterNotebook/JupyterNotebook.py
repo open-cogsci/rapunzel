@@ -18,6 +18,7 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from libopensesame.py3compat import *
+import re
 import os
 import importlib
 import time
@@ -188,6 +189,9 @@ class JupyterNotebook(BaseExtension):
         
     def _to_html(self, ipynb_path):
         
+        # Square brackets need to be escaped, because nbconverts interprets
+        # them as glob patterns
+        ipynb_path = re.sub(r'(?P<bracket>[\[\]])', '[\g<bracket>]', ipynb_path)
         self._run('jupyter nbconvert "{}" --to html'.format(ipynb_path))
         return os.path.splitext(ipynb_path)[0] + '.html'
         
