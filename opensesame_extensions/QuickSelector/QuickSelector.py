@@ -98,12 +98,18 @@ class QuickSelectorDialog(QDialog):
             parent,
             Qt.FramelessWindowHint
         )
-        self.setWindowTitle(u'Quick Selector')
+        # The Text token is not always defined, in which case the color
+        # defaults to black, which is ugly. Therefore, retry with the generic
+        # token.
         style = styles.get_style_by_name(cfg.pyqode_color_scheme)
+        foreground = style.styles.get(token.Text)
+        if not foreground:
+            foreground = style.styles.get(token.Token)
+        self.setWindowTitle(u'Quick Selector')
         self.setStyleSheet(STYLESHEET.format(
             background=style.highlight_color,
             selected_background=style.background_color,
-            foreground=style.styles.get(token.Text),
+            foreground=foreground,
             font_family=cfg.pyqode_font_name,
             font_size=cfg.pyqode_font_size
         ))
