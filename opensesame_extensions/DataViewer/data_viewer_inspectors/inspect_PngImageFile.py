@@ -48,9 +48,9 @@ class ImageLabel(QLabel):
         if math.isclose(ratio, self._ratio):
             return
         if ratio > self._ratio:
-            new_size = QSize(height * self._ratio, height)
+            new_size = QSize(int(height * self._ratio), height)
         elif ratio < self._ratio:
-            new_size = QSize(width, width / self._ratio)
+            new_size = QSize(width, int(width / self._ratio))
         self.resize(new_size)
 
 
