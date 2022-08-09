@@ -1171,6 +1171,14 @@ class OpenSesameIDE(BaseExtension):
             pass
         else:
             p.extension_changed.connect(self._on_extension_changed)
+            # FallBackCodeEdit requires setPlainText() to be called to
+            # properly initialize all modes and panels. Only direct instances
+            # of FallBackCodeEdit should do that, hence we're not using
+            # isinstance() but type()
+            if type(editor) == FallbackCodeEdit:
+                oslogger.debug(
+                    'initializing FallBackCodeEdit through setPlainText()')
+                editor.setPlainText('')
 
     @with_editor
     def _current_tabwidget(self, editor):
