@@ -1174,8 +1174,10 @@ class OpenSesameIDE(BaseExtension):
             # FallBackCodeEdit requires setPlainText() to be called to
             # properly initialize all modes and panels. Only direct instances
             # of FallBackCodeEdit should do that, hence we're not using
-            # isinstance() but type()
-            if type(editor) == FallbackCodeEdit:
+            # isinstance() but type(). And we should not overwrite the contents
+            # of code edits that already have content.
+            if type(editor) == FallbackCodeEdit and not editor.toPlainText():
+                print('created')
                 oslogger.debug(
                     'initializing FallBackCodeEdit through setPlainText()')
                 editor.setPlainText('')
