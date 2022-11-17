@@ -321,7 +321,8 @@ class ImageAnnotations(BaseExtension):
         if code not in self._image_annotations[self._editor.file.path]:
             self._image_annotations[self._editor.file.path][code] = []
         img_path = self._img_to_file(img, fmt)
-        self._image_annotations[self._editor.file.path][code].append(img_path)
+        self._image_annotations[
+            self._editor.file.path][code] = [img_path]
         if cfg.image_annotations_capture_output:
             md = '![]({})'.format(img_path)
             self._image_annotations[self._editor.file.path][md] = [img_path]
