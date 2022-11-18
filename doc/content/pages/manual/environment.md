@@ -72,7 +72,7 @@ Each entry should be a semicolon-separated list of folders. All entries are opti
 ```yaml
 PYTHON_PATH: "/home/user/mylibs1;/home/user/mylibs2"
 OPENSESAME_PLUGIN_PATH: "/home/user/myplugins1;/home/user/myplugins2"
-OPENSESAME_PLUGIN_PATH: "/home/user/myextensions1;/home/user/myextensions2"
+OPENSESAME_EXTENSION_PATH: "/home/user/myextensions1;/home/user/myextensions2"
 ```
 
 This file should be placed in the working directory of OpenSesame. Under Windows, this is generally the OpenSesame program folder; under Linux and Mac OS this is generally your home folder. You can find out what the working directory is by executing the following in the debug window:
@@ -87,7 +87,7 @@ print(os.getcwd())
 
 The following environment variables control your Python environment:
 
-- `PYTHONPATH` is a colon-separated list of folders that are scanned for Python packages. (See [official Python docs](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH).)
+- `PYTHON_PATH` is a colon-separated list of folders that are scanned for Python packages. (See [official Python docs](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH).)
 - `OPENSESAME_EXTENSION_PATH` is a semicolon-separated list of folders that are scanned for OpenSesame / Rapunzel extensions.
 - `OPENSESAME_PLUGIN_PATH` is a semi-colon separated list of folders that are scanned for OpenSesame plugins (not used in Rapunel).
 - `OPENSESAME_RESOURCES_PATH` is a single additional folder to scan for resource files (e.g. locale and ui files). This is mostly for development or packaging purposes.
