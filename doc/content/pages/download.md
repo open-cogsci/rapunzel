@@ -25,11 +25,11 @@ Once Rapunzel has been installed, you can start it from the Anaconda prompt (`ra
 
 The standard download is based on Python 3.10 for 64 bit systems. The installer and `.zip` packages are identical, except for the installation.
 
-<a role="button" class="btn btn-success btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.42/rapunzel_0.5.42-py310-win64-1.exe">
+<a role="button" class="btn btn-success btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.43/rapunzel_0.5.43-py310-win64-1.exe">
 	<b>Standard</b> Windows installer (.exe)
 </a>
 
-<a role="button" class="btn btn-default btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.42/rapunzel_0.5.42-py310-win64-1.zip">
+<a role="button" class="btn btn-default btn-align-left" href="https://github.com/open-cogsci/rapunzel/releases/download/release%2F0.5.43/rapunzel_0.5.43-py310-win64-1.zip">
 	<b>Standard</b> Windows no installation required (.zip)
 </a>
 

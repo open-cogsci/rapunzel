@@ -10,9 +10,9 @@ Rapunzel is a modern code editor focused on numerical computing with Python and 
     <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
     Download
   </a>
-  <a role="button" class="btn btn-success" href="https://forum.cogsci.nl/categories/rapunzel">
+  <a role="button" class="btn btn-success" href="https://professional.cogsci.nl/">
     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-    Forum
+    Get support
   </a>
 </div>
 
