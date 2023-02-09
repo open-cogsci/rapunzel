@@ -2,7 +2,7 @@
 
 A modern code editor, focused on numerical computing with Python and R
 
-Copyright 2019-2022 Sebastiaan Mathôt (@smathot)
+Copyright 2019-2023 Sebastiaan Mathôt (@smathot)
 
 
 ## About
@@ -20,23 +20,19 @@ OpenSesame is hosted on GitHub:
 
 ## List of extensions
 
-- `OpenSesameIDE` is the main extension that contains most of the IDE functionality
-- `FindInFiles` implements the find-in-files functionality (`Ctrl+Shift+F`)
-- `JupyterConsole` implements the Jupyter Console
-- `JupyterNotebook` provides export options to Notebook and other formats
-- `QuickSelector` provides the general quick-switching framework, which is used by other extensions
-- `WorkspaceExplorer` provides the workspace explorer that allows inspection of variables for supported kernels
-- `SymbolSelector` provides the jump-to-symbol (functions, classes, etc.) functionality (`Ctrl+R`)
-- `RapunzelWelcome` implements the welcome tab that is shown on startup
-- `CommandPalette` provides access to all menu options through a quick switcher
-- `WordCount` gives a notification with the number of words, lines, and characters of the current document
-- `SpellCheck` implements the spell checker
-- `DataViewer` allows supported file types to be imported into the kernel as objects
-- `GitGUI` opens Git GUI for the current document
-- `RapunzelLocale` handles translations
-- `PythonDebugger` implements the Rapunzel debugger for Python, based on the IPython debugger
-- `SubprocessManager` keeps track of all subprocess that were launched by Rapunzel
-- `ImageAnnotations` captures images and text output inserts them as annotations or code comments into the document
+- `opensesame_ide` is the main extension that contains most of the IDE functionality
+- `find_in_files` implements the find-in-files functionality (`Ctrl+Shift+F`)
+- `jupyter_notebook` provides export options to Notebook and other formats
+- `workspace_explorer` provides the workspace explorer that allows inspection of variables for supported kernels
+- `symbol_selector` provides the jump-to-symbol (functions, classes, etc.) functionality (`Ctrl+R`)
+- `rapunzel_welcome` implements the welcome tab that is shown on startup
+- `word_count` gives a notification with the number of words, lines, and characters of the current document
+- `spell_check` implements the spell checker
+- `data_viewer` allows supported file types to be imported into the kernel as objects
+- `git_gui` opens Git GUI for the current document
+- `rapunzel_locale` handles translations
+- `python_debugger` implements the Rapunzel debugger for Python, based on the IPython debugger
+- `image_annotations` captures images and text output inserts them as annotations or code comments into the document
 
 
 ## License
