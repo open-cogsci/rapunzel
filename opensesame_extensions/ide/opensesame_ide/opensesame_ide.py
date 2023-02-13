@@ -803,7 +803,7 @@ class OpensesameIde(BaseExtension):
                 
     def settings_widget(self):
         
-        from opensesame_ide import Preferences
+        from ._opensesame_ide import Preferences
         return Preferences(self.main_window)
         
     @with_editor

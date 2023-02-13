@@ -30,7 +30,7 @@ class Preferences(BasePreferencesWidget):
 
         super(Preferences, self).__init__(
             main_window,
-            ui=u'extensions.OpenSesameIDE.preferences'
+            ui=u'extensions.opensesame_ide.preferences'
         )
         
     def _before_init_widgets(self):

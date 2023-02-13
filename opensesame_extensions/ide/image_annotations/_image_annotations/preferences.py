@@ -28,10 +28,8 @@ class Preferences(BasePreferencesWidget):
     
     def __init__(self, main_window):
 
-        super(Preferences, self).__init__(
-            main_window,
-            ui=u'extensions.ImageAnnotations.preferences'
-        )
+        super().__init__(main_window,
+                         ui='extensions.image_annotations.preferences')
         
     def _after_init_widgets(self):
         
