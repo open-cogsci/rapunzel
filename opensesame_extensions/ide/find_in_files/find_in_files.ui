@@ -46,7 +46,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="input_widget" native="true">
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
        <number>0</number>
@@ -63,6 +63,16 @@
       <property name="horizontalSpacing">
        <number>12</number>
       </property>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLineEdit" name="lineedit_filter">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>File/ directory pattern, e.g. *.py</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QLineEdit" name="lineedit_needle">
         <property name="placeholderText">
@@ -71,10 +81,13 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QWidget" name="widget_2" native="true">
+       <widget class="QWidget" name="find_widget" native="true">
+        <property name="toolTip">
+         <string>Match case</string>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -88,6 +101,32 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item>
+          <widget class="QToolButton" name="toolbutton_match_case">
+           <property name="text">
+            <string>qta:mdi6.format-letter-matches</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::DelayedPopup</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolbutton_regex">
+           <property name="toolTip">
+            <string>Regular expression</string>
+           </property>
+           <property name="text">
+            <string>qta:mdi6.regex</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QPushButton" name="button_cancel">
            <property name="text">
@@ -113,13 +152,20 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLineEdit" name="lineedit_filter">
-        <property name="text">
-         <string/>
-        </property>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="lineedit_replace">
         <property name="placeholderText">
-         <string>File/ directory pattern, e.g. *.py</string>
+         <string>Text to replace with</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="button_replace">
+        <property name="text">
+         <string>Replace</string>
+        </property>
+        <property name="icon">
+         <iconset theme="edit-find-replace"/>
         </property>
        </widget>
       </item>

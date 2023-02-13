@@ -19,7 +19,9 @@ along with OpenSesame.  If not, see <http://www.gnu.org/licenses/>.
 
 from libopensesame.py3compat import *
 import fnmatch
+import re
 import multiprocessing
+from pathlib import Path
 from qtpy.QtWidgets import QTreeWidgetItem, QDockWidget
 from qtpy.QtCore import Qt, QTimer
 from libopensesame.oslogging import oslogger
@@ -32,24 +34,28 @@ MAX_LINE_LENGTH = 80  # Maximum length of lines in search results
 
 
 def find_text(needle, haystack, case_sensitive=False):
+    """A generator that yields line numbers for each occurence of the needle in
+    the haystack.
 
-    """
-    desc:
-        A generator that yields line numbers for each occurence of the needle
-        in the haystack.
+    Parameters
+    ----------
+    needle : str or re.pattern
+        The text or regular expression to search for.
+    haystack : str
+        The text to search through.
+    case_sensitive : bool, optional
+        Indicates whether searching should be case sensitive or not.
 
-    arguments:
-        needle:      The text to search for.
-        haystack:    The text to search through.
-
-    keywords:
-        case_sensitive:     Indicates whether searching should be case
-                            sensitive or not.
-
-    returns:
+    Returns
+    -------
+    iterator of int
         An iterator of matching line numbers.
     """
-
+    if isinstance(needle, re.Pattern):
+        for match in re.finditer(needle, haystack):
+            line = haystack.count('\n', 0, match.start()) + 1
+            yield line
+        return
     if not case_sensitive:
         needle = needle.lower()
         haystack = haystack.lower()
@@ -60,15 +66,23 @@ def find_text(needle, haystack, case_sensitive=False):
         pos = haystack.find(needle, start, end)
         if pos < 0:
             break
-        line = haystack.count(u'\n', 0, pos) + 1
+        line = haystack.count('\n', 0, pos) + 1
         if line != prev_line:
             yield line
         prev_line = line
         start = pos + len(needle)
 
 
-def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False):
+def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False,
+                       regex=False):
     
+    if regex:
+        if case_sensitive:
+            needle = re.compile(needle)
+        else:
+            needle = re.compile(needle, re.IGNORECASE)
+    elif not case_sensitive:
+        needle = needle.lower()
     for path in file_list:
         if filter and not fnmatch.fnmatch(path, filter):
             continue
@@ -79,37 +93,34 @@ def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False):
         except OSError:
             # FileNotFoundError maps onto IOError, but Py2 gives OSError
             continue
-        lines = haystack.split(u'\n')
-        for line_number in find_text(
-            needle,
-            haystack,
-            case_sensitive=case_sensitive
-        ):
+        lines = haystack.splitlines()
+        for line_number in find_text(needle, haystack,
+                                     case_sensitive=case_sensitive):
             line = lines[line_number - 1].strip()
+            if regex:
+                span = needle.search(line).span()
+                index = span[0]
+            else: 
+                index = (line.find(needle) if case_sensitive
+                         else line.lower().find(needle))
+                span = index, index + len(needle)
             if len(line) > MAX_LINE_LENGTH:
-                index = (
-                    line.find(needle)
-                    if case_sensitive
-                    else line.lower().find(needle)
-                )
                 full_length = len(line)
                 line = line[index: index + MAX_LINE_LENGTH]
                 if index > 0:
                     line = u'(…) ' + line
                 if index + MAX_LINE_LENGTH < full_length:
                     line = line + u' (…)'
-            queue.put((path, line_number, line))
-    queue.put((None, None, None))
+            queue.put((path, line_number, line, span))
+    queue.put((None, None, None, None))
 
 
 class FindWidget(BaseWidget):
 
     def __init__(self, main_window):
 
-        super(FindWidget, self).__init__(
-            main_window,
-            ui=u'extensions.find_in_files.find_in_files'
-        )
+        super().__init__(main_window,
+                         ui='extensions.find_in_files.find_in_files')
         try:
             self._ide = self.extension_manager['OpenSesameIDE']
         except Exception:
@@ -123,6 +134,9 @@ class FindWidget(BaseWidget):
         self.ui.button_find.clicked.connect(self._find)
         self.ui.lineedit_needle.returnPressed.connect(self._find)
         self.ui.lineedit_filter.returnPressed.connect(self._find)
+        self.ui.lineedit_replace.hide()
+        self.ui.button_replace.hide()
+        self.ui.button_replace.clicked.connect(self._replace)
         self.ui.button_cancel.clicked.connect(self._cancel)
         self.ui.button_cancel.hide()
         self.ui.treewidget_results.itemActivated.connect(self._open_result)
@@ -157,10 +171,13 @@ class FindWidget(BaseWidget):
         if not needle:
             return
         filter = self.ui.lineedit_filter.text().strip()
+        self.ui.lineedit_replace.hide()
+        self.ui.button_replace.hide()
         self.ui.button_cancel.show()
         self.ui.button_find.hide()
         self.ui.treewidget_results.clear()
         self._last_path = None
+        self._results = []
         self._queue = multiprocessing.Queue()
         self._finder = multiprocessing.Process(
             target=find_text_in_files,
@@ -168,7 +185,9 @@ class FindWidget(BaseWidget):
                 self._queue,
                 needle,
                 list(self._ide.project_files()),
-                filter
+                filter,
+                self.ui.toolbutton_match_case.isChecked(),
+                self.ui.toolbutton_regex.isChecked()
             )
         )
         self._n_matches = 0
@@ -197,17 +216,21 @@ class FindWidget(BaseWidget):
                 return
             QTimer.singleShot(1000, self._check_finder)
             return
-        path, line_number, matching_line = self._queue.get()
-        if path is None or self._canceled:
+        # The search is finished when the result is all None
+        path, line_number, matching_line, span = result = self._queue.get()
+        if path is not None:
+            self._results.append(result)
+        elif not self._canceled:
             self.ui.button_cancel.hide()
             self.ui.button_find.show()
             self._finder.join()
             oslogger.debug(u'finder done (PID={})'.format(self._finder.pid))
-            try:
-                self._finder.close()
-            except AttributeError:
-                # Process.close() was introduced only in Python 3.7
-                pass
+            # Show the replace options only if the process terminated
+            # successfully and if there were results
+            if not self._finder.exitcode and self._results:
+                self.ui.lineedit_replace.show()
+                self.ui.button_replace.show()
+            self._finder.close()
             self.extension_manager.fire(
                 u'notify',
                 message=_('Found {} match(es) in {} file(s)').format(
@@ -226,13 +249,43 @@ class FindWidget(BaseWidget):
             self._last_path = path
             self._n_files += 1
         self._n_matches += 1
-        line_item = QTreeWidgetItem(
-            self._path_item,
-            [u'{}: {}'.format(line_number, matching_line)]
-        )
+        line_item = QTreeWidgetItem(self._path_item,
+                                    [f'{line_number}: {matching_line}'])
         line_item.result = path, line_number
         self._path_item.addChild(line_item)
         QTimer.singleShot(10, self._check_finder)
+        
+    def _replace(self):
+        replace_text = self.ui.lineedit_replace.text()
+        paths = {}
+        for path, line_number, matching_line, span in self._results[::-1]:
+            if path not in paths:
+                paths[path] = []
+            paths[path].append((line_number, span))
+        self.extension_manager.fire(
+            u'notify',
+            message=_('Replacing {} occurrences in {} files').format(
+                len(self._results), len(paths)))        
+        for path, hits in paths.items():
+            path = Path(path)
+            content = path.read_text()
+            best_newline_count = -1
+            for newline in ['\n', '\r', '\r\n']:
+                newline_count = content.count(newline)
+                if newline_count > best_newline_count:
+                    best_newline = newline
+                    best_newline_count = newline_count
+            lines = content.splitlines()
+            for line_number, (from_index, to_index) in hits:
+                line_number -= 1  # start from 0
+                lines[line_number] = lines[line_number][:from_index] + \
+                    replace_text + lines[line_number][to_index:]
+            new_content = best_newline.join(lines)
+            if content.endswith(newline):
+                new_content += newline
+            path.write_text(new_content)
+        self.ui.lineedit_needle.setText(replace_text)
+        self._find()
 
     def _cancel(self):
 
