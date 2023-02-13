@@ -53,7 +53,7 @@ def with_editor_and_cursor(fnc):
             return fnc(self, editor, editor.textCursor(), *args, **kwargs)
         return fnc(self, editor, editor.textCursor())
     
-    takes_args = len(inspect.getargspec(fnc).args) > 3
+    takes_args = len(inspect.getfullargspec(fnc).args) > 3
     return inner
 
 
@@ -68,7 +68,7 @@ def with_editor(fnc):
             return fnc(self, editor, *args, **kwargs)
         return fnc(self, editor)
     
-    takes_args = len(inspect.getargspec(fnc).args) > 2
+    takes_args = len(inspect.getfullargspec(fnc).args) > 2
     return inner
 
 
