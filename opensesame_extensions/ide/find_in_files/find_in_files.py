@@ -96,7 +96,7 @@ def find_text_in_files(queue, needle, file_list, filter, case_sensitive=False,
         lines = haystack.splitlines()
         for line_number in find_text(needle, haystack,
                                      case_sensitive=case_sensitive):
-            line = lines[line_number - 1].strip()
+            line = lines[line_number - 1]
             if regex:
                 span = needle.search(line).span()
                 index = span[0]
