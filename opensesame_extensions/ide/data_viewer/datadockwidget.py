@@ -24,6 +24,7 @@ from libopensesame.oslogging import oslogger
 from qtpy.QtWidgets import QDockWidget
 from qtpy.QtCore import Qt
 from .data_viewer_inspectors.inspect_str import inspect_str
+from . import data_viewer_inspectors
 
 
 class DataDockWidget(QDockWidget):
@@ -56,11 +57,9 @@ class DataDockWidget(QDockWidget):
         self.setWindowTitle('{}: {}'.format(self._name, cls))
 
     def _inspect_fnc(self, cls):
-
         try:
             m = importlib.import_module(
-                'data_viewer_inspectors.inspect_{}'.format(cls)
-            )
+                f'{data_viewer_inspectors.__package__}.inspect_{cls}')
         except ModuleNotFoundError:
             oslogger.debug('using fallback inspector for type {}'.format(cls))
             return self._inspect_fallback
