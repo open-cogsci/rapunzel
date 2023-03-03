@@ -42,7 +42,7 @@ class ImageAnnotations(BaseExtension):
     ImageAnnotationsMode and ImageAnnotationsPanel from pyqode.core.
     """
     
-    preferences_ui = 'extensions.ImageAnnotations.preferences'
+    preferences_ui = 'extensions.image_annotations.preferences'
     re_strip_ansi_codes = re.compile(chr(27) + r'\[[0-9;]+m')
     
     def event_startup(self):

@@ -40,7 +40,7 @@ class JupyterNotebook(BaseExtension):
     - Allows JupyterLab to launched.
     """
     
-    preferences_ui = 'extensions.JupyterNotebook.preferences'
+    preferences_ui = 'extensions.jupyter_notebook.preferences'
 
     def event_startup(self):
         self._widget = None

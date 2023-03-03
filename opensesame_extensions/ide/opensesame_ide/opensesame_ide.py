@@ -74,7 +74,7 @@ def with_editor(fnc):
 
 class OpensesameIde(BaseExtension):
     
-    preferences_ui = 'extensions.OpenSesameIDE.preferences'
+    preferences_ui = 'extensions.opensesame_ide.preferences'
 
     def event_startup(self):
 

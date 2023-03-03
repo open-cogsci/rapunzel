@@ -30,7 +30,7 @@ _ = translation_context('SpellCheck', category='extension')
 
 class SpellCheck(BaseExtension):
     
-    preferences_ui = 'extensions.SpellCheck.preferences'
+    preferences_ui = 'extensions.spell_check.preferences'
 
     def activate(self):
 

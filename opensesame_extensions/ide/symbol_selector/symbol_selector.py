@@ -33,7 +33,7 @@ MARKDOWN_HR = r'^---[ \t]*\n[ \t\n]*(?P<name>.{1,50})'
 
 class SymbolSelector(BaseExtension):
     
-    preferences_ui = 'extensions.SymbolSelector.preferences'
+    preferences_ui = 'extensions.symbol_selector.preferences'
 
     def activate(self):
 
