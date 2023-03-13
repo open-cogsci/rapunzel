@@ -1,6 +1,6 @@
 """Adds a button and menu item to launch Rapunzel code editor"""
 
-label = "Code Editor"
+label = "Rapunzel Code Editor"
 description = "Launches Code Editor"
 aliases = ['IDELauncher']
 modes = ["default"]
@@ -13,8 +13,4 @@ settings = {
 menu = {
     "index": -7,
     "submenu": "Tools"
-}
-toolbar = {
-    "index": -2,
-    "separator_after": True
 }
