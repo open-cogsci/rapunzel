@@ -3,3 +3,17 @@ editor.
 """
 
 __version__ = '1.0.0a1'
+
+
+def rapunzel():
+    """This is the entry point for rapunzel"""
+    import sys
+    sys.argv.append(u'--mode=ide')
+    from libqtopensesame import __main__
+    __main__.opensesame()
+
+
+# checking if __name__ is __main__ is required to let multiprocessing correctly
+# work on Windows (or any other platform that is not able to use os.fork)
+if __name__ == "__main__":
+    rapunzel()

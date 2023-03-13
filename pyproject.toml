@@ -5,7 +5,8 @@ description = "A modern code editor focused on numerical computing with Python a
 authors = ["Sebastiaan Mathôt <s.mathot@cogsci.nl>"]
 readme = "readme.md"
 packages = [
-    {include = "opensesame_extensions"}
+    {include = "opensesame_extensions"},
+    {include = "rapunzel.py"}
 ]
 
 [tool.poetry.dependencies]
@@ -22,4 +23,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-rapunzel = 'rapunzel:rapunzel'
+rapunzel = 'opensesame_extensions.ide:rapunzel'
