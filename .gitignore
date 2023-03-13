@@ -1,6 +1,12 @@
 *.pyc
 deb_dist
 dist
+build
 *.tar.gz
 *.egg-info
 doc/output
+snap/*.snap
+doc/*.sh
+.rapunzel.yaml
+translation_tools
+update-translations.sh

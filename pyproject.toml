@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "Rapunzel"
+version = "1.0.0a1"
+description = "A modern code editor focused on numerical computing with Python and R"
+authors = ["Sebastiaan Mathôt <s.mathot@cogsci.nl>"]
+readme = "readme.md"
+packages = [
+    {include = "opensesame_extensions"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+opensesame-ide = ">= 4.0.0a1"
+python-levenshtein = "*"
+qtconsole = "*"
+pyspellchecker = "*"
+esprima = "*"
+psutil = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+rapunzel = 'rapunzel:rapunzel'
