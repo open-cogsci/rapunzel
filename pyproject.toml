@@ -5,13 +5,15 @@ description = "A modern code editor focused on numerical computing with Python a
 authors = ["Sebastiaan Mathôt <s.mathot@cogsci.nl>"]
 readme = "readme.md"
 packages = [
-    {include = "opensesame_extensions"},
-    {include = "rapunzel.py"}
+    {include = "opensesame_extensions"}
 ]
+homepage = "https://rapunzel.cogsci.nl"
+repository = "https://github.com/open-cogsci/rapunzel/"
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
-opensesame-ide = ">= 4.0.0a1"
+opensesame-core = ">= 4.0.0a1"
 python-levenshtein = "*"
 qtconsole = "*"
 pyspellchecker = "*"

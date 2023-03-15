@@ -3,6 +3,8 @@ editor.
 """
 
 __version__ = '1.0.0a1'
+# The name of the package to check for updates on conda and pip
+packages = ['rapunzel']
 
 
 def rapunzel():
