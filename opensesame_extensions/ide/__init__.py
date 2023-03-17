@@ -1,8 +1,7 @@
 """Rapunzel is a set of extensions that turns OpenSesame into a modern code
 editor.
 """
-
-__version__ = '1.0.0a1'
+__version__ = '1.0.0a2'
 # The name of the package to check for updates on conda and pip
 packages = ['rapunzel']
 
