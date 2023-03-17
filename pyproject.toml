@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Rapunzel"
-version = "1.0.0a1"
+version = "1.0.0a4"
 description = "A modern code editor focused on numerical computing with Python and R"
 authors = ["Sebastiaan Mathôt <s.mathot@cogsci.nl>"]
 readme = "readme.md"
