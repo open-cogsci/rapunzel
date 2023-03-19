@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Rapunzel"
-version = "1.0.0a5"
+version = "1.0.0a6"
 description = "A modern code editor focused on numerical computing with Python and R"
 authors = ["Sebastiaan Mathôt <s.mathot@cogsci.nl>"]
 readme = "readme.md"
@@ -25,7 +25,7 @@ psutil = "*"
 
 [tool.wheel2deb.dependencies]
 python = "^3.7"
-opensesame-core = ">= 3.99.99"
+opensesame = ">= 3.99.99"
 levenshtein = "*"
 qtconsole = "*"
 psutil = "*"
