@@ -97,15 +97,8 @@ class MenuBar(QMenuBar):
             None,
             ide.tabwidget.open_preferences
         )
-        self._action_plugins = self._action(
-            _(u'P&lugins'),
-            u'preferences-system',
-            None,
-            ide.open_plugin_manager
-        )
         self._menu_tools = self.addMenu(_(u'&Tools'))
         self._menu_tools.addAction(self._action_preferences)
-        self._menu_tools.addAction(self._action_plugins)
         self._menu_tools.addSeparator()
         self._action_jupyter_notebook = self._add_extension_action(
             'JupyterNotebook',
