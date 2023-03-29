@@ -170,6 +170,15 @@ class FindWidget(BaseWidget):
         self._canceled = False
         if not needle:
             return
+        if self.ui.toolbutton_regex.isChecked():
+            try:
+                re.compile(needle)
+            except re.error:
+                self.extension_manager.fire(
+                    'notify',
+                    message=_('Cannot find text because regular expression is invalid'),
+                    category='warning')
+                return
         filter = self.ui.lineedit_filter.text().strip()
         self.ui.lineedit_replace.hide()
         self.ui.button_replace.hide()
