@@ -181,10 +181,13 @@ class OpensesameIde(BaseExtension):
         try:
             editor.panels.get('ChangeExtensionPanel')
         except KeyError:
-            editor.panels.append(
-                panels.ChangeExtensionPanel(),
-                panels.ChangeExtensionPanel.Position.TOP
-            )
+            try:
+                editor.panels.append(
+                    panels.ChangeExtensionPanel(),
+                    panels.ChangeExtensionPanel.Position.TOP)
+            except ValueError:
+                # This happens if the editor is not in a splitter
+                pass
 
     def event_ide_new_file(self, source=None, ext=None):
 
