@@ -1,4 +1,4 @@
-# Commencez!
+# Commencez !
 
 Bienvenue dans Rapunzel, un environnement de développement moderne pour Python et R. Voici quelques raccourcis clavier pratiques.
 
