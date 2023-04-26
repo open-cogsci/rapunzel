@@ -1,0 +1,7 @@
+https://rapunzel.cogsci.nl/download
+https://rapunzel.cogsci.nl/manual/workflow
+https://rapunzel.cogsci.nl/manual/running
+https://rapunzel.cogsci.nl/manual/debugging
+https://rapunzel.cogsci.nl/manual/notebooks
+https://rapunzel.cogsci.nl/manual/language-server
+https://rapunzel.cogsci.nl/manual/environment
