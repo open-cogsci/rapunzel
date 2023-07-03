@@ -10,3 +10,4 @@ doc/*.sh
 .rapunzel.yaml
 translation_tools
 update-translations.sh
+doc/output
